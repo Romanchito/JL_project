@@ -8,8 +8,8 @@ namespace JLFilmApi.Repo
 {
     public interface IFilmRepository
     {
-        Task<List<Film>> GetFilms();
+        Task<List<Films>> GetFilms();
         
-        Task<Film> GetFilm(Guid? filmId);
+        Task<Films> GetFilm(int? filmId);
     }
 }

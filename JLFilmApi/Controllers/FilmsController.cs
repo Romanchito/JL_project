@@ -22,25 +22,31 @@ namespace JLFilmApi.Controllers
 
         [HttpGet]
         [Route("GetFilms")]
-        public async Task<List<Film>> GetFilms()
+        public async Task<IActionResult> GetFilms()
         {
-           
+            try
+            {
                 var films = await filmRepository.GetFilms();
                 if (films == null)
                 {
-                    return null;
+                    return NotFound();
                 }
 
-                return films;
-            
-            
+                return Ok(films);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
 
         }
 
         [HttpGet]
         [Route("GetFilm")]
-        public async Task<IActionResult> GetFilm(Guid? id)
+        public async Task<IActionResult> GetFilm(int? id)
         {
+            try
+            {
                 var film = await filmRepository.GetFilm(id);
                 if (film == null)
                 {
@@ -48,7 +54,12 @@ namespace JLFilmApi.Controllers
                 }
 
                 return Ok(film);
-                        
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

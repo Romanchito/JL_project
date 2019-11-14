@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace JLFilmApi.Models
 {
-    public class Film
-    {       
-        public Guid Id { get; set; }
+    public partial class Films
+    {
+        public Films()
+        {
+            Reviews = new HashSet<Reviews>();
+        }
+
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Director { get; set; }
         public string Stars { get; set; }
         public string Country { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public string WorldwideGross { get; set; }
+        public decimal WorldwideGross { get; set; }
 
+        public virtual ICollection<Reviews> Reviews { get; set; }
     }
 }

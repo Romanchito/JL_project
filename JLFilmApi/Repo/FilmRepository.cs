@@ -10,23 +10,23 @@ namespace JLFilmApi.Repo
 {
     public class FilmRepository : IFilmRepository
     {
-        private MyDbContext db;
+        private JLDatabaseContext db;
 
-        public FilmRepository(MyDbContext db)
+        public FilmRepository(JLDatabaseContext db)
         {
             this.db = db;
         }
 
-        public async Task<Film> GetFilm(Guid? filmId)
+        public async Task<Films> GetFilm(int? filmId)
         {
             if(db != null)
             {
-                return db.Films.FirstOrDefault(x=>x.Id == filmId);
+                return await db.Films.FirstOrDefaultAsync(x=>x.Id == filmId);
             }
             return null;
         }
 
-        public async Task<List<Film>> GetFilms()
+        public async Task<List<Films>> GetFilms()
         {
             if (db != null)
             {

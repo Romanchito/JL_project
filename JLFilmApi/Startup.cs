@@ -28,7 +28,7 @@ namespace JLFilmApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MyDbContext>(item => item.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
+            services.AddDbContext<JLDatabaseContext>(item => item.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddScoped<IFilmRepository, FilmRepository>();
             services.AddControllers();
         }
