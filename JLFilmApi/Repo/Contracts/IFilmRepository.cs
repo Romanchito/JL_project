@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JLFilmApi.Repo
+namespace JLFilmApi.Repo.Contracts
 {
     public interface IFilmRepository
     {

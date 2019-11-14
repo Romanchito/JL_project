@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JLFilmApi.Context;
 using JLFilmApi.Repo;
+using JLFilmApi.Repo.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,7 +30,7 @@ namespace JLFilmApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<JLDatabaseContext>(item => item.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
-            services.AddScoped<IFilmRepository, FilmRepository>();
+            services.AddScoped<IFilmRepository, FilmsRepository>();
             services.AddControllers();
         }
 
