@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "JLDatabase", "JLDatabase\JLDatabase.sqlproj", "{AAB0BF39-4DFC-40B8-8DEA-A56310067F6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JLFilmApi", "JLFilmApi\JLFilmApi.csproj", "{BEB0FA21-1C73-4238-80AF-6754DFC0F466}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AAB0BF39-4DFC-40B8-8DEA-A56310067F6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAB0BF39-4DFC-40B8-8DEA-A56310067F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAB0BF39-4DFC-40B8-8DEA-A56310067F6C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{AAB0BF39-4DFC-40B8-8DEA-A56310067F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAB0BF39-4DFC-40B8-8DEA-A56310067F6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAB0BF39-4DFC-40B8-8DEA-A56310067F6C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BEB0FA21-1C73-4238-80AF-6754DFC0F466}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEB0FA21-1C73-4238-80AF-6754DFC0F466}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEB0FA21-1C73-4238-80AF-6754DFC0F466}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEB0FA21-1C73-4238-80AF-6754DFC0F466}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {73A78D7B-E841-46C7-8C8C-75D220160A50}
+	EndGlobalSection
+EndGlobal
