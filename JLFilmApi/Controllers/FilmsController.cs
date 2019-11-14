@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JLFilmApi.Models;
 using JLFilmApi.Repo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,22 +22,18 @@ namespace JLFilmApi.Controllers
 
         [HttpGet]
         [Route("GetFilms")]
-        public async Task<IActionResult> GetFilms()
+        public async Task<List<Film>> GetFilms()
         {
-            try
-            {
+           
                 var films = await filmRepository.GetFilms();
                 if (films == null)
                 {
-                    return NotFound();
+                    return null;
                 }
 
-                return Ok(films);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+                return films;
+            
+            
 
         }
 
@@ -44,8 +41,6 @@ namespace JLFilmApi.Controllers
         [Route("GetFilm")]
         public async Task<IActionResult> GetFilm(Guid? id)
         {
-            try
-            {
                 var film = await filmRepository.GetFilm(id);
                 if (film == null)
                 {
@@ -53,11 +48,7 @@ namespace JLFilmApi.Controllers
                 }
 
                 return Ok(film);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+                        
         }
     }
 }
