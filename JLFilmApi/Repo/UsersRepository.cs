@@ -36,6 +36,8 @@ namespace JLFilmApi.Repo
                 Users user = await jLDatabaseContext.Users.FirstOrDefaultAsync(x=> x.Id == userId); 
                 if(user != null)
                 {
+                    var usersComments = jLDatabaseContext.Comments.Where(x => x.UserId == user.Id);
+                    jLDatabaseContext.Comments.RemoveRange(usersComments);
                     jLDatabaseContext.Users.Remove(user);
                     await jLDatabaseContext.SaveChangesAsync();
                     return userId;

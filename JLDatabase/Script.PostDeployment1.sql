@@ -14,5 +14,12 @@ Post-Deployment Script Template
 
 insert into Films (Name, Country, Director, ReleaseDate, Stars, WorldwideGross)
 values('Spider-Man','USA','P.Boil','2002-01-01','Toby,Linda,Klide,Tom',1200000000);
-
+insert into Films (Name, Country, Director, ReleaseDate, Stars, WorldwideGross)
+values('Spider-Man 2','USA','P.Boil','2002-01-01','Toby,Linda,Klide,Tom',1300000000);
+insert into Films (Name, Country, Director, ReleaseDate, Stars, WorldwideGross)
+values('Spider-Man 3','Germany','t.Filips jr','2002-01-01','Toby,Linda,Klide,Tom',1400000000);
+insert into Films (Name, Country, Director, ReleaseDate, Stars, WorldwideGross)
+values('Spider-Man 4','Germany','P.Boil','2002-01-01','Toby,Linda,Klide,Tom',1500000000);
+insert into Films (Name, Country, Director, ReleaseDate, Stars, WorldwideGross)
+values('Spider-Man 5','England','P.Boil','2002-01-01','Toby,Linda,Klide,Tom',1600000000);
 
