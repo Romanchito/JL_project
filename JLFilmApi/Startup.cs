@@ -44,7 +44,7 @@ namespace JLFilmApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseCors(c => c.AllowAnyMethod());
 
             app.UseHttpsRedirection();
@@ -64,7 +64,7 @@ namespace JLFilmApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-            app.UseMiddleware(typeof(ErrorHandlingMiddleware));           
+               
         }
     }
 }

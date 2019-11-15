@@ -43,7 +43,7 @@ namespace JLFilmApi.Controllers
                     return BadRequest();
                 }
             }
-            return BadRequest(user);
+            return BadRequest(ModelState);
         }
 
         [HttpDelete("delete/{id}")]
