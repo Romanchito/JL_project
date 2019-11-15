@@ -71,4 +71,7 @@
   <ItemGroup>
     <None Include="JLDatabase.publish.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment1.sql" />
+  </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Reviews] (
     [Id]     INT            IDENTITY (1, 1) NOT NULL,
     [Name]   NVARCHAR (100) NOT NULL,
-    [Text]   NVARCHAR (MAX) NOT NULL,
+    [Text]   NVARCHAR (500) NOT NULL,
     [Date]   DATETIME       NOT NULL,
     [UserId] INT            NOT NULL,
     [FilmId] INT            NOT NULL,

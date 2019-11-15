@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using JLFilmApi.Models;
-using JLFilmApi.Repo;
+﻿using JLFilmApi.Models;
 using JLFilmApi.Repo.Contracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace JLFilmApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class FilmsController : ControllerBase
     {
         private IFilmRepository filmRepository;
@@ -22,45 +18,22 @@ namespace JLFilmApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetFilms")]
-        public async Task<IActionResult> GetFilms()
+        public async Task<List<Films>> GetFilms()
         {
-            try
+            var films = await filmRepository.GetFilms();
+            if (films == null)
             {
-                var films = await filmRepository.GetFilms();
-                if (films == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(films);
+                return new List<Films>();
             }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-
+            return films;
         }
 
-        [HttpGet]
-        [Route("GetFilm")]
-        public async Task<IActionResult> GetFilm(int? id)
+        [HttpGet("{id}")]
+        public async Task<Films> GetFilm(int? id)
         {
-            try
-            {
-                var film = await filmRepository.GetFilm(id);
-                if (film == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(film);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            var film = await filmRepository.GetFilm(id);
+            return film;
         }
     }
 }
+
