@@ -30,6 +30,7 @@ namespace JLFilmApi
             services.AddScoped<ICommentsRepository, CommentsRepository>();
             services.AddScoped<ILikesRepository, LikesRepository>();
             services.AddControllers();
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -43,6 +44,8 @@ namespace JLFilmApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(c => c.AllowAnyMethod());
 
             app.UseHttpsRedirection();
 
@@ -59,7 +62,7 @@ namespace JLFilmApi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
+            });            
         }
     }
 }
