@@ -20,62 +20,52 @@ namespace JLFilmApi.Repo
 
         public async Task<int> AddUser(Users user)
         {
-            if (jLDatabaseContext != null)
-            {
-                await jLDatabaseContext.Users.AddAsync(user);
-                await jLDatabaseContext.SaveChangesAsync();
-                return user.Id;
-            }
-            return 0;
+            await jLDatabaseContext.Users.AddAsync(user);
+            await jLDatabaseContext.SaveChangesAsync();
+            return user.Id;
         }
 
         public async Task<int?> DeleteUser(int? userId)
         {
-            if(jLDatabaseContext != null)
+
+            Users user = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (user != null)
             {
-                Users user = await jLDatabaseContext.Users.FirstOrDefaultAsync(x=> x.Id == userId); 
-                if(user != null)
+                using (var transaction = jLDatabaseContext.Database.BeginTransaction())
                 {
-                    var usersComments = jLDatabaseContext.Comments.Where(x => x.UserId == user.Id);
-                    jLDatabaseContext.Comments.RemoveRange(usersComments);
-                    jLDatabaseContext.Users.Remove(user);
-                    await jLDatabaseContext.SaveChangesAsync();
-                    return userId;
+                    try
+                    {
+                        var usersComments = jLDatabaseContext.Comments.Where(x => x.UserId == user.Id);
+                        jLDatabaseContext.Comments.RemoveRange(usersComments);
+                        jLDatabaseContext.Users.Remove(user);
+                        await jLDatabaseContext.SaveChangesAsync();
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
                 }
             }
-            return 0;
+
+            return userId;
         }
 
         public async Task<List<Users>> GetAllUsers()
         {
-            if(jLDatabaseContext != null)
-            {
-                return await jLDatabaseContext.Users.ToListAsync();
-            }
-            return null;
+            return await jLDatabaseContext.Users.ToListAsync();
         }
 
         public async Task<Users> GetUserById(int? userId)
         {
-            if(jLDatabaseContext != null)
-            {
-                Users user = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
-                if(user != null)
-                {
-                    return user;
-                }
-            }
-
-            return null;
+            Users user = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            return user;
         }
 
         public async Task UpdateUser(Users user)
         {
-           if(jLDatabaseContext != null)
-            {
-                jLDatabaseContext.Update(user);
-                await jLDatabaseContext.SaveChangesAsync();
-            }
+            jLDatabaseContext.Update(user);
+            await jLDatabaseContext.SaveChangesAsync();
         }
     }
 }

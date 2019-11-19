@@ -20,20 +20,12 @@ namespace JLFilmApi.Repo
 
         public async Task<Films> GetFilm(int? filmId)
         {
-            if(db != null)
-            {
-                return await db.Films.FirstOrDefaultAsync(x=>x.Id == filmId);
-            }
-            return null;
+            return await db.Films.FirstOrDefaultAsync(x => x.Id == filmId);
         }
 
         public async Task<List<Films>> GetFilms()
         {
-            if (db != null)
-            {
-                return await db.Films.ToListAsync(); ;
-            }
-            return null;
+            return await db.Films.ToListAsync();
         }
     }
 }

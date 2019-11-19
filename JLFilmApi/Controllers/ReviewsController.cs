@@ -20,8 +20,7 @@ namespace JLFilmApi.Controllers
         [HttpGet("{id}")]
         public async Task<List<Reviews>> Get(int? id)
         {
-            return await reviewsRepository.GetAllReviewsOfFilm(id);           
-           
+            return await reviewsRepository.GetAllReviewsOfFilm(id);        
         }       
     }
 }

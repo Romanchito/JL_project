@@ -10,8 +10,8 @@ namespace JLFilmApi.Controllers
     [Route("api/[controller]")]
     public class CommentsController : ControllerBase
     {
-        private ICommentsRepository commentsRepository;
-
+        private ICommentsRepository commentsRepository; 
+        
         public CommentsController(ICommentsRepository commentsRepository)
         {
             this.commentsRepository = commentsRepository;
