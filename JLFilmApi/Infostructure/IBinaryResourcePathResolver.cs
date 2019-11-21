@@ -7,6 +7,6 @@ namespace JLFilmApi.Infostructure
 {
     public interface IBinaryResourcePathResolver
     {
-        public ICollection<byte> FindAndGet(string resourceName);
+        public Task<byte[]> FindAndGet(string resourceName);
     }
 }
