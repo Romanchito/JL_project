@@ -63,11 +63,11 @@ namespace JLFilmApi.Controllers
 
         private async Task<InfoViewUsers> CheckingUserAsync(string login, string password)
         {
-            InfoViewUsers user = await userRepository.GetUserByLoginAndPassword(login, password);
-            if (user == null)
+            InfoViewUsers user = await userRepository.GetUserByLogin(login);
+            if (user == null || !user.Password.Equals(password))
             {
                 throw new NullReferenceException();
-            }
+            }            
             return user;
         }
     }

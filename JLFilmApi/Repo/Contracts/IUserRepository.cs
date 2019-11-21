@@ -11,6 +11,6 @@ namespace JLFilmApi.Repo.Contracts
         Task<int> AddUser(AddViewUsers user);
         Task<int?> DeleteUser(int? userId);
         Task UpdateUser(UpdateViewUsers user, int id);
-        Task<InfoViewUsers> GetUserByLoginAndPassword(string login, string password);
+        Task<InfoViewUsers> GetUserByLogin(string login);
     }
 }

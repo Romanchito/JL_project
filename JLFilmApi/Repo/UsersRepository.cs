@@ -80,11 +80,11 @@ namespace JLFilmApi.Repo
             jLDatabaseContext.Update(updateUser);
             await jLDatabaseContext.SaveChangesAsync();
         }
-
-        public async Task<InfoViewUsers> GetUserByLoginAndPassword(string login, string password)
+        
+        public async Task<InfoViewUsers> GetUserByLogin(string login)
         {
             InfoViewUsers user = userMapper.Map<InfoViewUsers>
-                (await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Login == login && x.Password == password));
+                (await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Login == login));
             return user;
         }
     }

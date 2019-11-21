@@ -1,5 +1,6 @@
 ﻿using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,9 +12,11 @@ namespace JLFilmApi.Controllers
     public class LikesController : ControllerBase
     {
         private ILikesRepository likesRepository;
+        private IUserRepository userRepository;
 
-        public LikesController(ILikesRepository likesRepository)
+        public LikesController(ILikesRepository likesRepository, IUserRepository userRepository)
         {
+            this.userRepository = userRepository;
             this.likesRepository = likesRepository;
         }
 
@@ -22,10 +25,11 @@ namespace JLFilmApi.Controllers
         {
             return await likesRepository.GetAllLikesOfReviews(id);
         }
-
+        
         [HttpPost("add")]
         public async Task<IActionResult> AddLike(InfoViewLikes like)
         {
+            like.UserId = (await userRepository.GetUserByLogin(User.Identity.Name)).Id;
             if (ModelState.IsValid)
             {
                 int id = await likesRepository.AddNewLike(like);
@@ -41,15 +45,17 @@ namespace JLFilmApi.Controllers
             return BadRequest(ModelState);
         }
 
+        [Authorize]
         [HttpDelete("delete")]
-        public async Task<IActionResult> DeleteLike(int userId, int reviewId)
+        public async Task<IActionResult> DeleteLike(int reviewId)
         {
+            int userId = (await userRepository.GetUserByLogin(User.Identity.Name)).Id;
             int? result = await likesRepository.DeleteLike(userId, reviewId);
             if (result == 0 || result == null)
             {
                 return NotFound(result);
             }
-            return Ok();
+            return Ok(User.Identity.Name+ "delete's like from review" + reviewId.ToString());
         }
     }
 }
