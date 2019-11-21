@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace JLFilmApi.Models
+namespace JLFilmApi.DomainModels
 {
     public partial class Reviews
     {

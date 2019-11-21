@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using JLFilmApi.Context;
-using JLFilmApi.Models;
+using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
+using JLFilmApi.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace JLFilmApi.Repo
@@ -12,20 +14,24 @@ namespace JLFilmApi.Repo
     public class FilmsRepository : IFilmRepository
     {
         private JLDatabaseContext db;
+        private readonly IMapper filmMapper;
 
-        public FilmsRepository(JLDatabaseContext db)
+        public FilmsRepository(JLDatabaseContext db, IMapper mapper)
         {
             this.db = db;
+            filmMapper = mapper;
         }
 
-        public async Task<Films> GetFilm(int? filmId)
+        public async Task<InfoViewOneFilm> GetFilm(int? filmId)
         {
-            return await db.Films.FirstOrDefaultAsync(x => x.Id == filmId);
+            InfoViewOneFilm infoViewFilms = filmMapper.Map<InfoViewOneFilm>( await db.Films.FirstOrDefaultAsync(x => x.Id == filmId));
+            return infoViewFilms;
         }
 
-        public async Task<List<Films>> GetFilms()
+        public async Task<List<InfoViewFilms>> GetFilms()
         {
-            return await db.Films.ToListAsync();
+            List<InfoViewFilms> list = filmMapper.Map<List<InfoViewFilms>>(await db.Films.ToListAsync());
+            return list;
         }
     }
 }

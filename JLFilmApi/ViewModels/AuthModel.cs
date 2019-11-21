@@ -1,4 +1,4 @@
-﻿namespace JLFilmApi.Models
+﻿namespace JLFilmApi.ViewModels
 {
     public class AuthModel
     {

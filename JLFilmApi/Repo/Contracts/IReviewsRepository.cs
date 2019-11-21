@@ -1,13 +1,12 @@
-﻿using JLFilmApi.Models;
-using System;
+﻿using JLFilmApi.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace JLFilmApi.Repo.Contracts
 {
     public interface IReviewsRepository
     {
-        Task<List<Reviews>> GetAllReviewsOfFilm(int? filmId);
+        Task<List<InfoViewReviews>> GetAllReviewsOfFilm(int? filmId);
+        Task<int> AddReview(AddViewReviews review);
     }
 }

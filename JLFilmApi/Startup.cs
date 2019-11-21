@@ -1,3 +1,4 @@
+using AutoMapper;
 using JLFilmApi.Context;
 using JLFilmApi.Infostructure;
 using JLFilmApi.Repo;
@@ -11,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Swagger;
 using System.Collections.Generic;
 
 namespace JLFilmApi
@@ -28,18 +28,48 @@ namespace JLFilmApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<JLDatabaseContext>(item => item.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
+            services.AddDbContext<JLDatabaseContext>(item =>
+                    {
+                        item.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")).UseLazyLoadingProxies();
+                    }
+                );
             services.AddScoped<IFilmRepository, FilmsRepository>();
             services.AddScoped<IUserRepository, UsersRepository>();
             services.AddScoped<IReviewsRepository, ReviewsRepository>();
             services.AddScoped<ICommentsRepository, CommentsRepository>();
             services.AddScoped<ILikesRepository, LikesRepository>();
             services.AddControllers();
+            services.AddAutoMapper(typeof(Startup));
             services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-               
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Description = "JWT Authorization header {token}",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oath2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                    }
+                }
+                    );
             });
             services.AddRouting();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

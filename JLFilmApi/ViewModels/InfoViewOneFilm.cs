@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace JLFilmApi.Models
+namespace JLFilmApi.ViewModels
 {
-    public partial class Films
+    public class InfoViewOneFilm
     {
-        public Films()
-        {
-            Reviews = new HashSet<Reviews>();
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public string Director { get; set; }
@@ -17,7 +12,8 @@ namespace JLFilmApi.Models
         public string Country { get; set; }
         public DateTime ReleaseDate { get; set; }
         public decimal WorldwideGross { get; set; }
+        public string FilmImage { get; set; }
 
-        public virtual ICollection<Reviews> Reviews { get; set; }
+        public virtual ICollection<InfoViewReviews> Reviews { get; set; }
     }
 }

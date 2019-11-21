@@ -1,5 +1,6 @@
-﻿using JLFilmApi.Models;
+﻿using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
+using JLFilmApi.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -16,9 +17,8 @@ namespace JLFilmApi.Controllers
             this.userRepository = userRepository;
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<Users>> GetUser(int id)
+        public async Task<ActionResult<InfoViewUsers>> GetUser(int id)
         {
-
             var user = await userRepository.GetUserById(id);
             if (user == null)
             {
@@ -28,13 +28,13 @@ namespace JLFilmApi.Controllers
             return user;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddNewUser(Users user)
+        [HttpPost("add")]
+        public async Task<IActionResult> AddNewUser(AddViewUsers user)
         {
             if (ModelState.IsValid)
             {
                 int userId = await userRepository.AddUser(user);
-                if (userId > 0)
+                if (userId >= 0)
                 {
                     return Ok("Add User");
                 }
@@ -58,9 +58,9 @@ namespace JLFilmApi.Controllers
         }
 
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> UpdateUser(Users user)
-        {
-            await userRepository.UpdateUser(user);
+        public async Task<IActionResult> UpdateUser(int id , UpdateViewUsers user)
+        {            
+            await userRepository.UpdateUser(user,id);
             return Ok();
         }
     }

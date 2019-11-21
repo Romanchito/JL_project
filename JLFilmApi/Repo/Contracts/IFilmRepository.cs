@@ -1,15 +1,13 @@
-﻿using JLFilmApi.Models;
-using System;
+﻿using JLFilmApi.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace JLFilmApi.Repo.Contracts
 {
     public interface IFilmRepository
     {
-        Task<List<Films>> GetFilms();
+        Task<List<InfoViewFilms>> GetFilms();
         
-        Task<Films> GetFilm(int? filmId);
+        Task<InfoViewOneFilm> GetFilm(int? filmId);
     }
 }

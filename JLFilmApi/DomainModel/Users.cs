@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace JLFilmApi.Models
+namespace JLFilmApi.DomainModels
 {
     public partial class Users
     {
@@ -17,7 +17,7 @@ namespace JLFilmApi.Models
         public string Password { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public byte[] AccountImage { get; set; }
+        public string AccountImage { get; set; }
 
         public virtual ICollection<Comments> Comments { get; set; }
         public virtual ICollection<Likes> Likes { get; set; }

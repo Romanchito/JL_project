@@ -1,16 +1,15 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Threading.Tasks;
-using JLFilmApi.Infostructure;
+﻿using JLFilmApi.Infostructure;
 using JLFilmApi.Repo.Contracts;
+using JLFilmApi.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using System.Security.Claims;
+using System;
 using System.Collections.Generic;
-using JLFilmApi.Models;
-using System.Linq;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace JLFilmApi.Controllers
 {
@@ -25,24 +24,23 @@ namespace JLFilmApi.Controllers
             this.userRepository = userRepository;
         }
 
-        [HttpPost("/jwtToken")]
+        [HttpPost("/getJwtToken")]
         public async Task Token(AuthModel authModel)
         {
             var identity = await GetIdentityAsync(authModel.Username, authModel.Password);
-            if (identity == null)
-            {
-                Response.StatusCode = 400;
-                await Response.WriteAsync("Invalid username or password");
-                return;
-            }
+
             var now = DateTime.UtcNow;
+
             var jwtToken = new JwtSecurityToken(
+
                 issuer: AuthOptions.ISSUER,
                 audience: AuthOptions.AUDIENCE,
                 claims: identity.Claims,
                 expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
                 signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
+
                 );
+
             var jwtHandler = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             var response = new { access_token = jwtHandler, username = identity.Name };
             Response.ContentType = "application/json";
@@ -52,18 +50,25 @@ namespace JLFilmApi.Controllers
 
         private async Task<ClaimsIdentity> GetIdentityAsync(string login, string password)
         {
-            var users = await userRepository.GetAllUsers();
-            Users user = users.FirstOrDefault(u => u.Login == login && u.Password == password);
-            if (user != null)
-            {
-                var claims = new List<Claim>
+            InfoViewUsers user = await CheckingUserAsync(login, password);
+
+            var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login)
                 };
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-                return claimsIdentity;
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            return claimsIdentity;
+
+        }
+
+        private async Task<InfoViewUsers> CheckingUserAsync(string login, string password)
+        {
+            InfoViewUsers user = await userRepository.GetUserByLoginAndPassword(login, password);
+            if (user == null)
+            {
+                throw new NullReferenceException();
             }
-            return null;
+            return user;
         }
     }
 }

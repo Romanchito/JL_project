@@ -1,6 +1,8 @@
-﻿using JLFilmApi.Context;
-using JLFilmApi.Models;
+﻿using AutoMapper;
+using JLFilmApi.Context;
+using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
+using JLFilmApi.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,17 +14,20 @@ namespace JLFilmApi.Repo
     public class UsersRepository : IUserRepository
     {
         private JLDatabaseContext jLDatabaseContext;
+        private readonly IMapper userMapper;
 
-        public UsersRepository(JLDatabaseContext jLDatabaseContext)
+        public UsersRepository(JLDatabaseContext jLDatabaseContext, IMapper mapper)
         {
             this.jLDatabaseContext = jLDatabaseContext;
+            userMapper = mapper;
         }
 
-        public async Task<int> AddUser(Users user)
+        public async Task<int> AddUser(AddViewUsers user)
         {
-            await jLDatabaseContext.Users.AddAsync(user);
+            var newUser = userMapper.Map<Users>(user);
+            await jLDatabaseContext.Users.AddAsync(newUser);
             await jLDatabaseContext.SaveChangesAsync();
-            return user.Id;
+            return newUser.Id;
         }
 
         public async Task<int?> DeleteUser(int? userId)
@@ -51,21 +56,36 @@ namespace JLFilmApi.Repo
             return userId;
         }
 
-        public async Task<List<Users>> GetAllUsers()
+        public async Task<List<InfoViewUsers>> GetAllUsers()
         {
-            return await jLDatabaseContext.Users.ToListAsync();
+            List<InfoViewUsers> list = userMapper.Map<List<InfoViewUsers>>
+                (await jLDatabaseContext.Users.ToListAsync());
+            return list;
         }
 
-        public async Task<Users> GetUserById(int? userId)
+        public async Task<InfoViewUsers> GetUserById(int? userId)
         {
-            Users user = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            InfoViewUsers user = userMapper.Map<InfoViewUsers>
+                (await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Id == userId));
             return user;
         }
 
-        public async Task UpdateUser(Users user)
+        public async Task UpdateUser(UpdateViewUsers user, int id)
         {
-            jLDatabaseContext.Update(user);
+            DomainModels.Users updateUser = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            DomainModels.Users sourseUsers = userMapper.Map<DomainModels.Users>(user);
+            updateUser.Password = sourseUsers.Password;
+            updateUser.Name = sourseUsers.Name;
+            updateUser.Surname = sourseUsers.Surname;
+            jLDatabaseContext.Update(updateUser);
             await jLDatabaseContext.SaveChangesAsync();
+        }
+
+        public async Task<InfoViewUsers> GetUserByLoginAndPassword(string login, string password)
+        {
+            InfoViewUsers user = userMapper.Map<InfoViewUsers>
+                (await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Login == login && x.Password == password));
+            return user;
         }
     }
 }

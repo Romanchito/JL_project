@@ -1,13 +1,13 @@
-﻿using JLFilmApi.Models;
-using System;
+﻿using JLFilmApi.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace JLFilmApi.Repo.Contracts
 {
     public interface ILikesRepository
     {
-        Task<List<Likes>> GetAllLikesOfReviews(int? reviewId);
+        Task<List<InfoViewLikes>> GetAllLikesOfReviews(int? reviewId);
+        Task<int> AddNewLike(InfoViewLikes like);
+        Task<int> DeleteLike(int userId, int reviewId);
     }
 }

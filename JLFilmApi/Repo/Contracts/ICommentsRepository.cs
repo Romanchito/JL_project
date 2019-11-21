@@ -1,13 +1,12 @@
-﻿using JLFilmApi.Models;
-using System;
+﻿using JLFilmApi.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace JLFilmApi.Repo.Contracts
 {
     public interface ICommentsRepository
     {
-        Task<List<Comments>> GetAllCommentsOfReview(int? reviewId);
+        Task<List<InfoViewComments>> GetAllCommentsOfReview(int? reviewId);
+        Task<int> AddNewComment(InfoViewComments comment);
     }
 }

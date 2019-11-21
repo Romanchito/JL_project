@@ -1,5 +1,5 @@
 ﻿using System;
-using JLFilmApi.Models;
+using JLFilmApi.DomainModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -21,6 +21,11 @@ namespace JLFilmApi.Context
         public virtual DbSet<Likes> Likes { get; set; }
         public virtual DbSet<Reviews> Reviews { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
