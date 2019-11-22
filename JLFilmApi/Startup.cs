@@ -38,7 +38,7 @@ namespace JLFilmApi
             services.AddScoped<IReviewsRepository, ReviewsRepository>();
             services.AddScoped<ICommentsRepository, CommentsRepository>();
             services.AddScoped<ILikesRepository, LikesRepository>();
-            services.AddScoped<IBinaryResourcePathResolver, FolderBinaryResourcePathResolver>();
+            services.AddScoped<IBinaryResourcePathResolver, FolderBinaryResourceResolver>();           
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
             services.AddCors();

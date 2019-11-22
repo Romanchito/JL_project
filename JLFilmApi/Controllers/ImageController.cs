@@ -16,13 +16,10 @@ namespace JLFilmApi.Controllers
     {
         private IBinaryResourcePathResolver resourcePathResolver;
         private IMapper userMapper;
-        private IUserRepository userRepository;
-        private static IWebHostEnvironment myEnvironment;
+        private IUserRepository userRepository;       
 
-        public ImageController(IBinaryResourcePathResolver resourcePathResolver, IWebHostEnvironment environment, IUserRepository userRepository,
-                IMapper mapper)
-        {
-            myEnvironment = environment;
+        public ImageController(IBinaryResourcePathResolver resourcePathResolver, IUserRepository userRepository, IMapper mapper)
+        {           
             userMapper = mapper;
             this.resourcePathResolver = resourcePathResolver;
             this.userRepository = userRepository;
@@ -31,7 +28,7 @@ namespace JLFilmApi.Controllers
         [HttpGet("{imageName}")]
         public async Task<IActionResult> GetImage(string imageName)
         {
-            byte[] byteArray = await resourcePathResolver.FindAndGet(imageName);
+            byte[] byteArray = await resourcePathResolver.Take(imageName);
             if (byteArray == null)
             {
                 return null;
@@ -42,20 +39,11 @@ namespace JLFilmApi.Controllers
         [HttpPost("upload")]
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
-            if (file.Length > 0)
+            string imageName = await resourcePathResolver.Upload(file);
+            if(imageName != null)
             {
-                if (!Directory.Exists(myEnvironment.WebRootPath + @"\AccountImages\"))
-                {
-                    Directory.CreateDirectory(myEnvironment.WebRootPath + @"\AccountImages\");
-                }
-
-                using (FileStream fileStream = System.IO.File.Create(myEnvironment.WebRootPath + @"\AccountImages\" + file.FileName))
-                {
-                    await file.CopyToAsync(fileStream);
-                    await fileStream.FlushAsync();
-                    await UploadDataImage(file.FileName);
-                    return Ok("Image " + file.FileName + " uploaded");
-                }
+                await UploadDataImage(imageName);
+                return Ok("image " + imageName + " is added");
             }
             return BadRequest();
         }
@@ -65,7 +53,6 @@ namespace JLFilmApi.Controllers
             InfoViewUsers user = await userRepository.GetUserByLogin(User.Identity.Name);
             UpdateViewUsers updateUser = userMapper.Map<UpdateViewUsers>(user);
             await userRepository.UpdateUser(updateUser, updateUser.Id);
-
         }
     }
 }

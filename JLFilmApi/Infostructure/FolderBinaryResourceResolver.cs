@@ -5,20 +5,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace JLFilmApi.Infostructure
 {
-    public class FolderBinaryResourcePathResolver : IBinaryResourcePathResolver
+    public class FolderBinaryResourceResolver : IBinaryResourcePathResolver
     {
         private const string PATH = @"C:\Users\rtretyakov\Desktop\\";
-        public async Task<byte[]>  FindAndGet(string resourceName)
+        byte[] image = null;
+        public async Task<byte[]>  Take(string resourceName)
         {
-            byte[] image = null;
+            
             if (resourceName != null)
             {
                 image = await File.ReadAllBytesAsync(PATH + resourceName);
             }           
             return image;
+        }
+
+        public Task<string> Upload(IFormFile file)
+        {
+            throw new NotImplementedException();
         }
     }
 }
