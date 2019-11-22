@@ -1,6 +1,5 @@
 ﻿using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,10 +17,9 @@ namespace JLFilmApi.Controllers
             this.filmRepository = filmRepository;
         }
 
-
         [HttpGet]
         public async Task<List<InfoViewFilms>> GetFilms()
-        {            
+        {
             var films = await filmRepository.GetFilms();
             if (films == null)
             {
@@ -29,7 +27,6 @@ namespace JLFilmApi.Controllers
             }
             return films;
         }
-
 
         [HttpGet("{id}")]
         public async Task<ActionResult<InfoViewOneFilm>> GetFilm(int? id)

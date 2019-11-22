@@ -1,4 +1,6 @@
-﻿using JLFilmApi.Repo.Contracts;
+﻿using AutoMapper;
+using JLFilmApi.DomainModels;
+using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -10,35 +12,32 @@ namespace JLFilmApi.Controllers
     [Route("api/[controller]")]
     public class CommentsController : ControllerBase
     {
-        private ICommentsRepository commentsRepository; 
-        
-        public CommentsController(ICommentsRepository commentsRepository)
+        private ICommentsRepository commentsRepository;
+        private IMapper mapper;
+
+        public CommentsController(ICommentsRepository commentsRepository, IMapper mapper)
         {
             this.commentsRepository = commentsRepository;
+            this.mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public async Task<List<InfoViewComments>> GetComments(int? id)
         {
-            return await commentsRepository.GetAllCommentsOfReview(id);
+            return mapper.Map<List<InfoViewComments>>(await commentsRepository.GetAllCommentsOfReview(id));
         }
 
         [HttpPost("addForReview")]
         public async Task<IActionResult> AddComment(InfoViewComments comment)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                int id = await commentsRepository.AddNewComment(comment);
-                if(id > 0)
-                {
-                    return Ok("Add comment");
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                return BadRequest(ModelState);
             }
-            return BadRequest(ModelState);
+
+            int id = await commentsRepository.AddNewComment(mapper.Map<Comments>(comment));
+            return Ok("Add comment");
+
         }
     }
 }

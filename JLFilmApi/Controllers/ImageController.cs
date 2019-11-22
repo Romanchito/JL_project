@@ -25,15 +25,15 @@ namespace JLFilmApi.Controllers
             this.userRepository = userRepository;
         }
 
-        [HttpGet("{imageName}")]
-        public async Task<IActionResult> GetImage(string imageName)
+        [HttpGet("Get/{type}/{fileName}")]
+        public async Task<IActionResult> GetImage(string type, string fileName)
         {
-            byte[] byteArray = await resourcePathResolver.Take(imageName);
-            if (byteArray == null)
+            string imagePath = await resourcePathResolver.Take(new TakingImageModel(type,fileName));
+            if (imagePath == null)
             {
                 return null;
             }
-            return File(byteArray, "image/jpeg");
+            return File(imagePath, "image/jpeg");
         }
 
         [HttpPost("upload")]
@@ -51,6 +51,7 @@ namespace JLFilmApi.Controllers
         private async Task UploadDataImage(string imageName)
         {
             InfoViewUsers user = await userRepository.GetUserByLogin(User.Identity.Name);
+            user.AccountImage = imageName;
             UpdateViewUsers updateUser = userMapper.Map<UpdateViewUsers>(user);
             await userRepository.UpdateUser(updateUser, updateUser.Id);
         }

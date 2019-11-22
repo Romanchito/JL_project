@@ -12,28 +12,23 @@ namespace JLFilmApi.Repo
 {
     public class CommentsRepository : ICommentsRepository
     {
-        private JLDatabaseContext jLDatabaseContext;
-        private readonly IMapper commentsMapper;
+        private JLDatabaseContext jLDatabaseContext;        
 
-        public CommentsRepository(JLDatabaseContext jLDatabaseContext, IMapper mapper)
+        public CommentsRepository(JLDatabaseContext jLDatabaseContext)
         {
-            this.jLDatabaseContext = jLDatabaseContext;
-            commentsMapper = mapper;
+            this.jLDatabaseContext = jLDatabaseContext;            
         }
 
-        public async Task<List<InfoViewComments>> GetAllCommentsOfReview(int? reviewId)
+        public async Task<List<Comments>> GetAllCommentsOfReview(int? reviewId)
         {
-            List<InfoViewComments> list = commentsMapper.Map<List<InfoViewComments>>
-                (await jLDatabaseContext.Comments.Where(x => x.ReviewId == reviewId).ToListAsync());
-            return list;
+            return await jLDatabaseContext.Comments.Where(x => x.ReviewId == reviewId).ToListAsync();            
         }
 
-        public async Task<int> AddNewComment(InfoViewComments comment)
-        {
-            Comments newComment = commentsMapper.Map<Comments>(comment);
-            await jLDatabaseContext.Comments.AddAsync(newComment);
+        public async Task<int> AddNewComment(Comments comment)
+        {           
+            await jLDatabaseContext.Comments.AddAsync(comment);
             await jLDatabaseContext.SaveChangesAsync();
-            return newComment.Id;
+            return comment.Id;
         }
     }
 }

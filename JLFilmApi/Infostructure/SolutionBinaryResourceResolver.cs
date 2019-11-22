@@ -6,21 +6,35 @@ using System.Threading.Tasks;
 using JLFilmApi.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace JLFilmApi.Infostructure
 {
     public class SolutionBinaryResourceResolver : IBinaryResourcePathResolver
     {
-        private static IWebHostEnvironment myEnvironment;
-        private byte[] image = null;
-
+        private static IWebHostEnvironment myEnvironment;       
         public SolutionBinaryResourceResolver(IWebHostEnvironment environment)
         {
             myEnvironment = environment;
         }
 
-        public async Task<string> Upload(IFormFile file)
+        public async Task<string> Take(TakingImageModel takingModel)
         {
+           if (takingModel == null) return null;
+           
+            if(takingModel.Type == "Film")
+            {
+                return await Task.FromResult(Path.Combine("FilmImages", takingModel.FileName));
+            }
+
+            else
+            {
+                return await Task.FromResult(Path.Combine("AccountImages", takingModel.FileName));
+            }
+        }
+
+        public async Task<string> Upload(IFormFile file)
+        {         
             if (file.Length > 0)
             {
                 if (!Directory.Exists(myEnvironment.WebRootPath + @"\AccountImages\"))
@@ -41,10 +55,7 @@ namespace JLFilmApi.Infostructure
             }
         }
 
-        Task<byte[]> IBinaryResourcePathResolver.Take(string resourceName)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
       
 }
