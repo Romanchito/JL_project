@@ -77,6 +77,7 @@ namespace JLFilmApi.Repo
             updateUser.Password = sourseUsers.Password;
             updateUser.Name = sourseUsers.Name;
             updateUser.Surname = sourseUsers.Surname;
+            updateUser.AccountImage = sourseUsers.AccountImage;
             jLDatabaseContext.Update(updateUser);
             await jLDatabaseContext.SaveChangesAsync();
         }

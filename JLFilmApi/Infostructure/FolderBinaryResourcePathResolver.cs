@@ -10,7 +10,7 @@ namespace JLFilmApi.Infostructure
 {
     public class FolderBinaryResourcePathResolver : IBinaryResourcePathResolver
     {
-        private const string PATH = "C:\\Users\\myUser\\Desktop\\";
+        private const string PATH = @"C:\Users\rtretyakov\Desktop\\";
         public async Task<byte[]>  FindAndGet(string resourceName)
         {
             byte[] image = null;

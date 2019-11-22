@@ -16,7 +16,8 @@ namespace JLFilmApi.Infostructure
             CreateMap<Likes, InfoViewLikes>().ReverseMap(); ;                          // map from Likes to InfoViewLikes
             CreateMap<Films, InfoViewFilms>().ReverseMap();                            // map from Films to InfoViewFilms
             CreateMap<Reviews, AddViewReviews>().ReverseMap();                         // map from Reviews to AddViewReviews
-            CreateMap<Films, InfoViewOneFilm>().ReverseMap();                            // map from Films to InfoViewOneFilm
+            CreateMap<Films, InfoViewOneFilm>().ReverseMap();                          // map from Films to InfoViewOneFilm
+            CreateMap<InfoViewUsers, UpdateViewUsers>().ReverseMap();                  // map from InfoViewUsers to UpdateViewUsers
         }
     }
 }

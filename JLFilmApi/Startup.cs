@@ -38,6 +38,7 @@ namespace JLFilmApi
             services.AddScoped<IReviewsRepository, ReviewsRepository>();
             services.AddScoped<ICommentsRepository, CommentsRepository>();
             services.AddScoped<ILikesRepository, LikesRepository>();
+            services.AddScoped<IBinaryResourcePathResolver, FolderBinaryResourcePathResolver>();
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
             services.AddCors();
@@ -101,6 +102,7 @@ namespace JLFilmApi
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseStaticFiles();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

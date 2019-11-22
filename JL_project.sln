@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "JLDatabase", "JLDatabase\JLDatabase.sqlproj", "{AAB0BF39-4DFC-40B8-8DEA-A56310067F6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JLFilmApi", "JLFilmApi\JLFilmApi.csproj", "{BEB0FA21-1C73-4238-80AF-6754DFC0F466}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JLFilmApi", "JLFilmApi\JLFilmApi.csproj", "{BEB0FA21-1C73-4238-80AF-6754DFC0F466}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTest-FilmApi", "XUnitTest-FilmApi\XUnitTest-FilmApi.csproj", "{64FFF855-F5EF-4D11-9E6E-19658D7B9A7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{BEB0FA21-1C73-4238-80AF-6754DFC0F466}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEB0FA21-1C73-4238-80AF-6754DFC0F466}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEB0FA21-1C73-4238-80AF-6754DFC0F466}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64FFF855-F5EF-4D11-9E6E-19658D7B9A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64FFF855-F5EF-4D11-9E6E-19658D7B9A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64FFF855-F5EF-4D11-9E6E-19658D7B9A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64FFF855-F5EF-4D11-9E6E-19658D7B9A7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
