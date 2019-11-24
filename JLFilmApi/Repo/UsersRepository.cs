@@ -37,8 +37,13 @@ namespace JLFilmApi.Repo
                     {
                         var usersComments = jLDatabaseContext.Comments.Where(x => x.UserId == user.Id);
                         jLDatabaseContext.Comments.RemoveRange(usersComments);
+
+                        var userLikes = jLDatabaseContext.Likes.Where(x => x.UserId == user.Id);
+                        jLDatabaseContext.Likes.RemoveRange(userLikes);
+
                         jLDatabaseContext.Users.Remove(user);
                         await jLDatabaseContext.SaveChangesAsync();
+
                         transaction.Commit();
                     }
                     catch (Exception ex)
