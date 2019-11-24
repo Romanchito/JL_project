@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using JLFilmApi.Context;
+﻿using JLFilmApi.Context;
 using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
-using JLFilmApi.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,26 +11,22 @@ namespace JLFilmApi.Repo
     public class LikesRepository : ILikesRepository
     {
         private JLDatabaseContext jLDatabaseContext;
-        private readonly IMapper likeMapper;
 
-        public LikesRepository(JLDatabaseContext jLDatabaseContext, IMapper mapper)
+        public LikesRepository(JLDatabaseContext jLDatabaseContext)
         {
             this.jLDatabaseContext = jLDatabaseContext;
-            likeMapper = mapper;
         }
 
-        public async Task<List<InfoViewLikes>> GetAllLikesOfReviews(int? reviewId)
+        public async Task<List<Likes>> GetAllLikesOfReviews(int? reviewId)
         {
-            List<InfoViewLikes> list = likeMapper.Map<List<InfoViewLikes>>(await jLDatabaseContext.Likes.Where(x => x.ReviewId == reviewId).ToListAsync());
-            return list;
+            return await jLDatabaseContext.Likes.Where(x => x.ReviewId == reviewId).ToListAsync();
         }
 
-        public async Task<int> AddNewLike(InfoViewLikes like)
+        public async Task<int> AddNewLike(Likes like)
         {
-            Likes newLike = likeMapper.Map<Likes>(like);
-            await jLDatabaseContext.AddAsync(newLike);
+            await jLDatabaseContext.AddAsync(like);
             await jLDatabaseContext.SaveChangesAsync();
-            return newLike.Id;
+            return like.Id;
         }
 
         public async Task<int> DeleteLike(int userId, int reviewId)

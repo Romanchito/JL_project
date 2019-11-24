@@ -27,10 +27,12 @@ namespace JLFilmApi.Infostructure
                 return await Task.FromResult(Path.Combine("FilmImages", takingModel.FileName));
             }
 
-            else
+            if (takingModel.Type == "User")
             {
                 return await Task.FromResult(Path.Combine("AccountImages", takingModel.FileName));
             }
+
+            return null;
         }
 
         public async Task<string> Upload(IFormFile file)

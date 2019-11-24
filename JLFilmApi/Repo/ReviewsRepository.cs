@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using JLFilmApi.Context;
+﻿using JLFilmApi.Context;
 using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
-using JLFilmApi.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,26 +11,21 @@ namespace JLFilmApi.Repo
     public class ReviewsRepository : IReviewsRepository
     {
         private JLDatabaseContext jLDatabaseContext;
-        private readonly IMapper reviewMapper;
-        public ReviewsRepository(JLDatabaseContext jLDatabaseContext, IMapper mapper)
+        public ReviewsRepository(JLDatabaseContext jLDatabaseContext)
         {
-            reviewMapper = mapper;
             this.jLDatabaseContext = jLDatabaseContext;
         }
 
-        public async Task<List<InfoViewReviews>> GetAllReviewsOfFilm(int? filmId)
+        public async Task<List<Reviews>> GetAllReviewsOfFilm(int? filmId)
         {
-            List<InfoViewReviews> list = reviewMapper.Map<List<InfoViewReviews>>
-                (await jLDatabaseContext.Reviews.Where(x => x.FilmId == filmId).ToListAsync());
-            return list;
+            return await jLDatabaseContext.Reviews.Where(x => x.FilmId == filmId).ToListAsync();
         }
 
-        public async Task<int> AddReview(AddViewReviews review)
+        public async Task<int> AddReview(Reviews review)
         {
-            var newReview = reviewMapper.Map<Reviews>(review);
-            await jLDatabaseContext.Reviews.AddAsync(newReview);
+            await jLDatabaseContext.Reviews.AddAsync(review);
             await jLDatabaseContext.SaveChangesAsync();
-            return newReview.Id;
+            return review.Id;
         }
     }
 }

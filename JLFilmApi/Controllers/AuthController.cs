@@ -1,4 +1,5 @@
-﻿using JLFilmApi.Infostructure;
+﻿using AutoMapper;
+using JLFilmApi.Infostructure;
 using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -18,9 +19,11 @@ namespace JLFilmApi.Controllers
     public class AuthController : ControllerBase
     {
         private IUserRepository userRepository;
+        private IMapper mapper;
 
-        public AuthController(IUserRepository userRepository)
+        public AuthController(IUserRepository userRepository, IMapper mapper)
         {
+            this.mapper = mapper;
             this.userRepository = userRepository;
         }
 
@@ -63,7 +66,7 @@ namespace JLFilmApi.Controllers
 
         private async Task<InfoViewUsers> CheckingUserAsync(string login, string password)
         {
-            InfoViewUsers user = await userRepository.GetUserByLogin(login);
+            InfoViewUsers user = mapper.Map<InfoViewUsers>(await userRepository.GetUserByLogin(login));
             if (user == null || !user.Password.Equals(password))
             {
                 throw new NullReferenceException();

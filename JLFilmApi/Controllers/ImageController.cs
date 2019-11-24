@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using JLFilmApi.DomainModels;
 using JLFilmApi.Infostructure;
 using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,14 +30,19 @@ namespace JLFilmApi.Controllers
         [HttpGet("Get/{type}/{fileName}")]
         public async Task<IActionResult> GetImage(string type, string fileName)
         {
+            if (type != "Film" && type!="User")
+            {
+                return BadRequest("Wrong type");
+            }
             string imagePath = await resourcePathResolver.Take(new TakingImageModel(type,fileName));
             if (imagePath == null)
             {
                 return null;
             }
-            return File(imagePath, "image/jpeg");
+            return File(imagePath, "image/png");
         }
 
+        [Authorize]
         [HttpPost("upload")]
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
@@ -46,14 +53,12 @@ namespace JLFilmApi.Controllers
                 return Ok("image " + imageName + " is added");
             }
             return BadRequest();
-        }
-
+        }        
+        
         private async Task UploadDataImage(string imageName)
         {
-            InfoViewUsers user = await userRepository.GetUserByLogin(User.Identity.Name);
-            user.AccountImage = imageName;
-            UpdateViewUsers updateUser = userMapper.Map<UpdateViewUsers>(user);
-            await userRepository.UpdateUser(updateUser, updateUser.Id);
+            int userId = (await userRepository.GetUserByLogin(User.Identity.Name)).Id;
+            await userRepository.UpdateAccountImage(imageName, userId);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace JLFilmApi.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("Review/{id}")]
         public async Task<List<InfoViewComments>> GetComments(int? id)
         {
             return mapper.Map<List<InfoViewComments>>(await commentsRepository.GetAllCommentsOfReview(id));
@@ -35,7 +35,7 @@ namespace JLFilmApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            int id = await commentsRepository.AddNewComment(mapper.Map<Comments>(comment));
+            await commentsRepository.AddNewComment(mapper.Map<Comments>(comment));
             return Ok("Add comment");
 
         }

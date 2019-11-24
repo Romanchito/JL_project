@@ -1,4 +1,6 @@
-﻿using JLFilmApi.Repo.Contracts;
+﻿using AutoMapper;
+using JLFilmApi.DomainModels;
+using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -11,34 +13,29 @@ namespace JLFilmApi.Controllers
     public class ReviewsController : ControllerBase
     {
         private IReviewsRepository reviewsRepository;
+        private IMapper mapper;
 
-        public ReviewsController(IReviewsRepository reviewsRepository)
+        public ReviewsController(IReviewsRepository reviewsRepository, IMapper mapper)
         {
+            this.mapper = mapper;
             this.reviewsRepository = reviewsRepository;
         }
 
         [HttpGet("allOfFilm/{id}")]
         public async Task<List<InfoViewReviews>> GetReview(int? id)
         {
-            return await reviewsRepository.GetAllReviewsOfFilm(id);
+            return mapper.Map<List<InfoViewReviews>>(await reviewsRepository.GetAllReviewsOfFilm(id));
         }
 
         [HttpPost("add")]
         public async Task<IActionResult> AddReview(AddViewReviews review)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                int reviewId = await reviewsRepository.AddReview(review);
-                if (reviewId > 0)
-                {
-                    return Ok("Add Review");
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                return BadRequest(ModelState);
             }
-            return BadRequest(ModelState);
+            int reviewId = await reviewsRepository.AddReview(mapper.Map<Reviews>(review));
+            return Ok("Add Review");
         }
     }
 }

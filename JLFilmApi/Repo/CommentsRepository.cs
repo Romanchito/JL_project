@@ -2,7 +2,6 @@
 using JLFilmApi.Context;
 using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
-using JLFilmApi.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
