@@ -4,6 +4,7 @@ using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,9 +25,14 @@ namespace JLFilmApi.Controllers
             this.likesRepository = likesRepository;
         }
 
-        [HttpGet("allOfReview{id}")]
+        [HttpGet("allOfReview/{id}")]
         public async Task<List<InfoViewLikes>> GetLikes(int? id)
         {
+            if (await likesRepository.GetAllLikesOfReviews(id) == null)
+            {
+                throw new NullReferenceException("Review with this id notfound");
+            }
+
             return mapper.Map<List<InfoViewLikes>>(await likesRepository.GetAllLikesOfReviews(id));
         }
 
@@ -36,7 +42,7 @@ namespace JLFilmApi.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }            
+            }
             await likesRepository.AddNewLike(mapper.Map<Likes>(like));
             return Ok("Add Like");
         }

@@ -22,12 +22,12 @@ namespace JLFilmApi.Infostructure
         {
            if (takingModel == null) return null;
            
-            if(takingModel.Type == "Film")
+            if(takingModel.Type == "film")
             {
                 return await Task.FromResult(Path.Combine("FilmImages", takingModel.FileName));
             }
 
-            if (takingModel.Type == "User")
+            if (takingModel.Type == "user")
             {
                 return await Task.FromResult(Path.Combine("AccountImages", takingModel.FileName));
             }

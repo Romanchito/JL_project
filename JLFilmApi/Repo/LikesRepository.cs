@@ -19,6 +19,12 @@ namespace JLFilmApi.Repo
 
         public async Task<List<Likes>> GetAllLikesOfReviews(int? reviewId)
         {
+            if (
+                    await jLDatabaseContext.Reviews.FirstOrDefaultAsync(x => x.Id == reviewId) == null
+               )
+            {
+                return null;
+            }
             return await jLDatabaseContext.Likes.Where(x => x.ReviewId == reviewId).ToListAsync();
         }
 

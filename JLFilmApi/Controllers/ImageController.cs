@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using JLFilmApi.DomainModels;
 using JLFilmApi.Infostructure;
 using JLFilmApi.Repo.Contracts;
-using JLFilmApi.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
@@ -18,28 +15,32 @@ namespace JLFilmApi.Controllers
     {
         private IBinaryResourcePathResolver resourcePathResolver;
         private IMapper userMapper;
-        private IUserRepository userRepository;       
+        private IUserRepository userRepository;
+        private IFilmRepository filmRepository;
 
-        public ImageController(IBinaryResourcePathResolver resourcePathResolver, IUserRepository userRepository, IMapper mapper)
-        {           
+        public ImageController(IBinaryResourcePathResolver resourcePathResolver, IUserRepository userRepository,
+                               IMapper mapper, IFilmRepository filmRepository)
+        {
             userMapper = mapper;
             this.resourcePathResolver = resourcePathResolver;
             this.userRepository = userRepository;
+            this.filmRepository = filmRepository;
         }
 
-        [HttpGet("Get/{type}/{fileName}")]
-        public async Task<IActionResult> GetImage(string type, string fileName)
+
+        [Authorize]
+        [HttpGet("GetUserImage")]
+        public async Task<IActionResult> GetImage()
         {
-            if (type != "Film" && type!="User")
-            {
-                return BadRequest("Wrong type");
-            }
-            string imagePath = await resourcePathResolver.Take(new TakingImageModel(type,fileName));
-            if (imagePath == null)
-            {
-                return null;
-            }
-            return File(imagePath, "image/png");
+            string fileName = (await userRepository.GetUserByLogin(User.Identity.Name)).AccountImage;
+            return await TakingImage("user", fileName);
+        }
+
+        [HttpGet("GetFilmImage/{id}")]
+        public async Task<IActionResult> GetImage(int id)
+        {
+            string fileName = (await filmRepository.GetFilm(id)).FilmImage;
+            return await TakingImage("film", fileName);
         }
 
         [Authorize]
@@ -47,18 +48,38 @@ namespace JLFilmApi.Controllers
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
             string imageName = await resourcePathResolver.Upload(file);
-            if(imageName != null)
+            if (imageName != null)
             {
                 await UploadDataImage(imageName);
                 return Ok("image " + imageName + " is added");
             }
             return BadRequest();
-        }        
-        
+        }
+
         private async Task UploadDataImage(string imageName)
         {
             int userId = (await userRepository.GetUserByLogin(User.Identity.Name)).Id;
+            string oldAccountImage = (await userRepository.GetUserByLogin(User.Identity.Name)).AccountImage;
             await userRepository.UpdateAccountImage(imageName, userId);
+            if (oldAccountImage != null)
+            {
+                DeleteUnusingImage(oldAccountImage);
+            }
+        }
+
+        private async Task<IActionResult> TakingImage(string type, string fileName)
+        {
+            string imagePath = await resourcePathResolver.Take(new TakingImageModel(type, fileName));
+            if (imagePath == null)
+            {
+                return null;
+            }
+            return File(imagePath, "image/png");
+        }
+
+        private void DeleteUnusingImage(string oldAccountImage)
+        {
+            System.IO.File.Delete($"wwwroot/{Path.Combine("AccountImages", oldAccountImage)}");
         }
     }
 }
