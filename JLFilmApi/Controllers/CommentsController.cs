@@ -22,7 +22,7 @@ namespace JLFilmApi.Controllers
         }
 
         [HttpGet("Review/{id}")]
-        public async Task<List<InfoViewComments>> GetComments(int? id)
+        public async Task<List<InfoViewComments>> GetComments(int id)
         {
             return mapper.Map<List<InfoViewComments>>(await commentsRepository.GetAllCommentsOfReview(id));
         }

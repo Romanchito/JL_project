@@ -8,6 +8,6 @@ namespace JLFilmApi.Repo.Contracts
     {
         Task<List<Films>> GetFilms();
         
-        Task<Films> GetFilm(int? filmId);
+        Task<Films> GetFilm(int filmId);
     }
 }

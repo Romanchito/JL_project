@@ -17,7 +17,7 @@ namespace JLFilmApi.Repo
             this.jLDatabaseContext = jLDatabaseContext;
         }
 
-        public async Task<List<Likes>> GetAllLikesOfReviews(int? reviewId)
+        public async Task<List<Likes>> GetAllLikesOfReviews(int reviewId)
         {
             if (
                     await jLDatabaseContext.Reviews.FirstOrDefaultAsync(x => x.Id == reviewId) == null
@@ -30,6 +30,15 @@ namespace JLFilmApi.Repo
 
         public async Task<int> AddNewLike(Likes like)
         {
+            Likes checkLike = await jLDatabaseContext.Likes
+                              .FirstOrDefaultAsync(x => x.UserId == like.UserId && x.ReviewId == like.ReviewId);
+
+            if (checkLike != null)
+            {
+                await UpdateLike(like.UserId, like.ReviewId);
+                return checkLike.Id;
+            }
+
             await jLDatabaseContext.AddAsync(like);
             await jLDatabaseContext.SaveChangesAsync();
             return like.Id;
@@ -41,6 +50,15 @@ namespace JLFilmApi.Repo
             jLDatabaseContext.Likes.Remove(deleteLike);
             await jLDatabaseContext.SaveChangesAsync();
             return reviewId;
+        }
+
+        private async Task UpdateLike(int userId, int reviewId)
+        {
+            Likes updateLike = await jLDatabaseContext.Likes.FirstOrDefaultAsync(x => x.UserId == userId && x.ReviewId == reviewId);
+            jLDatabaseContext.Likes.Attach(updateLike);
+            updateLike.Type = !updateLike.Type;
+            jLDatabaseContext.Entry(updateLike).State = EntityState.Modified;
+            await jLDatabaseContext.SaveChangesAsync();
         }
     }
 }

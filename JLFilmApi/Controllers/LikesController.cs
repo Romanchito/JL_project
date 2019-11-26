@@ -26,11 +26,11 @@ namespace JLFilmApi.Controllers
         }
 
         [HttpGet("allOfReview/{id}")]
-        public async Task<List<InfoViewLikes>> GetLikes(int? id)
+        public async Task<List<InfoViewLikes>> GetLikes(int id)
         {
             if (await likesRepository.GetAllLikesOfReviews(id) == null)
             {
-                throw new NullReferenceException("Review with this id notfound");
+                throw new NullReferenceException("Review with this id not found");
             }
 
             return mapper.Map<List<InfoViewLikes>>(await likesRepository.GetAllLikesOfReviews(id));
@@ -43,6 +43,7 @@ namespace JLFilmApi.Controllers
             {
                 return BadRequest(ModelState);
             }
+            
             await likesRepository.AddNewLike(mapper.Map<Likes>(like));
             return Ok("Add Like");
         }
@@ -52,8 +53,8 @@ namespace JLFilmApi.Controllers
         public async Task<IActionResult> DeleteLike(int reviewId)
         {
             int userId = (await userRepository.GetUserByLogin(User.Identity.Name)).Id;
-            int? result = await likesRepository.DeleteLike(userId, reviewId);
-            if (result == 0 || result == null)
+            int result = await likesRepository.DeleteLike(userId, reviewId);
+            if (result == 0 )
             {
                 return NotFound(result);
             }

@@ -32,7 +32,7 @@ namespace JLFilmApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<InfoViewOneFilm>> GetFilm(int? id)
+        public async Task<ActionResult<InfoViewOneFilm>> GetFilm(int id)
         {
             var film = mapper.Map<InfoViewOneFilm>(await filmRepository.GetFilm(id));
             if (film == null) return NotFound("Sorry, but this film doesn't exist :" + id.ToString());

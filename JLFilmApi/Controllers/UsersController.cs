@@ -37,25 +37,30 @@ namespace JLFilmApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            int userId = await userRepository.AddUser(mapper.Map<Users>(user));
 
+            if (await userRepository.GetUserByLogin(user.Login) != null)
+            {
+                return BadRequest("This user already exists");
+            }
+
+            await userRepository.AddUser(mapper.Map<Users>(user));
             return Ok("Add User");
         }
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            int? result = await userRepository.DeleteUser(id);
-            if (result == 0 || result == null)
+            if(await userRepository.GetUserById(id) == null)
             {
-                return NotFound(result);
+                return NotFound();
             }
+            await userRepository.DeleteUser(id);
             return Ok();
         }
 
         [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateUser(int id, UpdateViewUsers user)
-        {            
+        {
             await userRepository.UpdateUser(mapper.Map<Users>(user), id);
             return Ok();
         }

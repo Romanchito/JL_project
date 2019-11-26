@@ -54,12 +54,7 @@ namespace JLFilmApi.Repo
             }
 
             return userId;
-        }
-
-        public async Task<List<Users>> GetAllUsers()
-        {
-            return await jLDatabaseContext.Users.ToListAsync();
-        }
+        }        
 
         public async Task<Users> GetUserById(int? userId)
         {

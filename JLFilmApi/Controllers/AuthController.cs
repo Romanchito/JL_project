@@ -69,7 +69,7 @@ namespace JLFilmApi.Controllers
             InfoViewUsers user = mapper.Map<InfoViewUsers>(await userRepository.GetUserByLogin(login));
             if (user == null || !user.Password.Equals(password))
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException("Incorrect login or password");
             }            
             return user;
         }

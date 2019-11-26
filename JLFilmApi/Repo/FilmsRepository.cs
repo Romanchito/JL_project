@@ -19,7 +19,7 @@ namespace JLFilmApi.Repo
             this.db = db;           
         }
 
-        public async Task<Films> GetFilm(int? filmId)
+        public async Task<Films> GetFilm(int filmId)
         {            
             return await db.Films.FirstOrDefaultAsync(x => x.Id == filmId); 
         }
