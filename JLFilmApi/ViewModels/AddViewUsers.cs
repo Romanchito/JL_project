@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace JLFilmApi.ViewModels
 {
     public class AddViewUsers
-    {
-        public int Id { get; set; }
+    {        
         [Required]
         public string Login { get; set; }
         [Required]
