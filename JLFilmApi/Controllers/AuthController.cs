@@ -32,16 +32,12 @@ namespace JLFilmApi.Controllers
         {
             var identity = await GetIdentityAsync(authModel.Username, authModel.Password);
 
-            var now = DateTime.UtcNow;
-
             var jwtToken = new JwtSecurityToken(
-
                 issuer: AuthOptions.ISSUER,
                 audience: AuthOptions.AUDIENCE,
                 claims: identity.Claims,
-                expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                expires: DateTime.UtcNow.AddDays(1),
                 signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
-
                 );
 
             var jwtHandler = new JwtSecurityTokenHandler().WriteToken(jwtToken);
@@ -70,7 +66,7 @@ namespace JLFilmApi.Controllers
             if (user == null || !user.Password.Equals(password))
             {
                 throw new NullReferenceException("Incorrect login or password");
-            }            
+            }
             return user;
         }
     }

@@ -23,11 +23,11 @@ namespace XUnitTest_FilmApi
         {
             testServer = new TestServer(new WebHostBuilder()
                 .UseConfiguration(new ConfigurationBuilder()
-                        .SetBasePath(@"C:\Users\rtretyakov\Source\Repos\Romanchito\JL_project\JLFilmApi")
-                        .AddJsonFile("appsettings.json")
+                .SetBasePath(@"C:\Users\rtretyakov\Source\Repos\Romanchito\JL_project\XUnitTest-FilmApi\")
+                        .AddJsonFile("jsonTestSettings.json")
                         .Build()
                 )
-                .UseStartup<Startup>());
+                .UseStartup<Startup>()); ;
                 
             Client = testServer.CreateClient();
         }

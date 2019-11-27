@@ -99,7 +99,10 @@ namespace JLFilmApi
                 app.UseDeveloperExceptionPage();
             }
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
-            app.UseCors(c => c.AllowAnyMethod());
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
@@ -109,6 +112,7 @@ namespace JLFilmApi
             {
                 endpoints.MapControllers();
             });
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
