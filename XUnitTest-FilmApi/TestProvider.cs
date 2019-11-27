@@ -2,24 +2,33 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using System.Net.Http.Formatting;
+using System.Text;
 
 namespace XUnitTest_FilmApi
 {
-
-public class TestProvider
-    {
-        public HttpClient Client { get; private set; }
-
+    class TestProvider : IDisposable
+    {        
+        public HttpClient Client { get; set; }
+        private TestServer testServer;
+        
         public TestProvider()
         {
-            var server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
-
-            Client = server.CreateClient();
+            SetupClient();
         }
-       
+
+        private void SetupClient()
+        {
+            testServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+                
+            Client = testServer.CreateClient();
+        }
+
+        public void Dispose()
+        {
+            testServer?.Dispose();
+            Client?.Dispose();
+        }
     }
 }

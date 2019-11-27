@@ -6,7 +6,7 @@ namespace JLFilmApi.Repo.Contracts
 {
     public interface IReviewsRepository
     {
-        Task<List<Reviews>> GetAllReviewsOfFilm(int? filmId);
+        Task<List<Reviews>> GetAllReviewsOfFilm(int filmId);
         Task<int> AddReview(Reviews review);
     }
 }

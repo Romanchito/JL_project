@@ -22,7 +22,7 @@ namespace JLFilmApi.Controllers
         }
 
         [HttpGet("allOfFilm/{id}")]
-        public async Task<List<InfoViewReviews>> GetReview(int? id)
+        public async Task<List<InfoViewReviews>> GetReview(int id)
         {
             return mapper.Map<List<InfoViewReviews>>(await reviewsRepository.GetAllReviewsOfFilm(id));
         }

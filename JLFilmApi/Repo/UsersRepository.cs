@@ -25,7 +25,7 @@ namespace JLFilmApi.Repo
             return user.Id;
         }
 
-        public async Task<int?> DeleteUser(int? userId)
+        public async Task<int?> DeleteUser(int userId)
         {
 
             Users user = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
@@ -56,7 +56,7 @@ namespace JLFilmApi.Repo
             return userId;
         }        
 
-        public async Task<Users> GetUserById(int? userId)
+        public async Task<Users> GetUserById(int userId)
         {
             return await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
         }

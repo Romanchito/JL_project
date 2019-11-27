@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Collections.Generic;
 
 namespace JLFilmApi
@@ -30,7 +31,15 @@ namespace JLFilmApi
         {
             services.AddDbContext<JLDatabaseContext>(item =>
                     {
-                        item.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")).UseLazyLoadingProxies();
+                        try
+                        {
+                            item.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")).UseLazyLoadingProxies();
+                        }
+                        catch (Exception)
+                        {
+                            item.UseSqlServer("Server=RTRETYAKOV\\SQLEXPRESS;Database=JLDatabase;Trusted_Connection=True;MultipleActiveResultSets=true;")
+                            .UseLazyLoadingProxies();
+                        }
                     }
                 );
             services.AddScoped<IFilmRepository, FilmsRepository>();

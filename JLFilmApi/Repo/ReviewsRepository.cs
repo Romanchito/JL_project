@@ -16,7 +16,7 @@ namespace JLFilmApi.Repo
             this.jLDatabaseContext = jLDatabaseContext;
         }
 
-        public async Task<List<Reviews>> GetAllReviewsOfFilm(int? filmId)
+        public async Task<List<Reviews>> GetAllReviewsOfFilm(int filmId)
         {
             return await jLDatabaseContext.Reviews.Where(x => x.FilmId == filmId).ToListAsync();
         }
