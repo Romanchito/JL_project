@@ -17,7 +17,7 @@ namespace XUnitTest_FilmApi
         [Fact]
         public async Task Add_new_like_to_review()
         {
-            //Array
+            //Arrange
             var options = new DbContextOptionsBuilder<JLDatabaseContext>()
                 .UseInMemoryDatabase(databaseName: "Add_new_like_to_review")
                 .Options;
@@ -67,6 +67,7 @@ namespace XUnitTest_FilmApi
         [Fact]
         public async Task Delete_likes_when_delete_users()
         {
+            //Arrange
             var options = new DbContextOptionsBuilder<JLDatabaseContext>()
                 .UseInMemoryDatabase(databaseName: "Add_new_like_to_review")
                 .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))

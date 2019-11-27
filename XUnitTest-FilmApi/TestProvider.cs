@@ -1,6 +1,7 @@
 ﻿using JLFilmApi;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -20,7 +21,13 @@ namespace XUnitTest_FilmApi
 
         private void SetupClient()
         {
-            testServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+            testServer = new TestServer(new WebHostBuilder()
+                .UseConfiguration(new ConfigurationBuilder()
+                        .SetBasePath(@"C:\Users\rtretyakov\Source\Repos\Romanchito\JL_project\JLFilmApi")
+                        .AddJsonFile("appsettings.json")
+                        .Build()
+                )
+                .UseStartup<Startup>());
                 
             Client = testServer.CreateClient();
         }

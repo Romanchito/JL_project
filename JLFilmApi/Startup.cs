@@ -31,15 +31,8 @@ namespace JLFilmApi
         {
             services.AddDbContext<JLDatabaseContext>(item =>
                     {
-                        try
-                        {
-                            item.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")).UseLazyLoadingProxies();
-                        }
-                        catch (Exception)
-                        {
-                            item.UseSqlServer("Server=RTRETYAKOV\\SQLEXPRESS;Database=JLDatabase;Trusted_Connection=True;MultipleActiveResultSets=true;")
-                            .UseLazyLoadingProxies();
-                        }
+                       item.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")).UseLazyLoadingProxies();                    
+                       
                     }
                 );
             services.AddScoped<IFilmRepository, FilmsRepository>();

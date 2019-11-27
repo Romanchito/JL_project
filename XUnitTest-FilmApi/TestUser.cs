@@ -17,7 +17,7 @@ namespace XUnitTest_FilmApi
         [Fact]
         public async Task Add_new_user_to_database()
         {
-            //Array
+            //Arrange
             var options = new DbContextOptionsBuilder<JLDatabaseContext>()
                 .UseInMemoryDatabase(databaseName: "Add_new_user_to_database")
                 .Options;
@@ -42,7 +42,7 @@ namespace XUnitTest_FilmApi
         [Fact]
         public async Task Update_user_database()
         {
-            //Array
+            //Arrange
             var options = new DbContextOptionsBuilder<JLDatabaseContext>()
                 .UseInMemoryDatabase(databaseName: "Update_user_database")
                 .Options;
@@ -70,7 +70,7 @@ namespace XUnitTest_FilmApi
         [Fact]
         public async Task Delete_user_database()
         {
-            //Array
+            //Arrange
             var options = new DbContextOptionsBuilder<JLDatabaseContext>()
                 .UseInMemoryDatabase(databaseName: "Delete_user_database")
                 .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
