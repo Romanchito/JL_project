@@ -8,6 +8,5 @@ namespace JLFilmApi.Repo.Contracts
     {
         Task<List<Likes>> GetAllLikesOfReviews(int reviewId);
         Task<int> AddNewLike(Likes like);
-        Task<int> DeleteLike(int userId, int reviewId);        
     }
 }

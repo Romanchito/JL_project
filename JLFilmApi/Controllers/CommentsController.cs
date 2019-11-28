@@ -21,13 +21,13 @@ namespace JLFilmApi.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("Review/{id}")]
+        [HttpGet("review/{id}")]
         public async Task<List<InfoViewComments>> GetComments(int id)
         {
             return mapper.Map<List<InfoViewComments>>(await commentsRepository.GetAllCommentsOfReview(id));
         }
 
-        [HttpPost("addForReview")]
+        [HttpPost("newReview")]
         public async Task<IActionResult> AddComment(InfoViewComments comment)
         {
             if (!ModelState.IsValid)
@@ -35,8 +35,8 @@ namespace JLFilmApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            await commentsRepository.AddNewComment(mapper.Map<Comments>(comment));
-            return Ok("Add comment");
+            int commentId = await commentsRepository.AddNewComment(mapper.Map<Comments>(comment));
+            return Ok(commentId);
 
         }
     }

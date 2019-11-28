@@ -23,11 +23,7 @@ namespace JLFilmApi.Controllers
         [HttpGet]
         public async Task<List<InfoViewFilms>> GetFilms()
         {
-            var films = mapper.Map<List<InfoViewFilms>>(await filmRepository.GetFilms());
-            if (films == null)
-            {
-                return new List<InfoViewFilms>();
-            }
+            var films = mapper.Map<List<InfoViewFilms>>(await filmRepository.GetFilms());            
             return films;
         }
 

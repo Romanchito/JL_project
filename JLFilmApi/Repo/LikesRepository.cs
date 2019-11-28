@@ -33,9 +33,21 @@ namespace JLFilmApi.Repo
             Likes checkLike = await jLDatabaseContext.Likes
                               .FirstOrDefaultAsync(x => x.UserId == like.UserId && x.ReviewId == like.ReviewId);
 
+            //Check an existence of like in database.
             if (checkLike != null)
             {
-                await UpdateLike(like.UserId, like.ReviewId);
+                //Deleting like if uploading like has equal value of IsLike
+                if (like.IsLike.Equals(checkLike.IsLike))
+                {
+                    jLDatabaseContext.Likes.Remove(checkLike);
+                }
+                //Updating like if uploading like has unequal value of IsLike
+                else
+                {
+                    checkLike.IsLike = like.IsLike;
+                }
+
+                await jLDatabaseContext.SaveChangesAsync();
                 return checkLike.Id;
             }
 
@@ -44,21 +56,6 @@ namespace JLFilmApi.Repo
             return like.Id;
         }
 
-        public async Task<int> DeleteLike(int userId, int reviewId)
-        {
-            Likes deleteLike = await jLDatabaseContext.Likes.FirstOrDefaultAsync(x => x.ReviewId == reviewId && x.UserId == userId);
-            jLDatabaseContext.Likes.Remove(deleteLike);
-            await jLDatabaseContext.SaveChangesAsync();
-            return reviewId;
-        }
 
-        private async Task UpdateLike(int userId, int reviewId)
-        {
-            Likes updateLike = await jLDatabaseContext.Likes.FirstOrDefaultAsync(x => x.UserId == userId && x.ReviewId == reviewId);
-            jLDatabaseContext.Likes.Attach(updateLike);
-            updateLike.Type = !updateLike.Type;
-            jLDatabaseContext.Entry(updateLike).State = EntityState.Modified;
-            await jLDatabaseContext.SaveChangesAsync();
-        }
     }
 }

@@ -27,7 +27,7 @@ namespace JLFilmApi.Controllers
             this.userRepository = userRepository;
         }
 
-        [HttpPost("/getJwtToken")]
+        [HttpPost("/jwtToken")]
         public async Task Token(AuthModel authModel)
         {
             var identity = await GetIdentityAsync(authModel.Username, authModel.Password);
@@ -41,6 +41,7 @@ namespace JLFilmApi.Controllers
                 );
 
             var jwtHandler = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+
             var response = new { access_token = jwtHandler, username = identity.Name };
             Response.ContentType = "application/json";
             await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
@@ -55,6 +56,7 @@ namespace JLFilmApi.Controllers
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login)
                 };
+
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             return claimsIdentity;
 
@@ -62,12 +64,13 @@ namespace JLFilmApi.Controllers
 
         private async Task<InfoViewUsers> CheckingUserAsync(string login, string password)
         {
-            InfoViewUsers user = mapper.Map<InfoViewUsers>(await userRepository.GetUserByLogin(login));
+            AddViewUsers user = mapper.Map<AddViewUsers>(await userRepository.GetUserByLogin(login));
             if (user == null || !user.Password.Equals(password))
             {
                 throw new NullReferenceException("Incorrect login or password");
             }
-            return user;
+
+            return mapper.Map<InfoViewUsers>(user);
         }
     }
 }

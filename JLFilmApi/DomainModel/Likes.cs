@@ -8,7 +8,7 @@ namespace JLFilmApi.DomainModels
         public int Id { get; set; }
         public int UserId { get; set; }
         public int ReviewId { get; set; }
-        public bool Type { get; set; }
+        public bool IsLike { get; set; }
         public virtual Reviews Review { get; set; }
         public virtual Users User { get; set; }
     }

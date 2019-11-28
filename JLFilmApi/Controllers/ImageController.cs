@@ -4,7 +4,6 @@ using JLFilmApi.Repo.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace JLFilmApi.Controllers
@@ -29,57 +28,44 @@ namespace JLFilmApi.Controllers
 
 
         [Authorize]
-        [HttpGet("GetUserImage")]
-        public async Task<IActionResult> GetImage()
+        [HttpGet("userImage")]
+        public async Task<string> GetImage()
         {
             string fileName = (await userRepository.GetUserByLogin(User.Identity.Name)).AccountImage;
             return await TakingImage("user", fileName);
         }
 
-        [HttpGet("GetFilmImage/{id}")]
-        public async Task<IActionResult> GetImage(int id)
+        [HttpGet("filmImage/{id}")]
+        public async Task<string> GetImage(int id)
         {
             string fileName = (await filmRepository.GetFilm(id)).FilmImage;
             return await TakingImage("film", fileName);
         }
 
         [Authorize]
-        [HttpPost("upload")]
+        [HttpPost("uploading")]
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
-            string imageName = await resourcePathResolver.Upload(file);
+            string userLogin = (await userRepository.GetUserByLogin(User.Identity.Name)).Login;
+            string imageName = await resourcePathResolver.Upload(file, userLogin);
+
             if (imageName != null)
             {
-                await UploadDataImage(imageName);
-                return Ok("image " + imageName + " is added");
+                return Ok();
             }
             return BadRequest();
         }
-
-        private async Task UploadDataImage(string imageName)
-        {
-            int userId = (await userRepository.GetUserByLogin(User.Identity.Name)).Id;
-            string oldAccountImage = (await userRepository.GetUserByLogin(User.Identity.Name)).AccountImage;
-            await userRepository.UpdateAccountImage(imageName, userId);
-            if (oldAccountImage != null)
-            {
-                DeleteUnusingImage(oldAccountImage);
-            }
-        }
-
-        private async Task<IActionResult> TakingImage(string type, string fileName)
+               
+        private async Task<string> TakingImage(string type, string fileName)
         {
             string imagePath = await resourcePathResolver.Take(new TakingImageModel(type, fileName));
             if (imagePath == null)
             {
                 return null;
-            }
-            return File(imagePath, "image/png");
+            }            
+            return imagePath;
         }
 
-        private void DeleteUnusingImage(string oldAccountImage)
-        {
-            System.IO.File.Delete($"wwwroot/{Path.Combine("AccountImages", oldAccountImage)}");
-        }
+
     }
 }

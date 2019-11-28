@@ -8,7 +8,7 @@ namespace JLFilmApi.Infostructure
 {
     public interface IBinaryResourcePathResolver
     {
-        public Task<string> Take(TakingImageModel resourceName);
-        public Task<string> Upload(IFormFile file);
+        Task<string> Take(TakingImageModel resourceName);
+        Task<string> Upload(IFormFile file, string userLogin);
     }
 }

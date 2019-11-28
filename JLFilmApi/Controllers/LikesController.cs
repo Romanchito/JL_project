@@ -36,29 +36,17 @@ namespace JLFilmApi.Controllers
             return mapper.Map<List<InfoViewLikes>>(await likesRepository.GetAllLikesOfReviews(id));
         }
 
-        [HttpPost("add")]
+        [HttpPost("newLike")]
         public async Task<IActionResult> AddLike(InfoViewLikes like)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            
-            await likesRepository.AddNewLike(mapper.Map<Likes>(like));
-            return Ok("Add Like");
-        }
 
-        [Authorize]
-        [HttpDelete("delete")]
-        public async Task<IActionResult> DeleteLike(int reviewId)
-        {
-            int userId = (await userRepository.GetUserByLogin(User.Identity.Name)).Id;
-            int result = await likesRepository.DeleteLike(userId, reviewId);
-            if (result == 0 )
-            {
-                return NotFound(result);
-            }
-            return Ok(User.Identity.Name + "delete's like from review" + reviewId.ToString());
+            int likeId = await likesRepository.AddNewLike(mapper.Map<Likes>(like));
+            return Ok(likeId);
         }
+       
     }
 }

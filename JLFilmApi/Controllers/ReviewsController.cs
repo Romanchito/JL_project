@@ -21,13 +21,13 @@ namespace JLFilmApi.Controllers
             this.reviewsRepository = reviewsRepository;
         }
 
-        [HttpGet("allOfFilm/{id}")]
+        [HttpGet("reviewsOfFilm/{id}")]
         public async Task<List<InfoViewReviews>> GetReview(int id)
         {
             return mapper.Map<List<InfoViewReviews>>(await reviewsRepository.GetAllReviewsOfFilm(id));
         }
 
-        [HttpPost("add")]
+        [HttpPost("newReview")]
         public async Task<IActionResult> AddReview(AddViewReviews review)
         {
             if (!ModelState.IsValid)
@@ -35,7 +35,7 @@ namespace JLFilmApi.Controllers
                 return BadRequest(ModelState);
             }
             int reviewId = await reviewsRepository.AddReview(mapper.Map<Reviews>(review));
-            return Ok("Add Review");
+            return Ok(reviewId);
         }
     }
 }

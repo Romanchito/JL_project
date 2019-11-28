@@ -48,7 +48,7 @@ namespace XUnitTest_FilmApi
 
                 //Add Like
                 var likeRepo = new LikesRepository(context);
-                var newLike = new Likes { Type = false, ReviewId = 1, UserId = 1 };
+                var newLike = new Likes { IsLike = false, ReviewId = 1, UserId = 1 };
                 await likeRepo.AddNewLike(newLike);
             }
 
@@ -56,7 +56,7 @@ namespace XUnitTest_FilmApi
             using (var context = new JLDatabaseContext(options))
             {
                 Assert.Equal(1, (await context.Likes.CountAsync()));
-                Assert.False((await context.Likes.ToListAsync()).ElementAt(0).Type);
+                Assert.False((await context.Likes.ToListAsync()).ElementAt(0).IsLike);
                 Assert.Equal(1, (await context.Reviews.SingleAsync()).Likes.Count);
                 Assert.Equal(1, (await context.Users.SingleAsync()).Likes.Count);
                 
@@ -99,7 +99,7 @@ namespace XUnitTest_FilmApi
 
                 //Add Like
                 var likeRepo = new LikesRepository(context);
-                var newLike = new Likes { Type = false, ReviewId = 1, UserId = 1 };
+                var newLike = new Likes { IsLike = false, ReviewId = 1, UserId = 1 };
                 await likeRepo.AddNewLike(newLike);
                 //Delete User
                 await userRepo.DeleteUser(1);
