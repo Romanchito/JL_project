@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace JLFilmApi.DomainModels
 {
-    public partial class Likes
+    public class Likes
     {
         public int Id { get; set; }
         public int UserId { get; set; }

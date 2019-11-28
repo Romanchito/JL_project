@@ -2,6 +2,7 @@
 using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -30,6 +31,7 @@ namespace JLFilmApi.Controllers
             return user;
         }
 
+       
         [HttpPost("newUser")]
         public async Task<IActionResult> AddNewUser(AddViewUsers user)
         {

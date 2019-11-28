@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace JLFilmApi.Controllers
             this.mapper = mapper;
             this.filmRepository = filmRepository;
         }
-
+       
         [HttpGet]
         public async Task<List<InfoViewFilms>> GetFilms()
         {

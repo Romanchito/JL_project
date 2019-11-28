@@ -2,10 +2,8 @@
 using JLFilmApi.Infostructure;
 using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -28,7 +26,7 @@ namespace JLFilmApi.Controllers
         }
 
         [HttpPost("/jwtToken")]
-        public async Task Token(AuthModel authModel)
+        public async Task<string> Token(AuthModel authModel)
         {
             var identity = await GetIdentityAsync(authModel.Username, authModel.Password);
 
@@ -42,9 +40,7 @@ namespace JLFilmApi.Controllers
 
             var jwtHandler = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 
-            var response = new { access_token = jwtHandler, username = identity.Name };
-            Response.ContentType = "application/json";
-            await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+            return jwtHandler;
 
         }
 
