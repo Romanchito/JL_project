@@ -15,6 +15,10 @@ namespace JLFilmApi.IntegrationTests
 {
     public class FilmsControllerTest : IntegrationTest
     {
+        public FilmsControllerTest(CustomWebApplicationFactory<Startup> factory) : base(factory)
+        {
+        }
+
         [Fact]
         public async Task GetAll_Films()
         {
@@ -36,13 +40,13 @@ namespace JLFilmApi.IntegrationTests
             //Arrange            
 
             //Act
-            var response = await TestClient.GetAsync("/api/Films/5");
+            var response = await TestClient.GetAsync("/api/Films/4");
             InfoViewFilms resultFilm = JsonConvert.DeserializeObject<InfoViewFilms>(await response.Content.ReadAsStringAsync());
             string flg = resultFilm.Country;
             //Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             Assert.NotNull(resultFilm);
-            Assert.True(resultFilm.Country == "England");
+            Assert.True(resultFilm.Country == "USA");
         }
     }
 }
