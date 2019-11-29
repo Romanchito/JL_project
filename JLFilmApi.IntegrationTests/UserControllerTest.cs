@@ -1,10 +1,13 @@
-﻿using FluentAssertions;
+﻿using System.Linq;
+using FluentAssertions;
 using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using JLFilmApi.Context;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace JLFilmApi.IntegrationTests
@@ -31,12 +34,24 @@ namespace JLFilmApi.IntegrationTests
 
             //Act
             var response = await TestClient.PostAsync("/api/Users/newUser", new StringContent(JsonConvert.SerializeObject(addUser), Encoding.UTF8, "application/json"));
-            string s = JsonConvert.SerializeObject(addUser);
-            var isAuth = await AuthenticateAsync(addUser.Login, addUser.Password);
-            //Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            Assert.True(isAuth);
 
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<JLDatabaseContext>();
+                var actual = context.Users.Single(u => u.Login == addUser.Login);
+
+                Assert.Equal(addUser.Name, actual.Name);
+                Assert.Equal(addUser.Password, actual.Password);
+                Assert.Equal(addUser.Surname, actual.Surname);
+                Assert.Empty(actual.AccountImage);
+            }
+
+            //string s = JsonConvert.SerializeObject(addUser);
+            //var isAuth = await AuthenticateAsync(addUser.Login, addUser.Password);
+            ////Assert
+            //response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            //Assert.True(isAuth);
         }
         
     }
