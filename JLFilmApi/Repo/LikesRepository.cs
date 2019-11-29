@@ -28,10 +28,11 @@ namespace JLFilmApi.Repo
             return await jLDatabaseContext.Likes.Where(x => x.ReviewId == reviewId).ToListAsync();
         }
 
-        public async Task<int> AddNewLike(Likes like)
+        public async Task<int> AddNewLike(Likes like, int userId)
         {
+            like.UserId = userId;
             Likes checkLike = await jLDatabaseContext.Likes
-                              .FirstOrDefaultAsync(x => x.UserId == like.UserId && x.ReviewId == like.ReviewId);
+                              .FirstOrDefaultAsync(x => x.UserId == userId && x.ReviewId == like.ReviewId);
 
             //Check an existence of like in database.
             if (checkLike != null)

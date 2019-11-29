@@ -1,6 +1,7 @@
 ﻿using JLFilmApi.Context;
 using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,10 @@ namespace JLFilmApi.Repo
         {
             return await jLDatabaseContext.Reviews.Where(x => x.FilmId == filmId).ToListAsync();
         }
-
-        public async Task<int> AddReview(Reviews review)
-        {
+       
+        public async Task<int> AddReview(Reviews review, int userId)
+        {            
+            review.UserId = userId;            
             await jLDatabaseContext.Reviews.AddAsync(review);
             await jLDatabaseContext.SaveChangesAsync();
             return review.Id;

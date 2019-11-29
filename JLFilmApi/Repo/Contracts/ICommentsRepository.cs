@@ -7,6 +7,6 @@ namespace JLFilmApi.Repo.Contracts
     public interface ICommentsRepository
     {
         Task<List<Comments>> GetAllCommentsOfReview(int reviewId);
-        Task<int> AddNewComment(Comments comment);
+        Task<int> AddNewComment(Comments comment, int userId);
     }
 }

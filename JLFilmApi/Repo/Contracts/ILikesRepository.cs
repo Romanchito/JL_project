@@ -7,6 +7,6 @@ namespace JLFilmApi.Repo.Contracts
     public interface ILikesRepository
     {
         Task<List<Likes>> GetAllLikesOfReviews(int reviewId);
-        Task<int> AddNewLike(Likes like);
+        Task<int> AddNewLike(Likes like , int userId);
     }
 }

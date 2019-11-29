@@ -73,7 +73,8 @@ namespace JLFilmApi.Repo
 
         public async Task<Users> GetUserByLogin(string login)
         {
-            return await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Login == login);
+            Users user = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Login == login);
+            return user;
         }
 
         public async Task<int> UpdateAccountImage(string imageName, int id)

@@ -36,6 +36,8 @@ namespace JLFilmApi.Controllers
             return mapper.Map<List<InfoViewLikes>>(await likesRepository.GetAllLikesOfReviews(id));
         }
 
+
+        [Authorize]
         [HttpPost("newLike")]
         public async Task<IActionResult> AddLike(InfoViewLikes like)
         {
@@ -44,9 +46,10 @@ namespace JLFilmApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            int likeId = await likesRepository.AddNewLike(mapper.Map<Likes>(like));
+            int userId = (await userRepository.GetUserByLogin(User.Identity.Name)).Id;
+            int likeId = await likesRepository.AddNewLike(mapper.Map<Likes>(like), userId);
             return Ok(likeId);
         }
-       
+
     }
 }

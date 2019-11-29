@@ -22,8 +22,9 @@ namespace JLFilmApi.Repo
             return await jLDatabaseContext.Comments.Where(x => x.ReviewId == reviewId).ToListAsync();
         }
 
-        public async Task<int> AddNewComment(Comments comment)
+        public async Task<int> AddNewComment(Comments comment, int userId)
         {
+            comment.UserId = userId;
             await jLDatabaseContext.Comments.AddAsync(comment);
             await jLDatabaseContext.SaveChangesAsync();
             return comment.Id;

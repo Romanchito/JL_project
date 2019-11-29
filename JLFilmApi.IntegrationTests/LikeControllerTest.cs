@@ -1,13 +1,13 @@
-﻿using JLFilmApi.Context;
-using JLFilmApi.IntegrationTests.Helpers;
-using JLFilmApi.Repo.Contracts;
+﻿using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -17,10 +17,12 @@ namespace JLFilmApi.IntegrationTests
 {
     public class LikeControllerTest : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private CustomWebApplicationFactory<Startup> factory;
+        private HttpClient myClient;
+        private CustomWebApplicationFactory<Startup> factory;        
 
         public LikeControllerTest(CustomWebApplicationFactory<Startup> factory)
         {
+            myClient = factory.CreateClient();
             this.factory = factory;
         }
 
@@ -29,36 +31,8 @@ namespace JLFilmApi.IntegrationTests
         [Fact]
         public async Task Add_Dislike()
         {
-            var client = factory.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureServices(services =>
-                {
-                    var serviceProvider = services.BuildServiceProvider();
-
-                    using (var scope = serviceProvider.CreateScope())
-                    {
-                        var scopedServices = scope.ServiceProvider;
-                        var db = scopedServices
-                            .GetRequiredService<JLDatabaseContext>();
-                        var logger = scopedServices
-                            .GetRequiredService<ILogger<Startup>>();
-
-                        try
-                        {
-                            DataUtilities.ReInitializeDbForTests(db);
-                        }
-                        catch (Exception ex)
-                        {
-                            logger.LogError(ex, "An error occurred seeding " +
-                                "the database with test messages. Error: {Message}",
-                                ex.Message);
-                        }
-                    }
-                });
-            })
-            .CreateClient();
-
-
+            var response = await myClient.GetAsync("/api/Films");
+            List<InfoViewFilms> listOfFilms = JsonConvert.DeserializeObject<List<InfoViewFilms>>(await response.Content.ReadAsStringAsync());
             
         }
     }

@@ -2,6 +2,7 @@
 using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,11 +14,13 @@ namespace JLFilmApi.Controllers
     public class ReviewsController : ControllerBase
     {
         private IReviewsRepository reviewsRepository;
+        private IUserRepository userRepository;
         private IMapper mapper;
 
-        public ReviewsController(IReviewsRepository reviewsRepository, IMapper mapper)
+        public ReviewsController(IReviewsRepository reviewsRepository, IMapper mapper, IUserRepository userRepository)
         {
             this.mapper = mapper;
+            this.userRepository = userRepository;
             this.reviewsRepository = reviewsRepository;
         }
 
@@ -27,6 +30,7 @@ namespace JLFilmApi.Controllers
             return mapper.Map<List<InfoViewReviews>>(await reviewsRepository.GetAllReviewsOfFilm(id));
         }
 
+        [Authorize]
         [HttpPost("newReview")]
         public async Task<IActionResult> AddReview(AddViewReviews review)
         {
@@ -34,7 +38,8 @@ namespace JLFilmApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            int reviewId = await reviewsRepository.AddReview(mapper.Map<Reviews>(review));
+            int userId = (await userRepository.GetUserByLogin(User.Identity.Name)).Id;
+            int reviewId = await reviewsRepository.AddReview(mapper.Map<Reviews>(review), userId);
             return Ok(reviewId);
         }
     }

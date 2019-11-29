@@ -22,6 +22,7 @@ namespace JLFilmApi.IntegrationTests
 
         public IntegrationTest(CustomWebApplicationFactory<Startup> factory)
         {
+            TestClient = factory.CreateClient();
             this.factory = factory;
         }      
 
