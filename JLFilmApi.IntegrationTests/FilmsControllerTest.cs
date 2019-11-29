@@ -1,12 +1,8 @@
 ﻿using FluentAssertions;
 using JLFilmApi.ViewModels;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -22,8 +18,7 @@ namespace JLFilmApi.IntegrationTests
         [Fact]
         public async Task GetAll_Films()
         {
-            //Arrange
-            await AuthenticateAsync();
+            //Arrange            
 
             //Act
             var response = await TestClient.GetAsync("/api/Films");
@@ -40,13 +35,11 @@ namespace JLFilmApi.IntegrationTests
             //Arrange            
 
             //Act
-            var response = await TestClient.GetAsync("/api/Films/4");
-            InfoViewFilms resultFilm = JsonConvert.DeserializeObject<InfoViewFilms>(await response.Content.ReadAsStringAsync());
-            string flg = resultFilm.Country;
+            var response = await TestClient.GetAsync("/api/Films/5");
+            InfoViewFilms resultFilm = JsonConvert.DeserializeObject<InfoViewFilms>(await response.Content.ReadAsStringAsync());            
             //Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            Assert.NotNull(resultFilm);
-            Assert.True(resultFilm.Country == "USA");
+            Assert.NotNull(resultFilm);            
         }
     }
 }

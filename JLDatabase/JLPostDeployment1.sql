@@ -10,8 +10,6 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
-
-
 USE JLDatabase;
 GO
 MERGE Films USING 
@@ -27,3 +25,16 @@ AS Source (Name,Country,Director,ReleaseDate,Stars,WorldwideGross)	ON Films.Name
 WHEN NOT MATCHED 
 	THEN INSERT (Name,Director,Stars,Country,ReleaseDate,WorldwideGross)
 		 VALUES (Name,Director,Stars,Country,ReleaseDate,WorldwideGross);
+
+GO
+
+MERGE Users USING 
+(	
+	values
+	('user1','1234','Roman','Tretyakov','tarantino.jpg')	
+) 
+AS Source (Login,Password,Name,Surname,AccountImage)	ON Users.Login = Source.Login
+
+WHEN NOT MATCHED 
+	THEN INSERT (Login,Password,Name,Surname,AccountImage)
+		 VALUES (Login,Password,Name,Surname,AccountImage);

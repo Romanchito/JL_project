@@ -1,5 +1,8 @@
 ﻿using System;
 using JLFilmApi.Context;
+using JLFilmApi.IntegrationTests.Helpers;
+using JLFilmApi.Repo;
+using JLFilmApi.Repo.Contracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +24,7 @@ namespace JLFilmApi.IntegrationTests
                     .BuildServiceProvider();
 
                 services.RemoveAll(typeof(JLDatabaseContext));
-
+                services.AddScoped<IUserRepository, UsersRepository>();
                 
                 services.AddDbContext<JLDatabaseContext>(options =>
                 {
@@ -43,6 +46,16 @@ namespace JLFilmApi.IntegrationTests
 
                     db.Database.EnsureCreated();
 
+                    try
+                    {
+                        // Seed the database with test data.
+                        DataUtilities.ReInitializeDbForTests(db);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, "An error occurred seeding the " +
+                            "database with test messages. Error: {Message}", ex.Message);
+                    }
                 }
             });
         }

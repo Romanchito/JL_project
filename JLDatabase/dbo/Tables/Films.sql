@@ -5,7 +5,8 @@
     [Stars]          NVARCHAR (200) NOT NULL,
     [Country]        NVARCHAR (50)  NOT NULL,
     [ReleaseDate]    DATE           NOT NULL,
-    [WorldwideGross] DECIMAL          NOT NULL,
+    [WorldwideGross] DECIMAL (18)   NOT NULL,
+    [FilmImage]      NVARCHAR (200) NULL,
     CONSTRAINT [PK_Films] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
