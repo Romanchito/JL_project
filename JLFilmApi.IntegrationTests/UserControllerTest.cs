@@ -29,7 +29,7 @@ namespace JLFilmApi.IntegrationTests
                                 Name = "Name",
                                 Password = "wwww",
                                 Surname = "Surname",
-                                AccountImage = "
+                                AccountImage = ""
                             }  
                         )
                 ));
