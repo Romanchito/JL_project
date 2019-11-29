@@ -7,8 +7,7 @@ namespace JLFilmApi.Repo.Contracts
     public interface IUserRepository
     {
         Task<Users> GetUserById(int userId);
-        Task<int> AddUser(Users user);
-        Task<int> DeleteUser(int userId);
+        Task<int> AddUser(Users user);        
         Task<int> UpdateUser(Users user, int id);
         Task<Users> GetUserByLogin(string login);
         Task<int> UpdateAccountImage(string imageName, int id);

@@ -26,8 +26,6 @@ namespace JLFilmApi.IntegrationTests
             this.factory = factory;
         }
 
-
-
         [Fact]
         public async Task Add_Dislike()
         {

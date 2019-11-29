@@ -30,7 +30,6 @@ namespace JLFilmApi.Controllers
             }
             return user;
         }
-
        
         [HttpPost("newUser")]
         public async Task<IActionResult> AddNewUser(AddViewUsers user)
@@ -47,18 +46,7 @@ namespace JLFilmApi.Controllers
 
             int userId = await userRepository.AddUser(mapper.Map<Users>(user));
             return Ok(userId);
-        }
-
-        [HttpDelete("deletingUser/{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            if (await userRepository.GetUserById(id) == null)
-            {
-                return NotFound();
-            }
-            int userId = await userRepository.DeleteUser(id);
-            return Ok(userId);
-        }
+        }        
 
         [HttpPut("updatingUser/{id}")]
         public async Task<IActionResult> UpdateUser(int id, UpdateViewUsers user)

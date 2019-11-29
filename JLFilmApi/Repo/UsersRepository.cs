@@ -22,39 +22,7 @@ namespace JLFilmApi.Repo
             await jLDatabaseContext.Users.AddAsync(user);
             await jLDatabaseContext.SaveChangesAsync();
             return user.Id;
-        }
-
-        public async Task<int> DeleteUser(int userId)
-        {
-
-            Users user = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
-            if (user == null)
-            {
-                throw new ArgumentException();
-            }
-            using (var transaction = jLDatabaseContext.Database.BeginTransaction())
-            {
-                try
-                {
-                    var usersComments = jLDatabaseContext.Comments.Where(x => x.UserId == user.Id);
-                    jLDatabaseContext.Comments.RemoveRange(usersComments);
-
-                    var userLikes = jLDatabaseContext.Likes.Where(x => x.UserId == user.Id);
-                    jLDatabaseContext.Likes.RemoveRange(userLikes);
-
-                    jLDatabaseContext.Users.Remove(user);
-                    await jLDatabaseContext.SaveChangesAsync();
-
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-
-            return userId;
-        }
+        }      
 
         public async Task<Users> GetUserById(int userId)
         {

@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JLFilmApi.Context;
+﻿using JLFilmApi.Context;
 using JLFilmApi.IntegrationTests.Helpers;
-using JLFilmApi.Repo;
-using JLFilmApi.Repo.Contracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Moq;
+using System;
+using System.Collections.Generic;
 
 namespace JLFilmApi.IntegrationTests
 {
@@ -55,10 +48,6 @@ namespace JLFilmApi.IntegrationTests
                 {
                     o.UseInMemoryDatabase("DB");
                 }, ServiceLifetime.Scoped);
-
-                //services.Remove(services.SingleOrDefault(t => t.ServiceType == typeof(IUserRepository)));
-                //var mock = new Mock<IUserRepository>();
-                //services.AddScoped<IUserRepository>(sp => mock.Object);
 
                 var sp = services.BuildServiceProvider();
                 ServiceProvider = sp;
