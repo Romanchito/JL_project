@@ -17,12 +17,16 @@ namespace JLFilmApi.IntegrationTests
 {
     public class IntegrationTest : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        protected HttpClient TestClient;       
+        protected HttpClient TestClient;
+        protected IServiceProvider serviceProvider;
+
         private CustomWebApplicationFactory<Startup> factory;
 
         public IntegrationTest(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
+            this.TestClient = factory.CreateClient();
+            serviceProvider = factory.ServiceProvider;
         }      
 
         protected async Task<bool> AuthenticateAsync(string name, string password)
