@@ -1,8 +1,10 @@
 ﻿using FluentAssertions;
 using JLFilmApi.Context;
+using JLFilmApi.IntegrationTests.Helpers;
 using JLFilmApi.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -30,6 +32,15 @@ namespace JLFilmApi.IntegrationTests
                 Surname = "Surname",
                 AccountImage = ""
             };
+            var db = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<JLDatabaseContext>();
+            try
+            {
+                DataUtilities.ReInitializeDbForTests(db);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
             //Act
             var response = await TestClient.PostAsync("/api/Users/newUser",

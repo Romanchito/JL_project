@@ -1,8 +1,6 @@
 ﻿using JLFilmApi.Context;
 using JLFilmApi.DomainModels;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace JLFilmApi.IntegrationTests.Helpers
 {
