@@ -7,25 +7,18 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace JLFilmApi.IntegrationTests
 {
-    public class IntegrationTest
+    public class IntegrationTest : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         protected readonly HttpClient TestClient;
+        private readonly CustomWebApplicationFactory<Startup> myFactory;
 
-        public IntegrationTest()
+        public IntegrationTest(CustomWebApplicationFactory<Startup> factory)
         {
-            var factory = new WebApplicationFactory<Startup>()
-                .WithWebHostBuilder(buldier =>
-                    {
-                        buldier.ConfigureServices(services =>
-                        {
-                            services.RemoveAll(typeof(JLDatabaseContext));
-                            services.AddDbContext<JLDatabaseContext>(options => { options.UseInMemoryDatabase("TestDb"); });
-                        });
-                    }
-                );
+            myFactory = factory;
             TestClient = factory.CreateClient();
         }
 
