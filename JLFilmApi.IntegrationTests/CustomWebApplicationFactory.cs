@@ -46,7 +46,7 @@ namespace JLFilmApi.IntegrationTests
 
                 ReplaceCoreServices<JLDatabaseContext>(services, (p, o) =>
                 {
-                    o.UseInMemoryDatabase("DB");
+                    o.UseInMemoryDatabase("DB").UseLazyLoadingProxies(); ;
                 }, ServiceLifetime.Scoped);
 
                 var sp = services.BuildServiceProvider();

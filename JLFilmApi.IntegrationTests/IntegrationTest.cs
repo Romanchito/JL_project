@@ -38,6 +38,19 @@ namespace JLFilmApi.IntegrationTests
             return true;
         }
 
+        protected void ReInitializeDatabase()
+        {
+            var db = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<JLDatabaseContext>();
+            try
+            {
+                DataUtilities.ReInitializeDbForTests(db);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         private async Task<string> GetJwtAsync(string name, string password)
         {
             var responce = TestClient.PostAsJsonAsync("/jwtToken", new AuthModel
@@ -50,5 +63,7 @@ namespace JLFilmApi.IntegrationTests
 
             return await result.ReadAsStringAsync();
         }
+
+        
     }
 }
