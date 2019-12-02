@@ -24,7 +24,7 @@ namespace JLFilmApi
         {
             Configuration = configuration;
         }
-
+         
         public IConfiguration Configuration { get; }
 
 
