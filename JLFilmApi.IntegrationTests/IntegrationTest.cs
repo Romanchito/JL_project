@@ -23,11 +23,12 @@ namespace JLFilmApi.IntegrationTests
         private CustomWebApplicationFactory<Startup> factory;
 
         public IntegrationTest(CustomWebApplicationFactory<Startup> factory)
-        {
+        {            
             TestClient = factory.CreateClient();
             this.factory = factory;
             this.TestClient = factory.CreateClient();
             serviceProvider = factory.ServiceProvider;
+
         }      
 
         protected async Task<bool> AuthenticateAsync(string name, string password)

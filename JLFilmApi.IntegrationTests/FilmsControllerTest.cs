@@ -17,13 +17,13 @@ namespace JLFilmApi.IntegrationTests
     {
         public FilmsControllerTest(CustomWebApplicationFactory<Startup> factory) : base(factory)
         {
+            ReInitializeDatabase();
         }
 
         [Fact]
         public async Task GetAll_Films()
         {
-            //Arrange            
-            ReInitializeDatabase();
+            //Arrange         
             using (var scope = serviceProvider.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<JLDatabaseContext>();
@@ -63,9 +63,9 @@ namespace JLFilmApi.IntegrationTests
 
         [Fact]
         public async Task Get_Film_by_id()
-        {            
-            //Arrange   
-            ReInitializeDatabase();
+        {
+            //Arrange     
+            
             int filmId;
             using (var scope = serviceProvider.CreateScope())
             {

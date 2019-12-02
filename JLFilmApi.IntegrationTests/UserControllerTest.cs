@@ -22,9 +22,7 @@ namespace JLFilmApi.IntegrationTests
         [Fact]
         public async Task Add_new_User_and_check_auth()
         {
-
             ReInitializeDatabase();
-
             //Arrange
             AddViewUsers addUser = new AddViewUsers
             {
@@ -33,8 +31,7 @@ namespace JLFilmApi.IntegrationTests
                 Password = "wwww",
                 Surname = "Surname",
                 AccountImage = ""
-            };
-            
+            };            
 
             //Act
             var response = await TestClient.PostAsync("/api/Users/newUser",
@@ -63,9 +60,7 @@ namespace JLFilmApi.IntegrationTests
         public async Task Update_and_get_by_id_user()
         {
             //Arrange
-
-            ReInitializeDatabase();
-
+           
             AddViewUsers addUser = new AddViewUsers
             {
                 Login = "Login",
