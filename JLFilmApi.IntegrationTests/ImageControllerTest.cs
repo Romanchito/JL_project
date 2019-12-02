@@ -32,7 +32,7 @@ namespace JLFilmApi.IntegrationTests
 
                 context.Films.Add(new Films
                 {
-                    Name = "TestRiview",
+                    Name = "LoalFilm",
                     Director = "Spilberg",
                     Country = "USA",
                     Stars = "Deny Devitto, Add Rush",
@@ -44,8 +44,8 @@ namespace JLFilmApi.IntegrationTests
 
                 context.SaveChanges();
 
-                filmId = context.Films.Single().Id;
-                filmImageName = context.Films.Single().FilmImage;
+                filmId = context.Films.FirstOrDefault(x => x.Name == "LoalFilm").Id;
+                filmImageName = context.Films.FirstOrDefault(x => x.Name == "LoalFilm").FilmImage;
             }
 
             //Act

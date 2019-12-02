@@ -30,7 +30,7 @@ namespace JLFilmApi.IntegrationTests
 
                 context.Films.Add(new Films
                 {
-                    Name = "TestRiview",
+                    Name = "Shark",
                     Director = "Spilberg",
                     Country = "USA",
                     Stars = "Deny Devitto, Add Rush",
@@ -73,18 +73,18 @@ namespace JLFilmApi.IntegrationTests
 
                 context.Films.Add(new Films
                 {
-                    Name = "TestRiview",
-                    Director = "Spilberg",
-                    Country = "USA",
-                    Stars = "Deny Devitto, Add Rush",
-                    ReleaseDate = DateTime.ParseExact("2009-05-08", "yyyy-MM-dd",
+                    Name = "Dunkerk",
+                    Director = "Nolan",
+                    Country = "England",
+                    Stars = "Tom Hardy",
+                    ReleaseDate = DateTime.ParseExact("2017-05-08", "yyyy-MM-dd",
                                   System.Globalization.CultureInfo.InvariantCulture),
-                    WorldwideGross = 75000000
+                    WorldwideGross = 99000000
                 });
 
                 context.SaveChanges();
 
-                filmId = context.Films.Single().Id;
+                filmId = context.Films.FirstOrDefault(x => x.Name == "Dunkerk").Id;
             }
                 //Act
             var response = await TestClient.GetAsync("/api/Films/" + filmId);

@@ -17,12 +17,13 @@ namespace JLFilmApi.IntegrationTests
     {
         public UserControllerTest(CustomWebApplicationFactory<Startup> factory) : base(factory)
         {
+           
         }
 
         [Fact]
         public async Task Add_new_User_and_check_auth()
         {
-            ReInitializeDatabase();
+            
             //Arrange
             AddViewUsers addUser = new AddViewUsers
             {
@@ -63,7 +64,7 @@ namespace JLFilmApi.IntegrationTests
            
             AddViewUsers addUser = new AddViewUsers
             {
-                Login = "Login",
+                Login = "newLogin",
                 Name = "Name",
                 Password = "wwww",
                 Surname = "Surname",

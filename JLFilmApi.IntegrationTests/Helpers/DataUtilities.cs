@@ -8,12 +8,7 @@ namespace JLFilmApi.IntegrationTests.Helpers
     public class DataUtilities
     {
         public static void ReInitializeDbForTests(JLDatabaseContext db)
-        {
-            db.Comments.RemoveRange(db.Comments);
-            db.Likes.RemoveRange(db.Likes);
-            db.Reviews.RemoveRange(db.Reviews);
-            db.Users.RemoveRange(db.Users);
-            db.Films.RemoveRange(db.Films);            
+        {           
             InitializeDbForTests(db);
         }
 
