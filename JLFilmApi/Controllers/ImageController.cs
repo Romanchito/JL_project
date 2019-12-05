@@ -12,15 +12,13 @@ namespace JLFilmApi.Controllers
     [ApiController]
     public class ImageController : ControllerBase
     {
-        private IBinaryResourcePathResolver resourcePathResolver;
-        private IMapper userMapper;
+        private IBinaryResourcePathResolver resourcePathResolver;        
         private IUserRepository userRepository;
         private IFilmRepository filmRepository;
 
         public ImageController(IBinaryResourcePathResolver resourcePathResolver, IUserRepository userRepository,
-                               IMapper mapper, IFilmRepository filmRepository)
-        {
-            userMapper = mapper;
+                               IFilmRepository filmRepository)
+        {            
             this.resourcePathResolver = resourcePathResolver;
             this.userRepository = userRepository;
             this.filmRepository = filmRepository;
@@ -32,6 +30,7 @@ namespace JLFilmApi.Controllers
         public async Task<string> GetImage()
         {
             string fileName = (await userRepository.GetUserByLogin(User.Identity.Name)).AccountImage;
+            if (fileName == null) fileName = "default_user.png";
             return await TakingImage("user", fileName);
         }
 
@@ -39,6 +38,7 @@ namespace JLFilmApi.Controllers
         public async Task<string> GetImage(int id)
         {
             string fileName = (await filmRepository.GetFilm(id)).FilmImage;
+            if (fileName == null) fileName = "default_film.png";
             return await TakingImage("film", fileName);
         }
 

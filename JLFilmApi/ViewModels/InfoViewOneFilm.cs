@@ -13,6 +13,6 @@ namespace JLFilmApi.ViewModels
         public decimal WorldwideGross { get; set; }
         public string FilmImage { get; set; }
 
-        public virtual ICollection<InfoViewReviews> Reviews { get; set; }
+        
     }
 }

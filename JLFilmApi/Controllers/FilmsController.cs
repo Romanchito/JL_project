@@ -33,11 +33,10 @@ namespace JLFilmApi.Controllers
 
             foreach (var item in films)
             {
-                if (item.FilmImage != null)
-                {
-                    item.FilmImageUrl = await resourcePathResolver.Take(new TakingImageModel("film", item.FilmImage));
+                if (item.FilmImage == null) item.FilmImage = "default_film.png";
+                item.FilmImageUrl = await resourcePathResolver.Take(new TakingImageModel("film", item.FilmImage));
 
-                }
+                
             }
             return films;
         }

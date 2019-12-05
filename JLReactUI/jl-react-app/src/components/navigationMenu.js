@@ -17,7 +17,7 @@ export class NavigationMenu extends Component{
                         About
                     </NavLink >
 
-                    <NavLink  className = "d-inline p-2 bg-dark text-white" to="/">
+                    <NavLink  className = "d-inline p-2 bg-dark text-white" to="/log">
                         <Button variant="success" to="log">Log in</Button>
                     </NavLink >
                 </Nav>

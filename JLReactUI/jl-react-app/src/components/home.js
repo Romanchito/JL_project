@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {Table} from 'react-bootstrap';
-
+import {Link} from 'react-router-dom';
 export class Home extends Component{
 
     constructor(props){
@@ -24,29 +23,17 @@ export class Home extends Component{
     render(){
         const {films} = this.state;
         return(
-           <Table className = "mt-4" striped bordered hover size="sm">
-               <thead>
-                   <tr>
-                       <td>Id</td>
-                       <th>Name</th>
-                       <th>ReleaseDate</th>
-                       <th>Country</th>  
-                       <th>Image</th>                     
-                   </tr>
-               </thead>
-
-               <tbody>
+           
+            <div className="main_film_block">
                    {films.map((film) => 
-                        <tr key={film.id}>  
-                            <td>{film.id}</td>                                                                       
-                            <td>{film.name}</td>
-                            <td>{film.releaseDate}</td>
-                            <td>{film.country}</td>  
-                            <td><img alt={film.name + " image"} width="300" height="400" src={film.filmImageUrl}/></td>                                                    
-                        </tr>
-                    )}
-               </tbody>
-           </Table>
+                       
+                          <div className="film_block">
+                           <Link key={film.id}  to={{ pathname: `/film/${film.id}` }}>
+                               <img alt={film.name + " image"} src={film.filmImageUrl}/> 
+                           </Link>
+                           </div>               
+                    )};
+          </div>
         )
     }
 }
