@@ -21,11 +21,12 @@ function App() {
       <header className="App-header">
       <NavigationMenu />
       </header>
+      
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/about" component={About} />
             <Route path="/log" component={Logining}/>
-            <Route path="/film/6" component={Film}/>
+            <Route path="/film/:id" children={<Film />}/>
           </Switch>
         </BrowserRouter>      
     </div>
