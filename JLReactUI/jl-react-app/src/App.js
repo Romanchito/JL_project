@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 import './styles/home_film_block.css';
+import './styles/film_inform_styles.css';
+import './config.json';
 
 import {Home} from './components/home';
 import {Logining} from './components/logining';
@@ -8,8 +10,8 @@ import {About} from './components/about';
 import { Film } from './components/film';
 
 import {NavigationMenu} from './components/navigationMenu';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
 
 function App() {
@@ -26,7 +28,7 @@ function App() {
             <Route path="/" component={Home} exact />
             <Route path="/about" component={About} />
             <Route path="/log" component={Logining}/>
-            <Route path="/film/:id" children={<Film />}/>
+            <Route path="/film/:id" component={Film}/>
           </Switch>
         </BrowserRouter>      
     </div>

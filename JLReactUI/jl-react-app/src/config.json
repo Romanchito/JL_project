@@ -1,0 +1,4 @@
+{
+    "HOST":"https://localhost:44327/",
+    "GET_FILMS_API" : "api/Films/"
+}

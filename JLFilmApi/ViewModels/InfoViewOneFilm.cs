@@ -12,7 +12,6 @@ namespace JLFilmApi.ViewModels
         public DateTime ReleaseDate { get; set; }
         public decimal WorldwideGross { get; set; }
         public string FilmImage { get; set; }
-
-        
+        public string FilmImageUrl { get; set; }
     }
 }

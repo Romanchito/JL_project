@@ -1,0 +1,51 @@
+.main_film_block{
+    background-color: brown;
+}
+
+.film_information_block{
+    background-color: darkgrey;    
+    padding: 1%;
+    text-align: left;
+    overflow: hidden;
+}
+
+.image_film_block{ 
+    text-align: left;
+    background-color: darkkhaki;
+    width:40%;
+    display: block;    
+    float: left;
+    overflow: hidden;
+    margin-right: 15%;
+}
+
+.main_inform_film_block{
+   padding: 9% 0% 0% 0%;
+    background-color: green;   
+    display: inline-block;    
+    
+}
+
+.reviews_block{
+    text-align: left;
+    margin-top: 2%;
+    background-color: #112233;   
+}
+
+.review_inform_block{
+    background-color: #30c78d;   
+}
+
+.main_inform_review_block{
+    padding: 5px;
+    background-color: #3a30c7;   
+}
+
+.main_comments_review_block{
+    background-color: #c76730;   
+}
+
+.text_review_block{
+    padding: 10px;
+    background-color: #abc730;   
+}

@@ -1,46 +1,55 @@
-import React, {Component} from 'react';
-  
-let axios;
-export class Film extends Component{
-        
-    constructor(props){        
+import React, { Component } from 'react';
+import { Review } from './review';
+
+export class Film extends Component {
+
+    constructor(props) {
         super(props);
-        this.state = {film:{}};
+        this.state = { film: {}};
     }
 
-    componentDidMount(){ 
-        const {match: {params}} = this.props;    
-        axios.get(`/api/users/${params.id}`)
-        .then(({ data: user }) => {
-          console.log('user', user);
-    
-          this.setState({ user });
-        });   
-        this.refreshList();
+    componentDidMount() {         
+        this.refreshList();        
     }
 
-    refreshList(){
-       
-        fetch('https://localhost:44327/api/Films/6')
-        .then(response => response.json())
-        .then(data => {
-            this.setState({film:data});
-        });
-
-
+    refreshList() {
+        const id = this.props.match.params.id;
+        fetch('https://localhost:44327/api/Films/' + id)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ film: data });
+            });
+      
     }
 
-   
-    render(){
-        
-        const {film} = this.state;
+    render(id) {
 
-          return(
+        const film = this.state.film;
            
-            <div>
-    <p>{film.country}</p>
-    <p>i</p>
-          </div>
+        return (
+
+            <div className="main_film_block">
+                <div className="film_information_block">
+                    <div className="image_film_block">
+                        <img alt={film.name} src={film.filmImageUrl} />
+                    </div>
+                    <div className="main_inform_film_block">
+                        <h1>{film.name}</h1>
+                        <hr />
+                        <ul>
+                            <h3><li>Director: {film.director}</li></h3>
+                            <h3><li>Stars: {film.stars}</li></h3>
+                            <h3><li>Date of release: {film.releaseDate}</li></h3>
+                            <h3><li>World gross: {film.worldwideGross}$</li></h3>
+                            <h3><li>Country: {film.country}</li></h3>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <Review id = { this.props.match.params.id} />
+                
+            </div>
         )
     }
 }
