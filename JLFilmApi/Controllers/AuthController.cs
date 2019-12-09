@@ -25,7 +25,7 @@ namespace JLFilmApi.Controllers
             this.userRepository = userRepository;
         }
 
-        [HttpPost("/jwtToken")]
+        [HttpPost("jwtToken")]
         public async Task<string> Token(AuthModel authModel)
         {
             var identity = await GetIdentityAsync(authModel.Username, authModel.Password);

@@ -15,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using NuGet.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace JLFilmApi
 {
@@ -32,8 +33,7 @@ namespace JLFilmApi
         {
             services.AddDbContext<JLDatabaseContext>(item =>
                     {
-                       item.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")).UseLazyLoadingProxies();                    
-                       
+                       item.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")).UseLazyLoadingProxies();                   
                     }
                 );            
             services.AddScoped<IFilmRepository, FilmsRepository>();
@@ -44,7 +44,12 @@ namespace JLFilmApi
             services.AddScoped<IBinaryResourcePathResolver, SolutionBinaryResourceResolver>();           
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());               
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -88,7 +93,7 @@ namespace JLFilmApi
                            ValidateIssuerSigningKey = true,
                            ValidIssuer = AuthOptions.ISSUER,
                            ValidAudience = AuthOptions.AUDIENCE,
-                           IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey()
+                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AuthOptions.KEY))
                        };
                    });
         }
@@ -100,10 +105,7 @@ namespace JLFilmApi
                 app.UseDeveloperExceptionPage();
             }
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();

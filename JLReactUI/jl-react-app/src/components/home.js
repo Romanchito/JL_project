@@ -32,7 +32,7 @@ export class Home extends Component {
                             <img alt={film.name + " image"} src={film.filmImageUrl} />
                         </Link>
                     </div>
-                )};
+                )}
           </div>
         )
     }
