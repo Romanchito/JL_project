@@ -14,9 +14,13 @@ export class Login extends Component {
     handleSubmit(event) {
         const data = new FormData(event.target);
         event.preventDefault();
-        fetch('https://localhost:44327​/api​/Auth​/jwtToken', {
+        fetch('https://localhost:44327/api/Auth/jwtToken', {
             method: 'POST',
-            body: data,
+            headers:{
+                'Accept' : 'aplication/json',
+                'Content-type' : 'aplication/json'
+            },
+            body: JSON.stringify(data),
           });
     }
 
