@@ -6,35 +6,36 @@ import './styles/login_style.css';
 import './config.json';
 
 
-import {Home} from './components/home';
-import {Login} from './components/logining';
-import {About} from './components/about';
+import { Home } from './components/home';
+import { Login } from './components/logining';
+import { About } from './components/about';
 import { Film } from './components/film';
+import  AuthComponent  from './components/authenticate';
 
-import {NavigationMenu} from './components/navigationMenu';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { NavigationMenu } from './components/navigationMenu';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 
 
 function App() {
   return (
     <div className="App">
-      
-      
       <BrowserRouter>
-      <header className="App-header">
-      <NavigationMenu />
-      </header>
-      
-          <Switch>
-            <Route path="/" component={Home} exact />
-            <Route path="/about" component={About} />
-            <Route path="/log" component={Login}/>
-            <Route path="/film/:id" component={Film}/>
-          </Switch>
-        </BrowserRouter>      
+        <header className="App-header">
+          <NavigationMenu />
+        </header>
+        <Switch>
+          
+          <Route path="/" component={Home} exact />
+          <AuthComponent>
+          <Route path="/about" component={About} />
+          </AuthComponent>
+          <Route path="/log" component={Login} />
+          <Route path="/film/:id" component={Film} />
+        </Switch>
+      </BrowserRouter>
     </div>
-    
+
   );
 }
 

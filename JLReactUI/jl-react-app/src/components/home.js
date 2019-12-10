@@ -27,7 +27,7 @@ export class Home extends Component {
             <div className="main_film_block">
                 {films.map((film) =>
 
-                    <div className="film_block">
+                    <div key={film.id} className="film_block">
                         <Link key={film.id} to={{ pathname: `/film/${film.id}` }}>
                             <img alt={film.name + " image"} src={film.filmImageUrl} />
                         </Link>

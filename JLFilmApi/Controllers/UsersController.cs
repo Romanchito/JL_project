@@ -20,10 +20,10 @@ namespace JLFilmApi.Controllers
             this.mapper = mapper;
             this.userRepository = userRepository;
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<InfoViewUsers>> GetUser(int id)
+        [HttpGet("{login}")]
+        public async Task<ActionResult<InfoViewUsers>> GetUser(string login)
         {
-            var user = mapper.Map<InfoViewUsers>(await userRepository.GetUserById(id));
+            var user = mapper.Map<InfoViewUsers>(await userRepository.GetUserByLogin(login));
             if (user == null)
             {
                 return NotFound();

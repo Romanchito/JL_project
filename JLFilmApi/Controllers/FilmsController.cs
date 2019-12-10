@@ -41,6 +41,7 @@ namespace JLFilmApi.Controllers
             return films;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<InfoViewOneFilm>> GetFilm(int id)
         {
