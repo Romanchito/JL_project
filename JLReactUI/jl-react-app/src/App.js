@@ -25,13 +25,14 @@ function App() {
           <NavigationMenu />
         </header>
         <Switch>
-          
+        <Route path="/film/:id" component={Film} />
+          <Route path="/log" component={Login} />
           <Route path="/" component={Home} exact />
           <AuthComponent>
-          <Route path="/about" component={About} />
+            <Route path="/about" component={About} />        
+         
           </AuthComponent>
-          <Route path="/log" component={Login} />
-          <Route path="/film/:id" component={Film} />
+          
         </Switch>
       </BrowserRouter>
     </div>

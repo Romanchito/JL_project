@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import {getJwt} from './helpers/jwtHelper';
 
 class AuthComponent extends Component {
@@ -16,6 +16,7 @@ class AuthComponent extends Component {
 
     getUser(){
         const jwtToken= getJwt();
+        console.log(jwtToken);
         if(!jwtToken) {
             this.setState({
                 user: null
@@ -24,7 +25,13 @@ class AuthComponent extends Component {
         }
 
         
-        return jwtToken;
+        fetch('https://localhost:44327/api/Users/user1', {
+            headers: { Authorization: getJwt()}
+        })
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ user: data });
+            });
       
 
     }
@@ -40,7 +47,7 @@ class AuthComponent extends Component {
         }
     
         if (user === null) {
-          this.props.history.push('/log');
+          return <Redirect to="/log" />
         }
     
         return this.props.children;
