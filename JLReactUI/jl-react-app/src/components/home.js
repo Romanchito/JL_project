@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import FilmApi from './api-route-components/FilmApi'
+
 export class Home extends Component {
 
     constructor(props) {
@@ -12,6 +14,7 @@ export class Home extends Component {
     }
 
     refreshList() {
+        console.log(new FilmApi().getAllFilms());
         fetch('https://localhost:44327/api/Films')
             .then(response => response.json())
             .then(data => {
@@ -33,7 +36,7 @@ export class Home extends Component {
                         </Link>
                     </div>
                 )}
-          </div>
+            </div>
         )
     }
 }

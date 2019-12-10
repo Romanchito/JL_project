@@ -42,8 +42,8 @@ export class Review extends Component {
                     />
                 </ButtonToolbar>
                 {reviews.map((review) =>
-                    <div className="reviews_block">
-                        <div key={review.id} className="review_inform_block">
+                    <div key={review.id} className="reviews_block">
+                        <div  className="review_inform_block">
                             <h2>{review.name}</h2>
                             <h3>{review.userLogin}</h3>
                             <div className="main_inform_review_block">
@@ -51,7 +51,7 @@ export class Review extends Component {
                                 <p>Date: {review.date}</p>
                                 <div className="review_like_block"><p>Likes: {review.likesCount}</p></div>
                             </div>
-                            <Comment id={review.id} />
+                            <Comment key={review.id} id={review.id} />
                         </div>
 
                     </div>
