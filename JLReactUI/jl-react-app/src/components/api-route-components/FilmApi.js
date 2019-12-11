@@ -8,4 +8,8 @@ export default class FilmApi extends BaseApi {
     getAllFilms(){
         return super.client_call(this.FILM_URI);
     }
+
+    getFilmById(id){
+        return super.client_call(this.FILM_URI, id);
+    }
 }

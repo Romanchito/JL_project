@@ -14,12 +14,13 @@ export class Home extends Component {
     }
 
     refreshList() {
-        console.log(new FilmApi().getAllFilms());
-        fetch('https://localhost:44327/api/Films')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ films: data });
-            });
+        new FilmApi().getAllFilms()
+            .then(r => r.json())
+            .then(d => {
+                this.setState({ films: d })
+            }
+            );
+
     }
 
 

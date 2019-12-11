@@ -10,7 +10,7 @@ import { Home } from './components/home';
 import { Login } from './components/logining';
 import { About } from './components/about';
 import { Film } from './components/film';
-import  AuthComponent  from './components/authenticate';
+import AuthComponent from './components/authenticate';
 
 import { NavigationMenu } from './components/navigationMenu';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -25,14 +25,14 @@ function App() {
           <NavigationMenu />
         </header>
         <Switch>
-        
+
           <Route path="/log" component={Login} />
           <Route path="/" component={Home} exact />
           <AuthComponent>
-            <Route path="/about" component={About} />        
+            <Route path="/about" component={About} />
             <Route path="/film/:id" component={Film} />
           </AuthComponent>
-          
+
         </Switch>
       </BrowserRouter>
     </div>

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Review } from './review';
+import FilmApi from './api-route-components/FilmApi';
 
 export class Film extends Component {
-
+    
     constructor(props) {
         super(props);
         this.state = { film: {}};
+
     }
 
     componentDidMount() {         
@@ -14,11 +16,13 @@ export class Film extends Component {
 
     refreshList() {
         const id = this.props.match.params.id;
-        fetch('https://localhost:44327/api/Films/' + id)
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ film: data });
-            });
+        new FilmApi().getFilmById(id)
+        .then(response => response.json())
+        .then(data => {
+            this.setState({ film: data });
+        });
+
+        
       
     }
 

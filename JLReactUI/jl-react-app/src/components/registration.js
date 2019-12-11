@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, Form } from "react-bootstrap";
-import { Link } from 'react-router-dom';
 
-export class Login extends Component {
+
+export class Registration extends Component {
 
     constructor() {
         super();
         this.state = {
-            values: { username: "", password: "" },
+            values: { login: "", password: "", name: "", surname: "" },
             isSubmitting: false,
             isError: false
         };
@@ -31,15 +31,24 @@ export class Login extends Component {
         localStorage.setItem('your-jwt', data);
         !data.hasOwnProperty("error")
             ? this.setState({ message: data.success })
-            : this.setState({ message: data.error, isError: true });       
-        
+            : this.setState({ message: data.error, isError: true });
+
+        setTimeout(
+            () =>
+                this.setState({
+                    isError: false,
+                    message: "",
+                    values: { username: "", password: "" }
+                }),
+            1600
+        );
     }
 
     handleInputChange = e =>
         this.setState({
             values: { ...this.state.values, [e.target.name]: e.target.value }
         });
-
+        
     render() {
         return (
             <div>
@@ -70,22 +79,11 @@ export class Login extends Component {
                             required
                         />
                     </FormGroup>
-                    <div className="login-button">
-                        <Button type="submit">
-                            Sign in
-                        </Button>
-                    </div>
-
+                    <Button type="submit">
+                        Sing in
+                     </Button>
                     <FormGroup>
-                        <div className="register-field">
-                        <Link to={{ pathname: `/register` }} >
-                           Create account
-                           </Link>
-                        </div>
-                    </FormGroup>
-
-                    <FormGroup>
-                        <div id="errorBlock" className={`message ${this.state.isError && "error"}`}>
+                        <div className={`message ${this.state.isError && "error"}`}>
                             {this.state.isSubmitting ? "Submitting..." : this.state.message}
                         </div>
                     </FormGroup>

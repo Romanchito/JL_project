@@ -16,6 +16,6 @@ namespace JLFilmApi.ViewModels
         public string Name { get; set; }
         [Required]
         public string Surname { get; set; }
-        public string AccountImage { get; set; }
+        
     }
 }
