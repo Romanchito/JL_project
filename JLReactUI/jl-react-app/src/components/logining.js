@@ -16,12 +16,15 @@ export class Login extends Component {
 
     submitForm = async e => {
         e.preventDefault();
-
+        var jwt_decode = require('jwt-decode');
         
         const data = await new JwtApi().getJwtToken(JSON.stringify(this.state.values));
         if (!(data.hasOwnProperty("error"))) {
             localStorage.setItem('your-jwt', data);
             this.setState({ message: data.success });
+            let t = localStorage.getItem('your-jwt');
+            var decoded = jwt_decode(t);
+            console.log(decoded);
         }
         else {
             setTimeout(

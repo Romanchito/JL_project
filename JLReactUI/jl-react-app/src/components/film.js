@@ -16,8 +16,7 @@ export class Film extends Component {
 
     refreshList() {
         const id = this.props.match.params.id;
-        new FilmApi().getFilmById(id)
-        .then(response => response.json())
+        new FilmApi().getFilmById(id)        
         .then(data => {
             this.setState({ film: data });
         });
