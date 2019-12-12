@@ -1,0 +1,9 @@
+.register_button{
+    text-align: center;
+}
+
+#errorBlock{
+    font-style: italic;
+    color: rgb(224, 34, 0);
+    margin-top: 1%;
+}

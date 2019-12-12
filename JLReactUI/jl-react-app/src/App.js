@@ -14,6 +14,7 @@ import AuthComponent from './components/authenticate';
 
 import { NavigationMenu } from './components/navigationMenu';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Registration } from './components/registration';
 
 
 
@@ -28,6 +29,7 @@ function App() {
 
           <Route path="/log" component={Login} />
           <Route path="/" component={Home} exact />
+          <Route path="/register" component={Registration}/>
           <AuthComponent>
             <Route path="/about" component={About} />
             <Route path="/film/:id" component={Film} />

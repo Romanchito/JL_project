@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, Form } from "react-bootstrap";
 import { Link } from 'react-router-dom';
+import JwtApi from './api-route-components/jwtApi';
 
 export class Login extends Component {
 
@@ -15,24 +16,20 @@ export class Login extends Component {
 
     submitForm = async e => {
         e.preventDefault();
-        console.log(this.state);
-        this.setState({ isSubmitting: true });
 
-        const res = await fetch('https://localhost:44327/api/Auth/jwtToken', {
-            method: 'POST',
-            body: JSON.stringify(this.state.values),
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
-        this.setState({ isSubmitting: false });
-        const data = await res.json();
-        localStorage.setItem('your-jwt', data);
-        !data.hasOwnProperty("error")
-            ? this.setState({ message: data.success })
-            : this.setState({ message: data.error, isError: true });       
         
+        const data = await new JwtApi().getJwtToken(JSON.stringify(this.state.values));
+        if (!(data.hasOwnProperty("error"))) {
+            localStorage.setItem('your-jwt', data);
+            this.setState({ message: data.success });
+        }
+        else {
+            setTimeout(
+                () => this.setState({ message: "", isError: false }), 1800
+            );
+            this.setState({ message: data.error, isError: true, values: { username: "", password: "" } });
+
+        }
     }
 
     handleInputChange = e =>
@@ -78,8 +75,8 @@ export class Login extends Component {
 
                     <FormGroup>
                         <div className="register-field">
-                        <Link to={{ pathname: `/register` }} >
-                           Create account
+                            <Link to={{ pathname: `/register` }} >
+                                Create account
                            </Link>
                         </div>
                     </FormGroup>
