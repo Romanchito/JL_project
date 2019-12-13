@@ -1,82 +1,80 @@
-.main_film_block{
+.main_film_block {
     background-color: brown;
-    
 }
 
-.film_information_block{
-    background-color: darkgrey;    
+.film_information_block {
+    background-color: darkgrey;
     padding: 1%;
     text-align: left;
     overflow: hidden;
 }
 
-.image_film_block{ 
+.image_film_block {
     text-align: left;
     background-color: darkkhaki;
-    width:40%;
-    display: block;    
+    width: 40%;
+    display: block;
     float: left;
     overflow: hidden;
     margin-right: 15%;
 }
 
-.main_inform_film_block{
+.main_inform_film_block {
     padding: 9% 0% 0% 0%;
-    background-color: green;   
-    display: inline-block;    
-    
+    background-color: green;
+    display: inline-block;
 }
 
-.reviews_block{
+.reviews_block {
     text-align: left;
     margin-top: 2%;
-    background-color: #112233;   
+    background-color: #112233;
 }
 
-.review_inform_block{
+.review_inform_block {
     margin-top: 1%;
-    background-color: #30c78d;  
-    padding: 0.5%; 
+    background-color: #30c78d;
+    padding: 0.5%;
 }
 
-.main_inform_review_block{
+.main_inform_review_block {
     padding: 5px;
-    background-color: #3a30c7;   
+    background-color: #3a30c7;
     text-align: right;
 }
 
-.main_comments_review_block{
-    background-color: #c76730;   
+.main_comments_review_block {
+    background-color: #c76730;
 }
 
-.date_comment_block{
+.date_comment_block {
     background-color: floralwhite;
     text-align: right;
 }
 
-.text_review_block{
+.text_review_block {
     padding: 10px;
     text-align: left;
-    background-color: #abc730;   
+    background-color: #abc730;
 }
 
-.comments_block{
+.comments_block {
     display: block;
     background-color: darkorange;
     padding: 0.5%;
     margin-top: 1%;
 }
 
-.comments_inform_block{
+.comments_inform_block {
     background-color: darkslategrey;
 }
 
-.text_comments_block{
+.text_comments_block {
     background-color: deeppink;
 }
 
-.add_review_block{
-    background-color: floralwhite;    
+.add_review_block {
+    background-color: floralwhite;
     width: 100%;
     margin-top: 0.5%;
     text-align: right;

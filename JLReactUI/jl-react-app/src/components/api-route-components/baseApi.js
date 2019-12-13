@@ -3,7 +3,7 @@ import { getJwt } from '../helpers/jwtHelper';
 export default class BaseApi {
     BASE_URI = 'https://localhost:44327/api/'
 
-  async  client_call(apiURI, data, method_type) {
+    async  client_call(apiURI, data, method_type) {
 
         let FINAL_URI = this.BASE_URI + apiURI;
 
@@ -12,58 +12,22 @@ export default class BaseApi {
         const res = fetch(FINAL_URI,
             {
                 method: method_type,
-                body:data,
-                headers: {
-                    "Content-Type": "application/json",
-                    'Accept': 'application/json',
-                    'Authorization': getJwt()
-                }
-            }).then(response => {
-                if (response.status === 401) {
-                    console.log("Non authorization!");
-                    localStorage.clear();
-                    window.location.href = '/log';
-                }
-                return response.json()               
-            })     
-        
-            return await res;
-
-       
-    }
-
-    getMethod(FINAL_URI, method_type) {
-        return fetch(FINAL_URI,
-            {
-                method: method_type,
-                headers: {
-                    "Content-Type": "application/json",
-                    'Accept': 'application/json',
-                    'Authorization': getJwt()
-                }
-            }).then(response => {
-                if (response.status === 401) {
-                    console.log("Non authorization!");
-                    localStorage.clear();
-                    window.location.href = '/log';
-                }
-                else {
-                    return response;
-                }
-            })
-    }
-
-    async postMethod(FINAL_URI, method_type, data) {
-        const res = await fetch(FINAL_URI,
-            {
-                method: method_type,
                 body: data,
                 headers: {
                     "Content-Type": "application/json",
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Authorization': getJwt()
                 }
+            }).then(response => {
+                if (response.status === 401) {
+                    console.log("Non authorization!");
+                    localStorage.clear();
+                    window.location.href = '/log';
+                }
+                return response.json()
             })
-        return await res.json();
+
+        return await res;
     }
 }
 

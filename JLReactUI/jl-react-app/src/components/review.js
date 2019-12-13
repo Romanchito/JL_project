@@ -43,7 +43,7 @@ export class Review extends Component {
                 </ButtonToolbar>
                 {reviews.map((review) =>
                     <div key={review.id} className="reviews_block">
-                        <div  className="review_inform_block">
+                        <div className="review_inform_block">
                             <h2>{review.name}</h2>
                             <h3>{review.userLogin}</h3>
                             <div className="main_inform_review_block">

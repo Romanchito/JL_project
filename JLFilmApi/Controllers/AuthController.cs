@@ -50,7 +50,8 @@ namespace JLFilmApi.Controllers
 
             var claims = new List<Claim>
                 {
-                    new Claim(JwtRegisteredClaimNames.Email, user.Login)
+                    new Claim(JwtRegisteredClaimNames.Email, user.Login),
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login)
                 };
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

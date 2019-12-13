@@ -2,12 +2,11 @@ import BaseApi from './baseApi';
 
 export default class UserApi extends BaseApi {
 
-    USER_URI = 'Users'
-
+    USER_URI = 'Users';
 
     getUserByLogin(user_login) {
         let uri = this.USER_URI + "/" + user_login;
-        return super.client_call(uri, user_login);
+        return super.client_call(uri, null, "GET");
     }
 
     addNewUser(user) {
