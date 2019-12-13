@@ -28,8 +28,9 @@ namespace JLFilmApi.Controllers
         [HttpGet("reviewsOfFilm/{id}")]
         public async Task<List<InfoViewReviews>> GetReview(int id)
         {
-            List<InfoViewReviews> listReviews = await getCountOfLikesToReviews(id);
-            await getUserNameToReviews(listReviews, id);
+            List<InfoViewReviews> listReviews = mapper.Map<List<InfoViewReviews>>
+                (await reviewsRepository.GetAllReviewsOfFilm(id));
+            await getViewFields(listReviews);
             return listReviews;
         }
 
@@ -46,31 +47,35 @@ namespace JLFilmApi.Controllers
             return Ok(reviewId);
         }
 
-
-        private async Task<List<InfoViewReviews>> getCountOfLikesToReviews(int id)
+        [Authorize]
+        [HttpGet("reviewsOfUser")]
+        public async Task<List<InfoViewReviews>> GetReviewsOfUser()
         {
-            int index = 0;
-            var dataList = await reviewsRepository.GetAllReviewsOfFilm(id);
-            List<InfoViewReviews> resultList = mapper.Map<List<InfoViewReviews>>
-                (await reviewsRepository.GetAllReviewsOfFilm(id));
+            List<InfoViewReviews> listReviews = mapper.Map<List<InfoViewReviews>>
+                (await reviewsRepository.GetReviewsOfUser(User.Identity.Name));
+            await getViewFields(listReviews);
+            return listReviews;
+        }      
 
-            foreach (var item in dataList)
-            {
-                resultList.ElementAt(index).LikesCount = item.Likes.Count;
-                index++;
-            }
-
-            return resultList;
-        }
-
-        private async Task getUserNameToReviews(List<InfoViewReviews> listReviews, int id)
+        private async Task getViewFields(List<InfoViewReviews> listReviews)
         {
-            int index = 0;
-            var dataList = await reviewsRepository.GetAllReviewsOfFilm(id);
-            foreach (var item in dataList)
+            var list = await reviewsRepository.GetAllReviews();
+
+            foreach (var item in listReviews)
             {
-                listReviews.ElementAt(index).UserLogin = (await userRepository.GetUserById(item.UserId)).Login;
-                index++;
+                //Take userLogin from list
+                int userId = list.FirstOrDefault(x => x.Id == item.Id).UserId;
+                item.UserLogin = (await userRepository.GetUserById(userId)).Login;
+
+                //Take count of dislikes from list
+                item.CountOdDislikes = list.FirstOrDefault(x => x.Id == item.Id).
+                                     Likes.Where(like => like.IsLike == false)
+                                     .Count();
+                //Take count of likes from list
+                item.CountOfLikes = list.FirstOrDefault(x => x.Id == item.Id).
+                                       Likes.Where(like => like.IsLike == true)
+                                       .Count();
+
             }
         }
     }

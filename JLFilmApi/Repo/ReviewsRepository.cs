@@ -20,6 +20,7 @@ namespace JLFilmApi.Repo
         public async Task<List<Reviews>> GetAllReviewsOfFilm(int filmId)
         {
             return await jLDatabaseContext.Reviews.Where(x => x.FilmId == filmId).ToListAsync();
+
         }
        
         public async Task<int> AddReview(Reviews review, int userId)
@@ -28,6 +29,18 @@ namespace JLFilmApi.Repo
             await jLDatabaseContext.Reviews.AddAsync(review);
             await jLDatabaseContext.SaveChangesAsync();
             return review.Id;
+        }
+
+        public async Task<List<Reviews>> GetReviewsOfUser(string login)
+        {
+            int userId = (await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Login == login)).Id;
+            var reviewList =await jLDatabaseContext.Reviews.Where(r => r.UserId == userId).ToListAsync();
+            return reviewList;
+        }
+
+        public async Task<List<Reviews>> GetAllReviews()
+        {
+            return await jLDatabaseContext.Reviews.ToListAsync();            
         }
     }
 }

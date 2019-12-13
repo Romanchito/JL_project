@@ -43,14 +43,63 @@
 .user-review-block {
     background-color: rgb(40, 53, 15);
     min-height: 150px;
-    margin-top: 2%;
+    margin-top: 2%;    
 }
 
+.user-review-block{
+    border-radius: 10px;
+    background-color: #3b3d4b;    
+    padding: 1%;
+    overflow: hidden;
+}
+
+.review-main-block{
+    border: 1px solid yellowgreen;
+    float: left;
+    min-width: 30%;
+    max-width: 30%;
+    min-height: 300px;
+    margin-left: 2.5%;
+    background-color: #3b3d4b; 
+    position: relative;
+    padding: 10px;
+    color: aliceblue;
+}
+
+.review-likes-dislikes-block{    
+    text-align: left;
+    position: relative;;
+    margin-bottom: 2%;
+    margin-left: 85%;
+    margin-top:2% ;
+    bottom:0;
+}
+
+#reviewHeader{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+#textOfReview{
+    min-height: 400px;
+    padding: 20px;
+    background-color: rgb(51, 41, 112);
+    text-align: left;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#reviewDate{
+    text-align: left;
+    font-family: sans-serif;
+}
+#likes{
+    color: #04a334;
+}
+#dislikes{
+    color: crimson;;
+}
 #account-img {
     min-width: 300px;
     min-height: 300px;
 }
-
 #updateButton{
     margin-top: 25%;
     display: block;
