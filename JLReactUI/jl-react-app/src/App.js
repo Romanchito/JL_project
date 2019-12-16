@@ -16,6 +16,7 @@ import AuthComponent from './components/authenticate';
 import { NavigationMenu } from './components/navigationMenu';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Registration } from './components/registration';
+import {UpdateUser} from './components/update_user';
 import UserAccount from './components/userAccountPage';
 
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="/" component={Home} exact />
           <Route path="/register" component={Registration} />
           <AuthComponent>
+            <Route path="/update_user_inform/:id" component={UpdateUser} />
             <Route path="/user" component={UserAccount} />
             <Route path="/about" component={About} />
             <Route path="/film/:id" component={Film} />

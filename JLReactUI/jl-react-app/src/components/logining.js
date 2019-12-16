@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, Form } from "react-bootstrap";
-import { Redirect,Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import JwtApi from './api-route-components/jwtApi';
 
 export class Login extends Component {
@@ -8,7 +8,7 @@ export class Login extends Component {
     constructor() {
         super();
         this.state = {
-            values: { username: "", password: "" },
+            values: { username: "", password: "", message:{} },
             isSubmitting: false,
             isError: false
         };
@@ -21,7 +21,7 @@ export class Login extends Component {
         if (!(data.hasOwnProperty("error"))) {
             localStorage.setItem('your-jwt', data);
             this.setState({ message: data.success });           
-            return <Redirect push to="/user" />                      
+            this.props.history.push('/user');
         }
         else {
             setTimeout(

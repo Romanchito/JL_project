@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
 
-export class AddReviewModel extends Component {
+export class AddReviewModal extends Component {
    
 
     handleSubmit(e){

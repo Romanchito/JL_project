@@ -3,13 +3,14 @@ import UserApi from './api-route-components/userApi';
 import ImageApi from './api-route-components/imageApi';
 import ReviewsApi from './api-route-components/reviewsApi';
 import '../styles/user_account_styles.css';
-import { Button } from "react-bootstrap";
+import { Button, ButtonToolbar } from "react-bootstrap";
+import { UpdateUserModal } from './updateUserModal';
 
 export default class UserAccount extends Component {
 
     constructor(prop) {
         super(prop);
-        this.state = { user: {}, path: {}, reviews: [] };
+        this.state = { user: {}, path: {}, reviews: [], updateModalShow: false };
     }
 
     componentDidMount() {
@@ -19,7 +20,7 @@ export default class UserAccount extends Component {
     getDataOfUser() {
         let jwt_decode = require('jwt-decode');
         let login = jwt_decode(localStorage.getItem("your-jwt"));
-        console.log(login.email);
+                
         new UserApi().getUserByLogin(login.email).then(result => this.setState({ user: result }));
 
         new ImageApi().getUserImage().then(data => {
@@ -35,6 +36,7 @@ export default class UserAccount extends Component {
         const user = this.state.user;
         const path = this.state.path;
         const reviews = this.state.reviews;
+        let updateModalClose = () => this.setState({ updateModalShow: false });
         return (
             <div className="main-user-block">
                 <div className="user-main-inform-block">
@@ -64,31 +66,42 @@ export default class UserAccount extends Component {
                     </div>
 
                     <div id="updateButton">
-                        <Button>
-                            Update
-                            </Button>
+                        <ButtonToolbar>
+                            <div className="update_user_block">
+                                <Button variant="primary" onClick={() => this.setState({ updateModalShow: true })}>
+                                    Update
+                        </Button>
+                            </div>
+                            <UpdateUserModal
+                                show={this.state.updateModalShow}
+                                onHide={updateModalClose}
+                                user={this.state.user}
+                            />
+                        </ButtonToolbar>
                     </div>
                 </div>
 
                 <div className="user-review-block">
-                    {reviews.map((review) => 
-                            <div className="review-main-block">
-                                <p id="reviewHeader">{review.name}</p>
-                                <div id="reviewDate">{review.date}</div>
-                                <div id="textOfReview">
-                                    {review.text}
-                                </div>
-                                <div className="review-likes-dislikes-block">
+                    {reviews.map((review) =>
+                        <div key={review.id} className="review-main-block">
+                            <p id="reviewHeader">{review.name}</p>
+                            <div id="reviewDate">{review.date}</div>
+                            <div id="textOfReview">
+                                {review.text}
+                            </div>
+                            <div className="review-likes-dislikes-block">
+                                <table>
                                     <tbody>
-                                        <tr>                                            
+                                        <tr>
                                             <td id="likes">{review.countOfLikes}</td>
-                                            <td>&nbsp;|&nbsp;</td>                                         
+                                            <td>&nbsp;|&nbsp;</td>
                                             <td id="dislikes">{review.countOdDislikes}</td>
                                         </tr>
                                     </tbody>
-                                </div>
+                                </table>
                             </div>
-                        )}                        
+                        </div>
+                    )}
                 </div>
             </div>
         );

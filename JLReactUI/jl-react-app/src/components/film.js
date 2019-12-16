@@ -3,33 +3,33 @@ import { Review } from './review';
 import FilmApi from './api-route-components/FilmApi';
 
 export class Film extends Component {
-    
+
     constructor(props) {
         super(props);
-        this.state = { film: {}};
+        this.state = { film: {} };
 
     }
 
-    componentDidMount() {         
-        this.refreshList();        
+    componentDidMount() {
+        this.refreshList();
     }
 
     refreshList() {
         const id = this.props.match.params.id;
-        new FilmApi().getFilmById(id)        
-        .then(data => {
-            this.setState({ film: data });
-        });
+        new FilmApi().getFilmById(id)
+            .then(data => {
+                this.setState({ film: data });
+            });
 
-        
-        
-      
+
+
+
     }
 
-    render(id) {
+    render() {
 
         const film = this.state.film;
-           
+
         return (
 
             <div className="main_film_block">
@@ -51,8 +51,8 @@ export class Film extends Component {
                     </div>
                 </div>
 
-                <Review id = { this.props.match.params.id} />
-                
+                <Review id={this.props.match.params.id} />
+
             </div>
         )
     }

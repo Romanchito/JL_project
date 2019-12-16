@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Comment } from './comment';
 import { Button, ButtonToolbar } from 'react-bootstrap';
-import { AddReviewModel } from './addReviewModal';
+import { AddReviewModal } from './addReviewModal';
 
 export class Review extends Component {
 
@@ -36,7 +36,7 @@ export class Review extends Component {
                             Add review
                 </Button>
                     </div>
-                    <AddReviewModel
+                    <AddReviewModal
                         show={this.state.addModalShow}
                         onHide={addModalClose}
                     />

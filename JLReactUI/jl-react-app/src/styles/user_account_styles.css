@@ -85,7 +85,11 @@
     text-align: left;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
-
+.update_user_block {    
+    width: 100%;
+    margin-top: 0.5%;
+    text-align: right;
+}
 #reviewDate{
     text-align: left;
     font-family: sans-serif;
