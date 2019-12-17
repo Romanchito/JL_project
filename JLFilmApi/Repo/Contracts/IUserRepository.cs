@@ -11,5 +11,6 @@ namespace JLFilmApi.Repo.Contracts
         Task<int> UpdateUser(Users user, int id);
         Task<Users> GetUserByLogin(string login);
         Task<int> UpdateAccountImage(string imageName, int id);
+        Task<int> UpdateAccountPassword(string password, int id);  
     }
 }

@@ -2,7 +2,6 @@
 using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -52,6 +51,13 @@ namespace JLFilmApi.Controllers
         public async Task<IActionResult> UpdateUser(int id, UpdateViewUsers user)
         {
             int userId = await userRepository.UpdateUser(mapper.Map<Users>(user), id);
+            return Ok(userId);
+        }
+
+        [HttpPut("updatingPassword/{id}")]
+        public async Task<IActionResult> UpdateUserPassword(int id, [FromBody]string password)
+        {
+            int userId = await userRepository.UpdateAccountPassword(password, id);
             return Ok(userId);
         }
     }

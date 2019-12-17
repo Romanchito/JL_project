@@ -33,8 +33,7 @@ namespace JLFilmApi.Repo
         {
             Users updateUser = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Id == id);           
             updateUser.Name = user.Name;
-            updateUser.Surname = user.Surname;
-            updateUser.Password = user.Password;           
+            updateUser.Surname = user.Surname;                       
             await jLDatabaseContext.SaveChangesAsync();
             return updateUser.Id;
         }
@@ -49,6 +48,14 @@ namespace JLFilmApi.Repo
         {
             Users updateUser = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Id == id);            
             updateUser.AccountImage = imageName;           
+            await jLDatabaseContext.SaveChangesAsync();
+            return updateUser.Id;
+        }
+
+        public async Task<int> UpdateAccountPassword(string password, int id)
+        {
+            Users updateUser = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            updateUser.Password = password;
             await jLDatabaseContext.SaveChangesAsync();
             return updateUser.Id;
         }

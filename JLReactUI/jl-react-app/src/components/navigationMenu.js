@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import '../styles/user_account_styles.css';
 
 export class NavigationMenu extends Component {
+   
+    constructor(props) {
+        super(props);
+        this.logout = this.logout.bind(this);
+    }
+
+    logout = () => {
+        localStorage.removeItem("your-jwt");
+        this.props.history.push('/log');
+    }
+
     render() {
         let jwt_decode = require('jwt-decode');
         let login;
@@ -13,41 +24,39 @@ export class NavigationMenu extends Component {
         let isLoggedIn = false;
 
         if (localStorage.getItem("your-jwt") !== null &&
-            localStorage.getItem("our-jwt") !== undefined) {
+            localStorage.getItem("your-jwt") !== undefined) {
 
             isLoggedIn = true;
 
         }
+
         return (
-            <Navbar expand="lg">
+            <Navbar bg="dark" variant="dark" expand="lg">
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav>
-                        <NavLink className="d-inline p-2 bg-dark text-white" to="/">
-                            Home
-                    </NavLink >
+                    <Nav className="mr-auto">
+                        <Nav.Link href="/">home</Nav.Link>
+                        <Nav.Link href="/about">about</Nav.Link>
 
-                        <NavLink className="d-inline p-2 bg-dark text-white" to="/about">
-                            About
-                    </NavLink >
                         {isLoggedIn ? (
+                            <NavDropdown title={login.email} id="basic-nav-dropdown" >
+                                <NavDropdown.Item href="/user">account</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={() => this.logout() }>logout</NavDropdown.Item>
+                            </NavDropdown>
 
-                            <NavLink className="d-inline p-2 bg-dark text-white" to="/user">
-                                {login.email}
-                            </NavLink>
 
                         ) : (
-                                <NavLink className="d-inline p-2 bg-dark text-white" to="/log">
-                                    <Button variant="success" to="log">Log in</Button>
-                                </NavLink>
+                                <Nav.Link href="/log">login</Nav.Link>
                             )}
 
-
-
-
                     </Nav>
+
                 </Navbar.Collapse>
             </Navbar>
+
+
+
         )
     }
 }

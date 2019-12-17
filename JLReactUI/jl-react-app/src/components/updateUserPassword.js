@@ -1,101 +1,99 @@
 import React, { Component } from 'react';
 import { Button, FormGroup, FormControl, Form, ButtonToolbar } from "react-bootstrap";
-
 import UserApi from './api-route-components/userApi';
-import ImageApi from './api-route-components/imageApi';
 
 
-export class UpdateUser extends Component {
-
+export class RefreshPassword extends Component {
     constructor() {
         super();
         this.state = {
-            values: { name: "", surname: "" },
-            accountImage: null
-
+            values: { password: "", re_password: "" }
         };
     }
 
     submitForm = async e => {
         e.preventDefault();
-        console.log(this.state.val);
-        const id = this.props.match.params.id;
-        const data = await new UserApi().updateUser(JSON.stringify(this.state.values), id);
-
-        if (!(data.hasOwnProperty("error"))) {
+        const id = this.props.match.params.id;        
+        if (this.state.values.password === this.state.values.re_password) {
+            console.log("password:"+ this.state.values.password);
+            console.log("re_password:"+ this.state.values.re_password);
+            await new UserApi().updateUserPassword(JSON.stringify(this.state.values.password), id);
             this.props.history.push('/user');
         }
+
         else {
+            console.log(this.state.values.password + "!=" + this.state.values.re_password);
             setTimeout(
                 () => this.setState({ message: "", isError: false }), 1800
             );
-            this.setState({ message: data.error, isError: true, values: { name: "", surname: "" } });
-
+            this.setState({ message: "Password and password are different", isError: true, values: { password: "", re_password: "" } });
         }
+
+
     }
+
 
     handleInputChange = e =>
         this.setState({
             values: { ...this.state.values, [e.target.name]: e.target.value }
         });
 
-    imageHandler = e =>
-        this.setState({
-            accountImage: e.target.files[0]
-        });
+    cancleRedirect = () => {
+        this.props.history.push('/user');
+    }
 
     render() {
-
-
-
         return (
             <div>
                 <Form onSubmit={this.submitForm} className="login-form">
                     <FormGroup>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>Password</Form.Label>
                         <FormControl
                             type="text"
-                            name="name"
-                            id="name"
-                            title="Name"
-                            placeholder="name"
-                            value={this.state.values.name}
+                            name="password"
+                            id="password"
+                            title="Password"
+                            placeholder="password"
+                            value={this.state.values.password}
                             onChange={this.handleInputChange}
                             required
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Form.Label>Surname</Form.Label>
+                        <Form.Label>Re-entry</Form.Label>
                         <FormControl
                             type="text"
-                            name="surname"
-                            id="surname"
-                            title="Surname"
-                            placeholder="surname"
-                            value={this.state.values.surname}
+                            name="re_password"
+                            id="re_password"
+                            title="re_password"
+                            placeholder="re_password"
+                            value={this.state.values.re_password}
                             onChange={this.handleInputChange}
                             required
                         />
                     </FormGroup>
-                    <ButtonToolbar>
-                        <div className="login-button">
-                            <Button type="success">
-                                Update
+                    <div>
+                        <ButtonToolbar>
+                            <Button type="submit" variant="success" >
+                                Refresh
                         </Button>
-                        </div>
-                        <div className="login-button">
-                            <Button type="danger" onClick={this.cancleRedirect}>
+
+                            <Button variant="danger" onClick={this.cancleRedirect}>
                                 Cancle
                         </Button>
-                        </div>
-                    </ButtonToolbar>
+                        </ButtonToolbar>
+                    </div>
+
                     <FormGroup>
                         <div id="errorBlock" className={`message ${this.state.isError && "error"}`}>
                             {this.state.isSubmitting ? "Submitting..." : this.state.message}
                         </div>
                     </FormGroup>
                 </Form>
+
+
             </div>
         );
     }
+
 }

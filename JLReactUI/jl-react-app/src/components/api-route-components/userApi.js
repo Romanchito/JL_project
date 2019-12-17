@@ -18,4 +18,9 @@ export default class UserApi extends BaseApi {
         let uri = this.USER_URI + "/updatingUser/" + id;
         return super.client_call(uri, user, "PUT");
     }
+
+    updateUserPassword(password,id){
+        let uri = this.USER_URI + "/updatingPassword/" + id;
+        return super.client_call(uri, password, "PUT");
+    }
 }

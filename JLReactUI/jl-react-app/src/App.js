@@ -16,7 +16,8 @@ import AuthComponent from './components/authenticate';
 import { NavigationMenu } from './components/navigationMenu';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Registration } from './components/registration';
-import {UpdateUser} from './components/update_user';
+import { UpdateUser } from './components/update_user';
+import {RefreshPassword} from './components/updateUserPassword';
 import UserAccount from './components/userAccountPage';
 
 
@@ -24,16 +25,14 @@ import UserAccount from './components/userAccountPage';
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <header className="App-header">
-          <NavigationMenu />
-        </header>
-        <Switch>
-
+      <NavigationMenu />
+      <BrowserRouter>      
+        <Switch>        
           <Route path="/log" component={Login} />
           <Route path="/" component={Home} exact />
           <Route path="/register" component={Registration} />
           <AuthComponent>
+            <Route path="/refresh_password/:id" component={RefreshPassword} />
             <Route path="/update_user_inform/:id" component={UpdateUser} />
             <Route path="/user" component={UserAccount} />
             <Route path="/about" component={About} />
@@ -42,6 +41,7 @@ function App() {
 
         </Switch>
       </BrowserRouter>
+      
     </div>
 
   );

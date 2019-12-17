@@ -2,22 +2,34 @@ import React, { Component } from "react";
 import { Button, FormGroup, FormControl, Form } from "react-bootstrap";
 import '../styles/register_styles.css';
 import UserApi from './api-route-components/userApi';
+import JwtApi from './api-route-components/jwtApi';
 
 export class Registration extends Component {
 
     constructor() {
         super();
         this.state = {
-            values: { login: "", password: "", name: "", surname: "" },           
+            values: { login: "", password: "", name: "", surname: "" },
+            log_user: { username: "", password: "" },
             isError: false
         };
     }
 
+
+    signIn = async (log_username, log_password) => {  
+        this.setState({
+            log_user: { username: log_username, password: log_password }
+        });        
+        const data = await new JwtApi().getJwtToken(JSON.stringify(this.state.log_user));
+        localStorage.setItem('your-jwt', data);
+        this.props.history.push('/user');
+    }
+
     submitForm = async e => {
-        e.preventDefault();       
+        e.preventDefault();
         const data = await new UserApi().addNewUser(JSON.stringify(this.state.values));
         if (data !== "This user already exists") {
-            console.log(data);
+            await this.signIn(this.state.values.login, this.state.values.password);
         }
         else {
             setTimeout(
@@ -26,7 +38,7 @@ export class Registration extends Component {
             this.setState({ message: data, isError: true, values: { login: "", password: "", name: "", surname: "" } });
 
         }
-        
+
     }
 
     handleInputChange = e =>
@@ -95,7 +107,7 @@ export class Registration extends Component {
                             Create account
                      </Button>
                     </div>
-                    <FormGroup>                       
+                    <FormGroup>
                         <div id="errorBlock" className={`message ${this.state.isError && "error"}`}>
                             {this.state.isSubmitting ? "Submitting..." : this.state.message}
                         </div>
