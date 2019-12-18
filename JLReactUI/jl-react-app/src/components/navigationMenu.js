@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import '../styles/user_account_styles.css';
+import { withRouter } from 'react-router-dom';
 
-export class NavigationMenu extends Component {
+class NavigationMenu extends Component {
    
     constructor(props) {
         super(props);
@@ -54,9 +55,7 @@ export class NavigationMenu extends Component {
 
                 </Navbar.Collapse>
             </Navbar>
-
-
-
         )
     }
 }
+export default withRouter(NavigationMenu);

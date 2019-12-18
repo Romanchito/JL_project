@@ -13,21 +13,21 @@ import { Film } from './components/film';
 
 import AuthComponent from './components/authenticate';
 
-import { NavigationMenu } from './components/navigationMenu';
+import NavigationMenu from './components/navigationMenu';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Registration } from './components/registration';
 import { UpdateUser } from './components/update_user';
-import {RefreshPassword} from './components/updateUserPassword';
+import { RefreshPassword } from './components/updateUserPassword';
 import UserAccount from './components/userAccountPage';
 
 
 
 function App() {
   return (
-    <div className="App">
+    <div className="App">      
+      <BrowserRouter>
       <NavigationMenu />
-      <BrowserRouter>      
-        <Switch>        
+          <Switch>
           <Route path="/log" component={Login} />
           <Route path="/" component={Home} exact />
           <Route path="/register" component={Registration} />
@@ -39,9 +39,10 @@ function App() {
             <Route path="/film/:id" component={Film} />
           </AuthComponent>
 
+
         </Switch>
       </BrowserRouter>
-      
+
     </div>
 
   );
