@@ -19,9 +19,7 @@ export class Home extends Component {
                 this.setState({ films: d })
             }
             );
-
     }
-
 
     render() {
         const { films } = this.state;

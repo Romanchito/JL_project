@@ -7,16 +7,18 @@ export class Review extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { reviews: [], addModalShow: false };
+        this.state = { reviews: [], addModalShow: false, id:0 };
     }
 
     componentDidMount() {
+        const value = 5;
+        this.setState({id: value});
+       
         this.refreshList();
     }
 
-    refreshList() {
-        const id = this.props.id;
-        fetch('https://localhost:44327/api/Reviews/reviewsOfFilm/' + id)
+    refreshList() {      
+        fetch('https://localhost:44327/api/Reviews/reviewsOfFilm/' + this.props.id)
             .then(response => response.json())
             .then(data => {
                 this.setState({ reviews: data });
@@ -25,6 +27,7 @@ export class Review extends Component {
 
     render() {
 
+        const value_id = this.props.id;        
         const reviews = this.state.reviews;
         let addModalClose = () => this.setState({ addModalShow: false });
         return (
@@ -35,10 +38,11 @@ export class Review extends Component {
                         <Button variant="primary" onClick={() => this.setState({ addModalShow: true })}>
                             Add review
                 </Button>
-                    </div>
+                    </div>                    
                     <AddReviewModal
                         show={this.state.addModalShow}
                         onHide={addModalClose}
+                        resId={value_id}
                     />
                 </ButtonToolbar>
                 {reviews.map((review) =>
@@ -51,9 +55,9 @@ export class Review extends Component {
                                 <p>Date: {review.date}</p>
                                 <div className="review_like_block"><p>Likes: {review.likesCount}</p></div>
                             </div>
-                            <Comment key={review.id} id={review.id} />
+                            
                         </div>
-
+                        <Comment id={review.id}/>
                     </div>
                 )}
 

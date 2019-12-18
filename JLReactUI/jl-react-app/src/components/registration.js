@@ -58,6 +58,7 @@ export class Registration extends Component {
                             id="login"
                             title="Login"
                             placeholder="example@domain.com"
+                            defaultValue=""
                             value={this.state.values.login}
                             onChange={this.handleInputChange}
                             required
@@ -71,6 +72,7 @@ export class Registration extends Component {
                             id="password"
                             title="Password"
                             placeholder="password"
+                            defaultValue=""
                             value={this.state.values.password}
                             onChange={this.handleInputChange}
                             required

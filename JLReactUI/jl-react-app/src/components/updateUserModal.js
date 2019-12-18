@@ -33,8 +33,13 @@ export class UpdateUserModal extends Component {
                                         <li>
                                             <Link to={{ pathname: `/refresh_password/${this.props.user.id}` }} >
                                                 Refresh password
-                                        </Link>
-                                        </li>                                       
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to={{ pathname: `/uploadImage` }} >
+                                                Update Image
+                                            </Link>
+                                        </li>                                            
                                     </ul>
                                 </FormGroup>
                             </Form>

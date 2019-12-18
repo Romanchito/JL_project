@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Button, FormGroup, FormControl, Form, ButtonToolbar } from "react-bootstrap";
-
 import UserApi from './api-route-components/userApi';
-import ImageApi from './api-route-components/imageApi';
-
 
 export class UpdateUser extends Component {
 
@@ -37,17 +34,9 @@ export class UpdateUser extends Component {
     handleInputChange = e =>
         this.setState({
             values: { ...this.state.values, [e.target.name]: e.target.value }
-        });
-
-    imageHandler = e =>
-        this.setState({
-            accountImage: e.target.files[0]
-        });
+        });    
 
     render() {
-
-
-
         return (
             <div>
                 <Form onSubmit={this.submitForm} className="login-form">
@@ -86,7 +75,7 @@ export class UpdateUser extends Component {
                         <div className="login-button">
                             <Button type="danger" onClick={this.cancleRedirect}>
                                 Cancle
-                        </Button>
+                            </Button>
                         </div>
                     </ButtonToolbar>
                     <FormGroup>

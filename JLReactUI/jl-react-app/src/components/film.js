@@ -20,10 +20,6 @@ export class Film extends Component {
             .then(data => {
                 this.setState({ film: data });
             });
-
-
-
-
     }
 
     render() {
@@ -47,7 +43,6 @@ export class Film extends Component {
                             <h3><li>World gross: {film.worldwideGross}$</li></h3>
                             <h3><li>Country: {film.country}</li></h3>
                         </ul>
-
                     </div>
                 </div>
 

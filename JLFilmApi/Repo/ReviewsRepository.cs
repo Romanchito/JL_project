@@ -3,6 +3,7 @@ using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +26,8 @@ namespace JLFilmApi.Repo
        
         public async Task<int> AddReview(Reviews review, int userId)
         {            
-            review.UserId = userId;            
+            review.UserId = userId;
+            review.Date = DateTime.Now;
             await jLDatabaseContext.Reviews.AddAsync(review);
             await jLDatabaseContext.SaveChangesAsync();
             return review.Id;

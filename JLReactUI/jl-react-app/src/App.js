@@ -19,6 +19,7 @@ import { Registration } from './components/registration';
 import { UpdateUser } from './components/update_user';
 import { RefreshPassword } from './components/updateUserPassword';
 import UserAccount from './components/userAccountPage';
+import { UpdateUserImage } from './components/updateUserImage';
 
 
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/" component={Home} exact />
           <Route path="/register" component={Registration} />
           <AuthComponent>
+            <Route path="/uploadImage" component={UpdateUserImage}/>
             <Route path="/refresh_password/:id" component={RefreshPassword} />
             <Route path="/update_user_inform/:id" component={UpdateUser} />
             <Route path="/user" component={UserAccount} />
