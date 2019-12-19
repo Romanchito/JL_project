@@ -7,13 +7,10 @@ export class Review extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { reviews: [], addModalShow: false, id:0 };
+        this.state = { reviews: [], addModalShow: false};
     }
 
-    componentDidMount() {
-        const value = 5;
-        this.setState({id: value});
-       
+    componentDidMount() {    
         this.refreshList();
     }
 
@@ -25,14 +22,14 @@ export class Review extends Component {
             });
     }
 
-    render() {
-
-        const value_id = this.props.id;        
+    render = () => {                
         const reviews = this.state.reviews;
-        let addModalClose = () => this.setState({ addModalShow: false });
+        const valueId = this.props.id;
+        let addModalClose = () => {
+            this.setState({ addModalShow: false });            
+        };       
         return (
             <div>
-
                 <ButtonToolbar>
                     <div className="add_review_block">
                         <Button variant="primary" onClick={() => this.setState({ addModalShow: true })}>
@@ -41,8 +38,8 @@ export class Review extends Component {
                     </div>                    
                     <AddReviewModal
                         show={this.state.addModalShow}
-                        onHide={addModalClose}
-                        resId={value_id}
+                        onHide={addModalClose}                        
+                        resid={valueId}
                     />
                 </ButtonToolbar>
                 {reviews.map((review) =>
