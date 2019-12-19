@@ -25,7 +25,7 @@ export class Home extends Component {
         const { films } = this.state;
         return (
 
-            <div className="main_film_block">
+            <div className="main_films_block">
                 {films.map((film) =>
 
                     <div key={film.id} className="film_block">

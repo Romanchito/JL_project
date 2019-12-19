@@ -25,7 +25,7 @@ export class Comment extends Component {
         const comments = this.state.comments;
         return (
             comments.map((comment) =>
-            <div key={comment.id} className="comments_block">
+            <div key={this.props.id} className="comments_block">
                 
                     <div className="comments_inform_block">
                         <h2>{comment.text}</h2>                        

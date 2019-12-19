@@ -1,7 +1,5 @@
-.main_film_block{
-    background-color: #0f0b42;
-    padding: 4%; 
-    overflow: hidden;  
+.main_films_block{    
+    padding: 4%;    
 }
 
 .film_block{

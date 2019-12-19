@@ -19,8 +19,7 @@ class NavigationMenu extends Component {
         let jwt_decode = require('jwt-decode');
         let login;
         if (localStorage.getItem("your-jwt")) {
-            login = jwt_decode(localStorage.getItem("your-jwt"));
-            console.log(login);
+            login = jwt_decode(localStorage.getItem("your-jwt"));            
         }
         let isLoggedIn = false;
 
@@ -32,7 +31,7 @@ class NavigationMenu extends Component {
         }
 
         return (
-            <Navbar bg="dark" variant="dark" expand="lg">
+            <Navbar bg="dark" variant="dark" expand="lg"> 
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">

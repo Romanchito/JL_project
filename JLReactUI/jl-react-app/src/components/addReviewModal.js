@@ -10,13 +10,11 @@ export class AddReviewModal extends Component {
             values: { name: "", text: "", filmId: +this.props.resid }
         }
     }
-
- 
   
     handleSubmit = async (e) => {
         e.preventDefault();       
         console.log(this.state.values);
-        await new ReviewsApi().addReview(JSON.stringify(this.state.values));
+       // await new ReviewsApi().addReview(JSON.stringify(this.state.values));
         this.props.onHide();           
     }
 

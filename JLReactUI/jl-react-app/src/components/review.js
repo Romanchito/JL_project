@@ -1,44 +1,44 @@
 import React, { Component } from 'react';
-import { Comment } from './comment';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import { AddReviewModal } from './addReviewModal';
+import ReviewsApi from './api-route-components/reviewsApi';
 
 export class Review extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { reviews: [], addModalShow: false};
+        this.state = { reviews: [], addModalShow: false };
     }
 
-    componentDidMount() {    
+    componentDidMount() {
         this.refreshList();
     }
 
-    refreshList() {      
-        fetch('https://localhost:44327/api/Reviews/reviewsOfFilm/' + this.props.id)
-            .then(response => response.json())
+    refreshList = () => {
+        new ReviewsApi().getAllReviewsOfFilm(this.props.id)
             .then(data => {
                 this.setState({ reviews: data });
             });
     }
 
-    render = () => {                
+    render = () => {
         const reviews = this.state.reviews;
         const valueId = this.props.id;
         let addModalClose = () => {
-            this.setState({ addModalShow: false });            
-        };       
+            this.setState({ addModalShow: false });
+            this.refreshList();
+        };
         return (
-            <div>
+            <div className="reviews_data_block">
                 <ButtonToolbar>
                     <div className="add_review_block">
                         <Button variant="primary" onClick={() => this.setState({ addModalShow: true })}>
                             Add review
                 </Button>
-                    </div>                    
+                    </div>
                     <AddReviewModal
                         show={this.state.addModalShow}
-                        onHide={addModalClose}                        
+                        onHide={addModalClose}
                         resid={valueId}
                     />
                 </ButtonToolbar>
@@ -48,13 +48,11 @@ export class Review extends Component {
                             <h2>{review.name}</h2>
                             <h3>{review.userLogin}</h3>
                             <div className="main_inform_review_block">
-                                <div className="text_review_block"><p>{review.text}</p></div>
-                                <p>Date: {review.date}</p>
-                                <div className="review_like_block"><p>Likes: {review.likesCount}</p></div>
+                                <div className="text_review_block"><p>{review.text}</p></div>                                
+                                <div className="review_like_block"><p>{review.likesCount}</p></div>
                             </div>
-                            
-                        </div>
-                        <Comment id={review.id}/>
+
+                        </div>                       
                     </div>
                 )}
 

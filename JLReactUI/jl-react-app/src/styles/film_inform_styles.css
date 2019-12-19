@@ -1,81 +1,88 @@
-.main_film_block {
-    background-color: brown;
+.main_film_block {     
+   width: 65%;
+   margin:auto;
+   padding: 0%;   
 }
 
 .film_information_block {
-    background-color: darkgrey;
+    background-color: #2e2f3b;
     padding: 1%;
     text-align: left;
     overflow: hidden;
+    border-radius: 5px;   
+    margin-top: 5%;
 }
 
 .image_film_block {
     text-align: left;
     background-color: darkkhaki;
-    width: 40%;
+    width: 30%;
     display: block;
-    float: left;
-    overflow: hidden;
+    float: left;    
     margin-right: 15%;
+    box-shadow: 0 0 5px 2px yellowgreen;
 }
 
-.main_inform_film_block {
-    padding: 9% 0% 0% 0%;
-    background-color: green;
+.image{
     display: inline-block;
+    width: 100%;
+}
+
+.main_inform_film_block {  
+    float:left;   
+    display: block;    
+    max-width: 500px;    
 }
 
 .reviews_block {
     text-align: left;
+    box-shadow: 0 0 5px 2px yellowgreen;
+    border-radius: 4px;
+    color: yellowgreen;
+    padding: 0.5%;
     margin-top: 2%;
-    background-color: #112233;
-}
+    }
 
 .review_inform_block {
-    margin-top: 1%;
-    background-color: #30c78d;
+    margin-top: 1%;  
     padding: 0.5%;
 }
 
+.reviews_data_block{
+    background-color: #2e2f3b;
+    padding: 15px;
+    margin-top: 50px;
+}
+
 .main_inform_review_block {
-    padding: 5px;
-    background-color: #3a30c7;
-    text-align: right;
-}
-
-.main_comments_review_block {
-    background-color: #c76730;
-}
-
-.date_comment_block {
-    background-color: floralwhite;
+    padding: 5px;    
     text-align: right;
 }
 
 .text_review_block {
     padding: 10px;
     text-align: left;
-    background-color: #abc730;
+    color: yellowgreen;
+    min-height: 300px;
+    max-height: 500px;
+    background-color: #110729;
 }
 
-.comments_block {
-    display: block;
-    background-color: darkorange;
-    padding: 0.5%;
-    margin-top: 1%;
-}
-
-.comments_inform_block {
-    background-color: darkslategrey;
-}
-
-.text_comments_block {
-    background-color: deeppink;
-}
-
-.add_review_block {
-    background-color: floralwhite;
+.add_review_block {    
     width: 100%;
     margin-top: 0.5%;
     text-align: right;
 }
+
+.both-block{
+    width:100%;
+    height:1px;
+    clear:both;
+}
+
+.inform-container{    
+    color: #abc730;
+    display:table;
+    font-size: 25px;
+}
+
