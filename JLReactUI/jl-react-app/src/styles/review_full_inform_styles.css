@@ -18,8 +18,29 @@
     padding: 10px;
     min-height:300px;
     max-height: 700px;
+    position: relative;
 }
 
 .review-date-block{
     background-color: cornflowerblue;
+    display: block;     
+    margin:50% 0% 2% 80%;
+}
+
+.main-comments-block{
+    background-color: rgb(179, 146, 17);
+    margin-top: 2%;
+}
+
+.comment-block{
+    background-color: crimson;
+    padding: 5px;
+}
+
+.comment-account-image{
+    background-color: darkcyan;
+    width: 70px;
+    height: 70px;
+    float: left;
+    margin-right: 10px;
 }

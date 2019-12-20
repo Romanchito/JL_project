@@ -18,7 +18,7 @@ export class MainReviewInform extends Component {
         console.log(this.state);
         const id = this.props.match.params.id;             
         this.setState({review: await new ReviewsApi().getReviewById(id)});
-           
+        this.getDataOfComments();
     }
 
     getDataOfComments(){
@@ -39,7 +39,7 @@ export class MainReviewInform extends Component {
                     <h4>{this.state.review.userLogin}</h4>
                     <div className="review-text-block">
                         {this.state.review.text}
-                        <p className="review-date-block"> {this.state.review.date}</p>
+                        <div className="review-date-block">{this.state.review.date}</div>
                     </div>
                     <div className="review-likes-dislikes-block">
                         <table>
