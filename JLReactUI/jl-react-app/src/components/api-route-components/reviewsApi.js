@@ -9,11 +9,15 @@ export default class ReviewsApi extends BaseApi {
     }
 
     addReview(review) {
-        return super.client_call(this.REVIEW_URI + "/newReview", review, "POST" );
+        return super.client_call(this.REVIEW_URI + "/newReview", review, "POST");
     }
 
     getAllReviewsOfFilm(id) {
         return super.client_call(this.REVIEW_URI + "/reviewsOfFilm/" + id, null, "GET");
+    }
+
+    getReviewById(id) {
+        return super.client_call(this.REVIEW_URI + "/" + id, null, "GET");
     }
 
 }

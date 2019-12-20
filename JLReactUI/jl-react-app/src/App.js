@@ -20,6 +20,7 @@ import { UpdateUser } from './components/update_user';
 import { RefreshPassword } from './components/updateUserPassword';
 import UserAccount from './components/userAccountPage';
 import { UpdateUserImage } from './components/updateUserImage';
+import { MainReviewInform } from './components/fullReviewInform';
 
 
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/log" component={Login} />
           <Route path="/" component={Home} exact />
           <Route path="/register" component={Registration} />
+          <Route path="/review/:id" component={MainReviewInform}/>
           <AuthComponent>
             <Route path="/uploadImage" component={UpdateUserImage}/>
             <Route path="/refresh_password/:id" component={RefreshPassword} />

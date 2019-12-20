@@ -14,7 +14,7 @@ export class AddReviewModal extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();       
         console.log(this.state.values);
-       // await new ReviewsApi().addReview(JSON.stringify(this.state.values));
+        await new ReviewsApi().addReview(JSON.stringify(this.state.values));
         this.props.onHide();           
     }
 

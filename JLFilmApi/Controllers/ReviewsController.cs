@@ -34,6 +34,14 @@ namespace JLFilmApi.Controllers
             return listReviews;
         }
 
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<InfoViewReviews>> GetReviewById(int id)
+        {
+            var review = mapper.Map<InfoViewReviews>(await reviewsRepository.GetReviewById(id));
+            return review;
+        }
+
         [Authorize]
         [HttpPost("newReview")]
         public async Task<IActionResult> AddReview(AddViewReviews review)

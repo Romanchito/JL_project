@@ -44,5 +44,10 @@ namespace JLFilmApi.Repo
         {
             return await jLDatabaseContext.Reviews.ToListAsync();            
         }
+
+        public async Task<Reviews> GetReviewById(int reviewId)
+        {
+            return await jLDatabaseContext.Reviews.FirstOrDefaultAsync(x => x.Id == reviewId);
+        }
     }
 }

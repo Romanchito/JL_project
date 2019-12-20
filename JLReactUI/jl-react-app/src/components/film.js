@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Review } from './review';
 import FilmApi from './api-route-components/FilmApi';
+import '../styles/review_full_inform_styles.css'
 
 export class Film extends Component {
 
@@ -26,8 +27,7 @@ export class Film extends Component {
 
         const film = this.state.film;
 
-        return (
-
+        return (            
             <div className="main_film_block">
                 <div className="film_information_block">
                     <div className="both-block"></div>
