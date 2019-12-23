@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReviewsApi from './api-route-components/reviewsApi';
 import CommentApi from './api-route-components/commentApi';
+import { Likes } from './likesOfReview';
 
 export class MainReviewInform extends Component {
     constructor(props) {
@@ -31,7 +32,8 @@ export class MainReviewInform extends Component {
     }
 
     render = () => {
-             
+        console.log("THIS COUNT " + this.state.review.countOfLikes)  
+        console.log("THIS COUNT " + this.state.review.countOdDislikes)   
         return (            
             <div className="main-data-review-block">
                 <div className="main-review-block">
@@ -48,10 +50,13 @@ export class MainReviewInform extends Component {
                                     <td id="likes">{this.state.review.countOfLikes}</td>
                                     <td>&nbsp;|&nbsp;</td>
                                     <td id="dislikes">{this.state.review.countOdDislikes}</td>
-                                </tr>
+                                </tr>                               
                             </tbody>
-                        </table>
+                        </table>                        
                     </div>
+                    <Likes
+                        reviewid = {this.state.review.id}
+                    />
                 </div>
 
                 <div className="main-comments-block">

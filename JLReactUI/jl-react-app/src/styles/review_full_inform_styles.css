@@ -17,14 +17,16 @@
     background-color: burlywood;
     padding: 10px;
     min-height:300px;
-    max-height: 700px;
+    max-height: 400px;
     position: relative;
+    word-wrap: break-word;
+    overflow-y: auto;
 }
 
 .review-date-block{
     background-color: cornflowerblue;
     display: block;     
-    margin:50% 0% 2% 80%;
+    margin:0% 0% 2% 80%;
 }
 
 .main-comments-block{
@@ -43,4 +45,8 @@
     height: 70px;
     float: left;
     margin-right: 10px;
+}
+
+.review-likes-dislikes-buttons-block{
+    margin-left: 80%;
 }
