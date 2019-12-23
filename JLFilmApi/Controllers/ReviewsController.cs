@@ -38,7 +38,9 @@ namespace JLFilmApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<InfoViewReviews>> GetReviewById(int id)
         {
-            var review = mapper.Map<InfoViewReviews>(await reviewsRepository.GetReviewById(id));
+            var data = await reviewsRepository.GetReviewById(id);
+            var review = mapper.Map<InfoViewReviews>(data);
+            await getFields(review, data);
             return review;
         }
 
@@ -85,6 +87,20 @@ namespace JLFilmApi.Controllers
                                        .Count();
 
             }
+        }
+
+        private async Task getFields(InfoViewReviews item, Reviews review)
+        {
+            
+            int userId = review.UserId;
+            item.UserLogin = (await userRepository.GetUserById(userId)).Login;
+
+            //Take count of dislikes from review
+            item.CountOdDislikes = review.Likes.Where(like => like.IsLike == false)
+                                 .Count();
+            //Take count of likes from review
+            item.CountOfLikes = review.Likes.Where(like => like.IsLike == true)
+                                   .Count();
         }
     }
 }

@@ -22,10 +22,9 @@ export class Likes extends Component {
         }, 
             function(){
                 new LikeApi().addLike(JSON.stringify(this.state.values));
-            }
+            }                       
         )
-        console.log("ID:" + this.state.values.reviewId);
-        console.log("Type:" + this.state.values.isLike);           
+        this.props.resetfunc(this.props.propid);                
     }
 
     render() {
@@ -38,10 +37,9 @@ export class Likes extends Component {
                         <tr>
                             <td id="likes">
                                 <Button variant='success' onClick={() => this.showLikes(idparam, true)}>Like</Button>
-                            </td>
-                            <td>&nbsp;|&nbsp;</td>
+                            </td>                           
                             <td id="likes">
-                                <Button variant='danger' onClick={() => this.showLikes(idparam, false)}>Like</Button>
+                                <Button variant='danger' onClick={() => this.showLikes(idparam, false)}>Dislike</Button>
                             </td>
                         </tr>
                     </tbody>

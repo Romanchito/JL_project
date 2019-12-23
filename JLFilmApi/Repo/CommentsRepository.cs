@@ -2,6 +2,7 @@
 using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace JLFilmApi.Repo
         public async Task<int> AddNewComment(Comments comment, int userId)
         {
             comment.UserId = userId;
+            comment.Date = DateTime.Now;
             await jLDatabaseContext.Comments.AddAsync(comment);
             await jLDatabaseContext.SaveChangesAsync();
             return comment.Id;
