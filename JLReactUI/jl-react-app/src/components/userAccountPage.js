@@ -23,7 +23,7 @@ export default class UserAccount extends Component {
                 
         new UserApi().getUserByLogin(login.email).then(result => this.setState({ user: result }));
 
-        new ImageApi().getUserImage().then(data => {
+        new ImageApi().getAccountImage().then(data => {
             this.setState({ path: data });
         });
 

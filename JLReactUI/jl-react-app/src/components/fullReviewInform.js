@@ -3,6 +3,7 @@ import ReviewsApi from './api-route-components/reviewsApi';
 import CommentApi from './api-route-components/commentApi';
 import { Likes } from './likesOfReview';
 import { AddCommentModal } from './addCommentModal';
+import { UserImage } from './userImage';
 
 
 export class MainReviewInform extends Component {
@@ -17,10 +18,14 @@ export class MainReviewInform extends Component {
         this.getDataOfReview(this.props.match.params.id);
     }
 
-    async getDataOfReview(id) {
-        console.log("METHOD DONE");
+    getDataOfReview(id) {        
 
-        this.setState({ review: await new ReviewsApi().getReviewById(id) });
+        
+        new ReviewsApi().getReviewById(id).then(data =>{
+            console.log(data);
+            this.setState({ review: data});
+        });
+        
         this.getDataOfComments();
     }
 
@@ -34,6 +39,10 @@ export class MainReviewInform extends Component {
     }
 
     render = () => {
+        let resetfunc = () => {
+            console.log("REFRESH")
+            this.getDataOfReview(this.props.match.params.id);
+        }
         return (
             <div className="main-data-review-block">
                 <div className="main-review-block">
@@ -56,13 +65,14 @@ export class MainReviewInform extends Component {
                     </div>
                     <Likes
                         reviewid={this.state.review.id}
-                        resetfunc={() => this.getDataOfReview}
+                        resetfunc={resetfunc}
                     />
                 </div>
 
                 <div className="add-comment-block">
                     <AddCommentModal
                         id={this.props.match.params.id}
+                        resetfunc={resetfunc}
                     />
                 </div>
                 <div className="main-comments-block">
@@ -70,12 +80,12 @@ export class MainReviewInform extends Component {
                         <div className="comment-block" key={comment.id}>
                             <div className="both-block"></div>
                             <div className="comment-account-image">
-                                <img className="image"
-                                    alt="user_image"
+                                <UserImage
+                                    id={comment.userId}
                                 />
                             </div>
                             <div className="comment-text-block">
-                                {comment.date}<br/>
+                                {comment.date}<br />
                                 {comment.text}
                             </div>
                             <div className="both-block"></div>

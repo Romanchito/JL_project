@@ -20,11 +20,12 @@ export class Likes extends Component {
                 isLike: value
             }
         }, 
-            function(){
-                new LikeApi().addLike(JSON.stringify(this.state.values));
-            }                       
+            () => {
+                new LikeApi().addLike(JSON.stringify(this.state.values)).then(() => this.props.resetfunc());
+            }            
         )
-        this.props.resetfunc(this.props.propid);                
+            
+                               
     }
 
     render() {

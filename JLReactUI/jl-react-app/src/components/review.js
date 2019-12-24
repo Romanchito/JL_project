@@ -15,7 +15,7 @@ export class Review extends Component {
         this.refreshList();
     }
 
-    refreshList = () => {
+    refreshList = () => {       
         new ReviewsApi().getAllReviewsOfFilm(this.props.id)
             .then(data => {
                 this.setState({ reviews: data });

@@ -17,15 +17,15 @@ export class AddCommentModal extends Component {
         e.preventDefault();
         this.setState(
             {
-                values: { ...this.state.values,
+                values: {
+                    ...this.state.values,
                     reviewId: +this.props.id
                 }
-            }, function () {
-                new CommentApi().addComment(JSON.stringify(this.state.values))
+            }, () => {
+                new CommentApi().addComment(JSON.stringify(this.state.values)).then(() => this.props.resetfunc())
             }
         )
-                 
-           
+        
     }
 
 

@@ -26,10 +26,18 @@ namespace JLFilmApi.Controllers
 
 
         [Authorize]
-        [HttpGet("userImage")]
+        [HttpGet("accountImage")]
         public async Task<string> GetImage()
         {
             string fileName = (await userRepository.GetUserByLogin(User.Identity.Name)).AccountImage;
+            if (fileName == null) fileName = "default_user.png";
+            return await TakingImage("user", fileName);
+        }
+
+        [HttpGet("userImage/{id}")]
+        public async Task<string> GetUserImage(int id)
+        {
+            string fileName = (await userRepository.GetUserById(id)).AccountImage;
             if (fileName == null) fileName = "default_user.png";
             return await TakingImage("user", fileName);
         }
