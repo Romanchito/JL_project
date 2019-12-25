@@ -21,6 +21,8 @@ import { RefreshPassword } from './components/updateUserPassword';
 import UserAccount from './components/userAccountPage';
 import { UpdateUserImage } from './components/updateUserImage';
 import { MainReviewInform } from './components/fullReviewInform';
+import {NotFoundPage} from './components/helpers/notFoundPage';
+
 
 
 
@@ -34,15 +36,16 @@ function App() {
           <Route path="/" component={Home} exact />
           <Route path="/register" component={Registration} />
           <Route path="/review/:id" component={MainReviewInform}/>
+          <Route path="/*" component={NotFoundPage}/>
           <AuthComponent>
             <Route path="/uploadImage" component={UpdateUserImage}/>
             <Route path="/refresh_password/:id" component={RefreshPassword} />
             <Route path="/update_user_inform/:id" component={UpdateUser} />
             <Route path="/user" component={UserAccount} />
             <Route path="/about" component={About} />
-            <Route path="/film/:id" component={Film} />
+            <Route path="/film/:id" component={Film} />           
           </AuthComponent>
-
+          
 
         </Switch>
       </BrowserRouter>

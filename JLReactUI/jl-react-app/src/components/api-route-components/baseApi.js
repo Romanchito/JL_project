@@ -23,6 +23,10 @@ export default class BaseApi {
                     localStorage.clear();
                     window.location.href = '/log';
                 }
+                if(response.status === 404){
+                    console.log("NOT FOUND!");                    
+                    window.location.href = '/*';
+                }
                 return response.json()
             })
 
