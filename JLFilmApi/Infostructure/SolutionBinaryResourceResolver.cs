@@ -42,9 +42,12 @@ namespace JLFilmApi.Infostructure
 
         public async Task<string> Upload(IFormFile file, string userLogin)
         {
-            if (file.Length < 0)
+            if (file == null)
             {
-                throw new ArgumentException();
+                var user = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Login == userLogin);
+                user.AccountImage = null;
+                jLDatabaseContext.SaveChanges();
+                return "default_user.png";
             }
 
             if (!Directory.Exists(myEnvironment.WebRootPath + @"\AccountImages\"))

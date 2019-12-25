@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Button, FormGroup, FormControl, Form,ButtonToolbar} from 'react-bootstrap';
+import { Button, FormGroup, FormControl, Form, ButtonToolbar } from 'react-bootstrap';
 import ImageApi from './api-route-components/imageApi';
 
 export class UpdateUserImage extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            file: undefined
+            file: ""
         };
     }
 
@@ -15,18 +15,18 @@ export class UpdateUserImage extends Component {
         const formData = new FormData();
         const fileField = document.querySelector('input[type="file"]');
         console.log(fileField);
-        formData.append('file', fileField.files[0]);       
-        new ImageApi().uploadUserAccountImage(formData);       
+        formData.append('file', fileField.files[0]);
+        new ImageApi().uploadUserAccountImage(formData);
     }
 
     handleFileInput = e => {
         this.setState({
             file: e.target.value
         });
-        
+
     }
 
-    cancleRedirect = () =>{
+    cancleRedirect = () => {
         this.props.history.push('/user');
     }
     render() {
@@ -44,18 +44,20 @@ export class UpdateUserImage extends Component {
                             onChange={this.handleFileInput}
                         />
                     </FormGroup>
-                    <ButtonToolbar>
-                        <div className="login-button">
-                            <Button type="success">
-                                Update
+                    <FormGroup>
+                        <ButtonToolbar>
+                            <div className="register_button">
+                                <Button type="submit" variant="success" >
+                                    Update
                         </Button>
-                        </div>
-                        <div className="login-button">
-                            <Button type="danger" onClick={this.cancleRedirect}>
-                                Cancle
+                            </div>
+                            <div className="login-button">
+                                <Button variant="danger" onClick={this.cancleRedirect}>
+                                    Cancle
                             </Button>
-                        </div>
-                    </ButtonToolbar>
+                            </div>
+                        </ButtonToolbar>
+                    </FormGroup>
                 </Form>
             </div>
         );

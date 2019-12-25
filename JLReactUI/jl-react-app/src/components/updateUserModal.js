@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export class UpdateUserModal extends Component {
 
-    render() {      
+    render() {
         return (
 
             <Modal
@@ -21,12 +21,11 @@ export class UpdateUserModal extends Component {
                 <Modal.Body>
                     <div className="container">
                         <Row>
-
                             <Form >
                                 <FormGroup>
                                     <ul>
                                         <li>
-                                            <Link to={{ pathname: `/update_user_inform/${this.props.user.id}`}} params={{ testvalue: "hello" }}  >
+                                            <Link to={{ pathname: `/update_user_inform/${this.props.user.id}` }} params={{ testvalue: "hello" }}  >
                                                 Update main information
                                             </Link>
                                         </li>
@@ -39,7 +38,7 @@ export class UpdateUserModal extends Component {
                                             <Link to={{ pathname: `/uploadImage` }} >
                                                 Update Image
                                             </Link>
-                                        </li>                                            
+                                        </li>
                                     </ul>
                                 </FormGroup>
                             </Form>

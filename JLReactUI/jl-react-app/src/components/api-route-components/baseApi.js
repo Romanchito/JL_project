@@ -6,6 +6,8 @@ export default class BaseApi {
     async  client_call(apiURI, data, method_type) {
 
         let FINAL_URI = this.BASE_URI + apiURI;     
+        console.log('FINAL URI: ' + FINAL_URI + " METHOD:" + method_type);
+        console.log('DATA: ' + data);
         const res = fetch(FINAL_URI,
             {
                 method: method_type,

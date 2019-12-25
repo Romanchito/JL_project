@@ -46,9 +46,9 @@ namespace JLFilmApi.Controllers
         public async Task<ActionResult<InfoViewOneFilm>> GetFilm(int id)
         {
             var film = mapper.Map<InfoViewOneFilm>(await filmRepository.GetFilm(id));
-            if (film.FilmImage == null) film.FilmImage = "default_film.png";
-            film.FilmImageUrl = await resourcePathResolver.Take(new TakingImageModel("film", film.FilmImage));
             if (film == null) return NotFound("Sorry, but this film doesn't exist :" + id.ToString());
+            if (film.FilmImage == null) film.FilmImage = "default_film.png";
+            film.FilmImageUrl = await resourcePathResolver.Take(new TakingImageModel("film", film.FilmImage));           
             return film;
         }
 
