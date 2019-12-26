@@ -6,7 +6,8 @@ export class UpdateUserImage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            file: ""
+            file: "",
+            isFalseType: false
         };
     }
 
@@ -16,7 +17,11 @@ export class UpdateUserImage extends Component {
         const fileField = document.querySelector('input[type="file"]');
         console.log(fileField);
         formData.append('file', fileField.files[0]);
-        new ImageApi().uploadUserAccountImage(formData);
+        let typeCheck = RegExp("[|.|\\w|\\s|-]*\\.(?:jpg|gif|png)")
+        if (typeCheck.test(fileField.files[0].name)) {
+            new ImageApi().uploadUserAccountImage(formData);
+        }
+        else { this.setState({ isFalseType: true }); }
     }
 
     handleFileInput = e => {
@@ -43,6 +48,7 @@ export class UpdateUserImage extends Component {
                             value={this.state.file}
                             onChange={this.handleFileInput}
                         />
+                        {this.state.isFalseType ? <p id="errorBlock">Wrong file type</p> : ""}
                     </FormGroup>
                     <FormGroup>
                         <ButtonToolbar>

@@ -3,6 +3,7 @@ using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace JLFilmApi.Controllers
@@ -50,14 +51,22 @@ namespace JLFilmApi.Controllers
         [HttpPut("updatingUser/{id}")]
         public async Task<IActionResult> UpdateUser(int id, UpdateViewUsers user)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             int userId = await userRepository.UpdateUser(mapper.Map<Users>(user), id);
             return Ok(userId);
         }
 
         [HttpPut("updatingPassword/{id}")]
-        public async Task<IActionResult> UpdateUserPassword(int id, [FromBody]string password)
+        public async Task<IActionResult> UpdateUserPassword(int id, UpdatePasswordView passwordView)
         {
-            int userId = await userRepository.UpdateAccountPassword(password, id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            int userId = await userRepository.UpdateAccountPassword(passwordView.Password, id);
             return Ok(userId);
         }
     }

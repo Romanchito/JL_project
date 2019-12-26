@@ -1,5 +1,6 @@
 import { getJwt } from '../helpers/jwtHelper';
 
+
 export default class BaseApi {
     BASE_URI = 'https://localhost:44327/api/'
 
@@ -18,15 +19,16 @@ export default class BaseApi {
                     'Authorization': getJwt()
                 }
             }).then(response => {
-                if (response.status === 401) {
-                    console.log("Non authorization!");
-                    localStorage.clear();
-                    window.location.href = '/log';
-                }
-                if(response.status === 404){
-                    console.log("NOT FOUND!");                    
-                    window.location.href = '/*';
-                }
+                if (response.status > 400 && response.status <500) { 
+                    if(response.status === 401){
+                        localStorage.clear();
+                        window.location.href = '/log';
+                    }               
+                    else{                        
+                        window.location.href = '/error/' + response.status;
+                    }
+                    
+                }                
                 return response.json()
             })
 

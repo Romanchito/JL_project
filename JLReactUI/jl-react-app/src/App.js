@@ -3,6 +3,7 @@ import './App.css';
 import './styles/home_film_block.css';
 import './styles/film_inform_styles.css';
 import './styles/login_style.css';
+import './styles/status_code_styles.css'
 import './config.json';
 
 
@@ -21,7 +22,8 @@ import { RefreshPassword } from './components/updateUserPassword';
 import UserAccount from './components/userAccountPage';
 import { UpdateUserImage } from './components/updateUserImage';
 import { MainReviewInform } from './components/fullReviewInform';
-import {NotFoundPage} from './components/helpers/notFoundPage';
+import { ErrorPage } from './components/helpers/serverErrorPage';
+
 
 
 
@@ -36,7 +38,7 @@ function App() {
           <Route path="/" component={Home} exact />
           <Route path="/register" component={Registration} />
           <Route path="/review/:id" component={MainReviewInform}/>
-          <Route path="/*" component={NotFoundPage}/>
+          <Route path="/error/:code" component={ErrorPage}/>
           <AuthComponent>
             <Route path="/uploadImage" component={UpdateUserImage}/>
             <Route path="/refresh_password/:id" component={RefreshPassword} />
