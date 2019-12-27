@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JLFilmApi.Helpers;
 using JLFilmApi.Infostructure;
 using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
@@ -28,15 +29,13 @@ namespace JLFilmApi.Controllers
         [HttpGet]
         public async Task<List<InfoViewFilms>> GetFilms()
         {
-            var films = mapper.Map<List<InfoViewFilms>>(await filmRepository.GetFilms());
-            //  films = await AddImagePathToFilms(films);
+            var films = mapper.Map<List<InfoViewFilms>>(await filmRepository.GetFilms());          
+
 
             foreach (var item in films)
             {
-                if (item.FilmImage == null) item.FilmImage = "default_film.png";
-                item.FilmImageUrl = await resourcePathResolver.Take(new TakingImageModel("film", item.FilmImage));
-
-                
+                if (item.FilmImage == null) item.FilmImage = ImageDefaultNames.DEFAULT_FILM_IMAGE_NAME;
+                item.FilmImageUrl = await resourcePathResolver.Take(new TakingImageModel("film", item.FilmImage));                
             }
             return films;
         }
@@ -47,10 +46,12 @@ namespace JLFilmApi.Controllers
         {
             var film = mapper.Map<InfoViewOneFilm>(await filmRepository.GetFilm(id));
             if (film == null) return NotFound("Sorry, but this film doesn't exist :" + id.ToString());
-            if (film.FilmImage == null) film.FilmImage = "default_film.png";
+            if (film.FilmImage == null) film.FilmImage = ImageDefaultNames.DEFAULT_FILM_IMAGE_NAME;
             film.FilmImageUrl = await resourcePathResolver.Take(new TakingImageModel("film", film.FilmImage));           
             return film;
         }
+
+
 
        
     }

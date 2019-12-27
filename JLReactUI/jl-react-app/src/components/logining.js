@@ -2,33 +2,33 @@ import React, { Component } from "react";
 import { Button, FormGroup, FormControl, Form } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import JwtApi from './api-route-components/jwtApi';
+import { MyFormControl } from './helpers/myFormControl';
 
 export class Login extends Component {
 
     constructor() {
         super();
         this.state = {
-            values: { username: "", password: "", message:{} },
-            isSubmitting: false,
-            isError: false
+            values: { username: "", password: "" },
+            errors: {}
         };
     }
 
     submitForm = async e => {
-        e.preventDefault();       
-        
+        e.preventDefault();
+
         const data = await new JwtApi().getJwtToken(JSON.stringify(this.state.values));
-        if (!(data.hasOwnProperty("error"))) {
-            localStorage.setItem('your-jwt', data);
-            this.setState({ message: data.success });           
+       
+        
+        if (!(data.hasOwnProperty("errors"))) {
+            localStorage.setItem('your-jwt', data.jwtHandler);
             this.props.history.push('/user');
         }
+        
         else {
-            setTimeout(
-                () => this.setState({ message: "", isError: false }), 1800
-            );
-            this.setState({ message: data.error, isError: true, values: { username: "", password: "" } });
 
+            console.log(data.errors);
+            this.setState({ errors: data.errors });
         }
     }
 
@@ -43,28 +43,34 @@ export class Login extends Component {
                 <Form onSubmit={this.submitForm} className="login-form">
                     <FormGroup>
                         <Form.Label>Email</Form.Label>
-                        <FormControl
-                            type="text"
-                            name="username"
-                            id="username"
-                            title="Login"
-                            placeholder="example@domain.com"
-                            value={this.state.values.username}
-                            onChange={this.handleInputChange}
-                            required
+                        <MyFormControl
+                            errorslist={this.state.errors["Username"]}
+                            formcontrol={<FormControl
+                                type="text"
+                                name="username"
+                                id="username"
+                                title="username"
+                                placeholder="example@domain.com"
+                                value={this.state.values.username}
+                                onChange={this.handleInputChange}
+                                required
+                            />}
                         />
                     </FormGroup>
                     <FormGroup>
                         <Form.Label>Password</Form.Label>
-                        <FormControl
-                            type="password"
-                            name="password"
-                            id="password"
-                            title="Password"
-                            placeholder="password"
-                            value={this.state.values.password}
-                            onChange={this.handleInputChange}
-                            required
+                        <MyFormControl
+                            errorslist={this.state.errors["Password"]}
+                            formcontrol={<FormControl
+                                type="password"
+                                name="password"
+                                id="password"
+                                title="Password"
+                                placeholder="password"
+                                value={this.state.values.password}
+                                onChange={this.handleInputChange}
+                                required
+                            />}
                         />
                     </FormGroup>
                     <div className="login-button">
@@ -78,12 +84,6 @@ export class Login extends Component {
                             <Link to={{ pathname: `/register` }} >
                                 Create account
                            </Link>
-                        </div>
-                    </FormGroup>
-
-                    <FormGroup>
-                        <div id="errorBlock" className={`message ${this.state.isError && "error"}`}>
-                            {this.state.isSubmitting ? "Submitting..." : this.state.message}
                         </div>
                     </FormGroup>
                 </Form>

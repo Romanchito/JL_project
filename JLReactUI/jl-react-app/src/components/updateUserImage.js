@@ -14,8 +14,7 @@ export class UpdateUserImage extends Component {
     submitForm = async e => {
         e.preventDefault();
         const formData = new FormData();
-        const fileField = document.querySelector('input[type="file"]');
-        console.log(fileField);
+        const fileField = document.querySelector('input[type="file"]');       
         formData.append('file', fileField.files[0]);
         let typeCheck = RegExp("[|.|\\w|\\s|-]*\\.(?:jpg|gif|png)")
         if (typeCheck.test(fileField.files[0].name)) {

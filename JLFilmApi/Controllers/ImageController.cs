@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JLFilmApi.Helpers;
 using JLFilmApi.Infostructure;
 using JLFilmApi.Repo.Contracts;
 using Microsoft.AspNetCore.Authorization;
@@ -23,30 +24,26 @@ namespace JLFilmApi.Controllers
             this.userRepository = userRepository;
             this.filmRepository = filmRepository;
         }
-
-
+        
         [Authorize]
         [HttpGet("accountImage")]
         public async Task<string> GetImage()
         {
-            string fileName = (await userRepository.GetUserByLogin(User.Identity.Name)).AccountImage;
-            if (fileName == null) fileName = "default_user.png";
+            string fileName = (await userRepository.GetUserByLogin(User.Identity.Name)).AccountImage;           
             return await TakingImage("user", fileName);
         }
 
         [HttpGet("userImage/{id}")]
         public async Task<string> GetUserImage(int id)
         {
-            string fileName = (await userRepository.GetUserById(id)).AccountImage;
-            if (fileName == null) fileName = "default_user.png";
+            string fileName = (await userRepository.GetUserById(id)).AccountImage;           
             return await TakingImage("user", fileName);
         }
 
         [HttpGet("filmImage/{id}")]
         public async Task<string> GetImage(int id)
         {
-            string fileName = (await filmRepository.GetFilm(id)).FilmImage;
-            if (fileName == null) fileName = "default_film.png";
+            string fileName = (await filmRepository.GetFilm(id)).FilmImage;            
             return await TakingImage("film", fileName);
         }
 
@@ -56,23 +53,21 @@ namespace JLFilmApi.Controllers
         {
             string userLogin = (await userRepository.GetUserByLogin(User.Identity.Name)).Login;
             string imageName = await resourcePathResolver.Upload(file, userLogin);
-
-            if (imageName != null)
-            {
-                return Ok();
-            }
-            return BadRequest();
+            return Ok(imageName);
         }
                
         private async Task<string> TakingImage(string type, string fileName)
         {
-            string imagePath = await resourcePathResolver.Take(new TakingImageModel(type, fileName));
-            if (imagePath == null)
+            if (fileName == null) 
             {
-                return null;
-            }            
+                fileName = (type == "film") ? 
+                    ImageDefaultNames.DEFAULT_FILM_IMAGE_NAME : 
+                    ImageDefaultNames.DEFAULT_USER_IMAGE_NAME;
+            }
+            string imagePath = await resourcePathResolver.Take(new TakingImageModel(type, fileName));                
             return imagePath;
         }
+
 
 
     }

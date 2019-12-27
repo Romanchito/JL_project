@@ -4,6 +4,7 @@ using JLFilmApi.Repo.Contracts;
 using JLFilmApi.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -26,9 +27,16 @@ namespace JLFilmApi.Controllers
         }
 
         [HttpPost("jwtToken")]
-        public async Task<string> Token(AuthModel authModel)
+        public async Task<ActionResult<string>> Token(AuthModel authModel)
         {
+            
             var identity = await GetIdentityAsync(authModel.Username, authModel.Password);
+           
+            if(identity == null)
+            {
+                ModelState.AddModelError("Username", "Неверно введенный адрес или пароль");
+                return BadRequest(ModelState);
+            }
 
             var jwtToken = new JwtSecurityToken(
                 issuer: AuthOptions.ISSUER,
@@ -37,16 +45,21 @@ namespace JLFilmApi.Controllers
                 expires: DateTime.UtcNow.AddDays(1),
                 signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
                 );
-
-            var jwtHandler = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-
-            return jwtHandler;
+           
+            var response = new { jwtHandler = new JwtSecurityTokenHandler().WriteToken(jwtToken) };          
+        
+            return Ok(response);
 
         }
 
         private async Task<ClaimsIdentity> GetIdentityAsync(string login, string password)
         {
             InfoViewUsers user = await CheckingUserAsync(login, password);
+
+            if (user == null)
+            {
+                return null;
+            }
 
             var claims = new List<Claim>
                 {
@@ -64,9 +77,8 @@ namespace JLFilmApi.Controllers
             AddViewUsers user = mapper.Map<AddViewUsers>(await userRepository.GetUserByLogin(login));
             if (user == null || !user.Password.Equals(password))
             {
-                throw new NullReferenceException("Incorrect login or password");
+                return null;
             }
-
             return mapper.Map<InfoViewUsers>(user);
         }
     }

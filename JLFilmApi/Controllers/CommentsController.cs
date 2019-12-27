@@ -33,15 +33,10 @@ namespace JLFilmApi.Controllers
         [Authorize]
         [HttpPost("newComment")]
         public async Task<IActionResult> AddComment(InfoViewComments comment)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        {            
             int id = (await userRepository.GetUserByLogin(User.Identity.Name)).Id;
             int commentId = await commentsRepository.AddNewComment(mapper.Map<Comments>(comment),id);
             return Ok(commentId);
-
         }
     }
 }
