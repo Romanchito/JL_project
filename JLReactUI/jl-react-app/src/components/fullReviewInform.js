@@ -58,7 +58,7 @@ export class MainReviewInform extends Component {
                                 <tr>
                                     <td id="likes">{this.state.review.countOfLikes}</td>
                                     <td>&nbsp;|&nbsp;</td>
-                                    <td id="dislikes">{this.state.review.countOdDislikes}</td>
+                                    <td id="dislikes">{this.state.review.countOfDislikes}</td>
                                 </tr>
                             </tbody>
                         </table>

@@ -32,11 +32,12 @@ export default class UserAccount extends Component {
         });;
     }
 
+    updateModalClose = () => this.setState({ updateModalShow: false });
+
     render() {
         const user = this.state.user;
         const path = this.state.path;
-        const reviews = this.state.reviews;
-        let updateModalClose = () => this.setState({ updateModalShow: false });
+        const reviews = this.state.reviews;        
         return (
             <div className="main-user-block">
                 <div className="user-main-inform-block">
@@ -74,7 +75,7 @@ export default class UserAccount extends Component {
                             </div>
                             <UpdateUserModal
                                 show={this.state.updateModalShow}
-                                onHide={updateModalClose}
+                                onHide={this.updateModalClose}
                                 user={this.state.user}
                             />
                         </ButtonToolbar>
@@ -95,7 +96,7 @@ export default class UserAccount extends Component {
                                         <tr>
                                             <td id="likes">{review.countOfLikes}</td>
                                             <td>&nbsp;|&nbsp;</td>
-                                            <td id="dislikes">{review.countOdDislikes}</td>
+                                            <td id="dislikes">{review.countOfDislikes}</td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -28,11 +28,6 @@ namespace JLFilmApi.Controllers
         [HttpGet("allOfReview/{id}")]
         public async Task<List<InfoViewLikes>> GetLikes(int id)
         {
-            if (await likesRepository.GetAllLikesOfReviews(id) == null)
-            {
-                throw new NullReferenceException("Review with this id not found");
-            }
-
             return mapper.Map<List<InfoViewLikes>>(await likesRepository.GetAllLikesOfReviews(id));
         }
 

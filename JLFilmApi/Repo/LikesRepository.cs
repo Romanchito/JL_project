@@ -2,6 +2,7 @@
 using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,19 +38,9 @@ namespace JLFilmApi.Repo
             //Check an existence of like in database.
             if (checkLike != null)
             {
-                //Deleting like if uploading like has equal value of IsLike
-                if (like.IsLike.Equals(checkLike.IsLike))
-                {
-                    jLDatabaseContext.Likes.Remove(checkLike);
-                }
-                //Updating like if uploading like has unequal value of IsLike
-                else
-                {
-                    checkLike.IsLike = like.IsLike;
-                }
-
+                CheckExistenceOfLike(checkLike, like);
                 await jLDatabaseContext.SaveChangesAsync();
-                return checkLike.Id;
+                return like.Id; 
             }
 
             await jLDatabaseContext.AddAsync(like);
@@ -57,6 +48,18 @@ namespace JLFilmApi.Repo
             return like.Id;
         }
 
-
+        private void CheckExistenceOfLike(Likes checkLike, Likes like)
+        {
+            //Deleting like if uploading like has equal value of IsLike
+            if (like.IsLike.Equals(checkLike.IsLike))
+            {
+                jLDatabaseContext.Likes.Remove(checkLike);
+            }
+            //Updating like if uploading like has unequal value of IsLike
+            else
+            {
+                checkLike.IsLike = like.IsLike;
+            }
+        }
     }
 }

@@ -35,7 +35,7 @@ namespace JLFilmApi.Controllers
             foreach (var item in films)
             {
                 if (item.FilmImage == null) item.FilmImage = ImageDefaultNames.DEFAULT_FILM_IMAGE_NAME;
-                item.FilmImageUrl = await resourcePathResolver.Take(new TakingImageModel("film", item.FilmImage));                
+                item.FilmImageUrl = await resourcePathResolver.Take(new TakingImageModel(Types.Film, item.FilmImage));                
             }
             return films;
         }
@@ -47,7 +47,7 @@ namespace JLFilmApi.Controllers
             var film = mapper.Map<InfoViewOneFilm>(await filmRepository.GetFilm(id));
             if (film == null) return NotFound("Sorry, but this film doesn't exist :" + id.ToString());
             if (film.FilmImage == null) film.FilmImage = ImageDefaultNames.DEFAULT_FILM_IMAGE_NAME;
-            film.FilmImageUrl = await resourcePathResolver.Take(new TakingImageModel("film", film.FilmImage));           
+            film.FilmImageUrl = await resourcePathResolver.Take(new TakingImageModel(Types.Film, film.FilmImage));           
             return film;
         }
 

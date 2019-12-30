@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace JLFilmApi.Controllers
 {
+    public enum Types { Film, User }
+
     [Route("api/[controller]")]
     [ApiController]
     public class ImageController : ControllerBase
@@ -30,37 +32,42 @@ namespace JLFilmApi.Controllers
         public async Task<string> GetImage()
         {
             string fileName = (await userRepository.GetUserByLogin(User.Identity.Name)).AccountImage;           
-            return await TakingImage("user", fileName);
+            return await TakingImage(Types.User, fileName);
         }
 
         [HttpGet("userImage/{id}")]
         public async Task<string> GetUserImage(int id)
         {
             string fileName = (await userRepository.GetUserById(id)).AccountImage;           
-            return await TakingImage("user", fileName);
+            return await TakingImage(Types.User, fileName);
         }
 
         [HttpGet("filmImage/{id}")]
         public async Task<string> GetImage(int id)
         {
             string fileName = (await filmRepository.GetFilm(id)).FilmImage;            
-            return await TakingImage("film", fileName);
+            return await TakingImage(Types.Film, fileName);
         }
 
         [Authorize]
         [HttpPost("uploading")]
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
-            string userLogin = (await userRepository.GetUserByLogin(User.Identity.Name)).Login;
-            string imageName = await resourcePathResolver.Upload(file, userLogin);
+            var  userAccountImage = (await userRepository.GetUserByLogin(User.Identity.Name)).AccountImage;
+            if(userAccountImage != null)
+            {
+                resourcePathResolver.DeleteUnusingImage(userAccountImage);
+            }
+            string imageName = await resourcePathResolver.Upload(file, User.Identity.Name);
+            await UploadDataImage(imageName);
             return Ok(imageName);
         }
                
-        private async Task<string> TakingImage(string type, string fileName)
+        private async Task<string> TakingImage(Types type, string fileName)
         {
             if (fileName == null) 
             {
-                fileName = (type == "film") ? 
+                fileName = (type == Types.Film) ? 
                     ImageDefaultNames.DEFAULT_FILM_IMAGE_NAME : 
                     ImageDefaultNames.DEFAULT_USER_IMAGE_NAME;
             }
@@ -69,6 +76,10 @@ namespace JLFilmApi.Controllers
         }
 
 
-
+        private async Task UploadDataImage(string imageName)
+        {
+            await userRepository.UpdateAccountImage(imageName, User.Identity.Name);
+           
+        }
     }
 }

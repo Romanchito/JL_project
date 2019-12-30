@@ -13,14 +13,26 @@ export class UpdateUserImage extends Component {
 
     submitForm = async e => {
         e.preventDefault();
+
         const formData = new FormData();
-        const fileField = document.querySelector('input[type="file"]');       
+        const fileField = document.querySelector('input[type="file"]');
         formData.append('file', fileField.files[0]);
+
         let typeCheck = RegExp("[|.|\\w|\\s|-]*\\.(?:jpg|gif|png)")
-        if (typeCheck.test(fileField.files[0].name)) {
+
+        
+
+        if (fileField.files[0] !== undefined) {
+            if (typeCheck.test(fileField.files[0].name)) {
+                new ImageApi().uploadUserAccountImage(formData);
+            }
+            else { this.setState({ isFalseType: true }); }
+        }
+        else {
             new ImageApi().uploadUserAccountImage(formData);
         }
-        else { this.setState({ isFalseType: true }); }
+
+        this.props.history.push('/user');
     }
 
     handleFileInput = e => {

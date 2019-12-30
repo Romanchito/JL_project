@@ -10,5 +10,6 @@ namespace JLFilmApi.Infostructure
     {
         Task<string> Take(TakingImageModel resourceName);
         Task<string> Upload(IFormFile file, string userLogin);
+        public void DeleteUnusingImage(string oldAccountImage);       
     }
 }

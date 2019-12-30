@@ -5,7 +5,6 @@ using JLFilmApi.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace JLFilmApi.Controllers
@@ -30,17 +29,13 @@ namespace JLFilmApi.Controllers
         {
             List<InfoViewReviews> listReviews = mapper.Map<List<InfoViewReviews>>
                 (await reviewsRepository.GetAllReviewsOfFilm(id));
-            await getViewFields(listReviews);
             return listReviews;
         }
 
-
         [HttpGet("{id}")]
         public async Task<ActionResult<InfoViewReviews>> GetReviewById(int id)
-        {
-            var data = await reviewsRepository.GetReviewById(id);
-            var review = mapper.Map<InfoViewReviews>(data);
-            await getFields(review, data);
+        {           
+            var review = mapper.Map<InfoViewReviews>(await reviewsRepository.GetReviewById(id));            
             return review;
         }
 
@@ -62,45 +57,8 @@ namespace JLFilmApi.Controllers
         public async Task<List<InfoViewReviews>> GetReviewsOfUser()
         {
             List<InfoViewReviews> listReviews = mapper.Map<List<InfoViewReviews>>
-                (await reviewsRepository.GetReviewsOfUser(User.Identity.Name));
-            await getViewFields(listReviews);
+                (await reviewsRepository.GetReviewsOfUser(User.Identity.Name));           
             return listReviews;
-        }      
-
-        private async Task getViewFields(List<InfoViewReviews> listReviews)
-        {
-            var list = await reviewsRepository.GetAllReviews();
-
-            foreach (var item in listReviews)
-            {
-                //Take userLogin from list
-                int userId = list.FirstOrDefault(x => x.Id == item.Id).UserId;
-                item.UserLogin = (await userRepository.GetUserById(userId)).Login;
-
-                //Take count of dislikes from list
-                item.CountOdDislikes = list.FirstOrDefault(x => x.Id == item.Id).
-                                     Likes.Where(like => like.IsLike == false)
-                                     .Count();
-                //Take count of likes from list
-                item.CountOfLikes = list.FirstOrDefault(x => x.Id == item.Id).
-                                       Likes.Where(like => like.IsLike == true)
-                                       .Count();
-
-            }
-        }
-
-        private async Task getFields(InfoViewReviews item, Reviews review)
-        {
-            
-            int userId = review.UserId;
-            item.UserLogin = (await userRepository.GetUserById(userId)).Login;
-
-            //Take count of dislikes from review
-            item.CountOdDislikes = review.Likes.Where(like => like.IsLike == false)
-                                 .Count();
-            //Take count of likes from review
-            item.CountOfLikes = review.Likes.Where(like => like.IsLike == true)
-                                   .Count();
-        }
+        }             
     }
 }

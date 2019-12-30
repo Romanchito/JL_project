@@ -1,10 +1,9 @@
 ﻿using JLFilmApi.Context;
+using JLFilmApi.Controllers;
 using JLFilmApi.DomainModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using NuGet.Configuration;
 using System;
 using System.IO;
 using System.Linq;
@@ -14,18 +13,22 @@ namespace JLFilmApi.Infostructure
 {
     public class SolutionBinaryResourceResolver : IBinaryResourcePathResolver
     {
+        private const string ACCOUNT_IMAGE_FOLDER_NAME = @"\AccountImages\";
+        private const string ACCOUNT_IMAGE_TYPE = ".png";
         private static IWebHostEnvironment myEnvironment;
         private static IConfiguration myConfiguration;
-        private static string hostPath;
-        private Settings Settings { get; set; }
-        private JLDatabaseContext jLDatabaseContext;
-        public SolutionBinaryResourceResolver(IWebHostEnvironment environment, JLDatabaseContext jLDatabaseContext,
-                IConfiguration configuration)
-        {
-            this.jLDatabaseContext = jLDatabaseContext;
+        private static string hostPath;       
+        
+        public SolutionBinaryResourceResolver(IWebHostEnvironment environment, IConfiguration configuration)
+        {            
             myConfiguration = configuration;
             hostPath = myConfiguration.GetSection("Settings").GetSection("CurrentHostPath").Value;
             myEnvironment = environment;
+        }
+
+        public void DeleteUnusingImage(string oldAccountImage)
+        {
+            System.IO.File.Delete(myEnvironment.WebRootPath + ACCOUNT_IMAGE_FOLDER_NAME + oldAccountImage);
         }
 
         public async Task<string> Take(TakingImageModel takingModel)
@@ -34,65 +37,34 @@ namespace JLFilmApi.Infostructure
 
             switch (takingModel.Type)
             {
-                case "film": return await Task.FromResult(Path.Combine(hostPath, "FilmImages",  takingModel.FileName));
-                case "user": return await Task.FromResult(Path.Combine(hostPath,"AccountImages", takingModel.FileName));
+                case Types.Film: return await Task.FromResult(Path.Combine(hostPath, "FilmImages",  takingModel.FileName));
+                case Types.User: return await Task.FromResult(Path.Combine(hostPath,"AccountImages", takingModel.FileName));
                 default: return null;
             }
         }
 
         public async Task<string> Upload(IFormFile file, string userLogin)
         {
+            string fileName = userLogin + ACCOUNT_IMAGE_TYPE;
             if (file == null)
-            {
-                var user = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Login == userLogin);
-                user.AccountImage = null;
-                jLDatabaseContext.SaveChanges();
-                return "default_user.png";
+            {                
+                return null;
             }
 
-            if (!Directory.Exists(myEnvironment.WebRootPath + @"\AccountImages\"))
+            if (!Directory.Exists(myEnvironment.WebRootPath + ACCOUNT_IMAGE_FOLDER_NAME))
             {
-                Directory.CreateDirectory(myEnvironment.WebRootPath + @"\AccountImages\");
-            }
+                Directory.CreateDirectory(myEnvironment.WebRootPath + ACCOUNT_IMAGE_FOLDER_NAME);
+            }            
 
-            await UploadDataImage(file.FileName, userLogin);
-
-            using (FileStream fileStream = System.IO.File.Create(myEnvironment.WebRootPath + @"\AccountImages\" + file.FileName))
+            using (FileStream fileStream = System.IO.File.Create(myEnvironment.WebRootPath + ACCOUNT_IMAGE_FOLDER_NAME + fileName))
             {
                 await file.CopyToAsync(fileStream);
                 await fileStream.FlushAsync();
-                return file.FileName;
+                return fileName;
             }
 
         }
-
-        private async Task UploadDataImage(string imageName, string userLogin)
-        {
-            Users user = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Login == userLogin);
-
-            if (user.AccountImage == null)
-            {
-                user.AccountImage = imageName;
-                await jLDatabaseContext.SaveChangesAsync();
-            }
-
-            else if (user.AccountImage.Equals(imageName))
-            {
-                DeleteUnusingImage(imageName);
-            }
-
-            else
-            {
-                DeleteUnusingImage(user.AccountImage);
-                user.AccountImage = imageName;
-                await jLDatabaseContext.SaveChangesAsync();
-            }
-        }
-
-        private void DeleteUnusingImage(string oldAccountImage)
-        {
-            System.IO.File.Delete($"wwwroot/{Path.Combine("AccountImages", oldAccountImage)}");
-        }
+       
 
     }
 

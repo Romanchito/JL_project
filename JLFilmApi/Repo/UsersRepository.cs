@@ -44,9 +44,9 @@ namespace JLFilmApi.Repo
             return user;
         }
 
-        public async Task<int> UpdateAccountImage(string imageName, int id)
+        public async Task<int> UpdateAccountImage(string imageName, string login)
         {
-            Users updateUser = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Id == id);            
+            Users updateUser = await jLDatabaseContext.Users.FirstOrDefaultAsync(x => x.Login == login);            
             updateUser.AccountImage = imageName;           
             await jLDatabaseContext.SaveChangesAsync();
             return updateUser.Id;
