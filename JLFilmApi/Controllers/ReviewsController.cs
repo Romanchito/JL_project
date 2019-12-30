@@ -42,11 +42,7 @@ namespace JLFilmApi.Controllers
         [Authorize]
         [HttpPost("newReview")]
         public async Task<IActionResult> AddReview(AddViewReviews review)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        {            
             int userId = (await userRepository.GetUserByLogin(User.Identity.Name)).Id;
             int reviewId = await reviewsRepository.AddReview(mapper.Map<Reviews>(review), userId);
             return Ok(reviewId);

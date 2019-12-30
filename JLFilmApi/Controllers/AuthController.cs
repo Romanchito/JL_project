@@ -30,13 +30,7 @@ namespace JLFilmApi.Controllers
         public async Task<ActionResult<string>> Token(AuthModel authModel)
         {
             
-            var identity = await GetIdentityAsync(authModel.Username, authModel.Password);
-           
-            if(identity == null)
-            {
-                ModelState.AddModelError("Username", "Неверно введенный адрес или пароль");
-                return BadRequest(ModelState);
-            }
+            var identity = await GetIdentityAsync(authModel.Username, authModel.Password);         
 
             var jwtToken = new JwtSecurityToken(
                 issuer: AuthOptions.ISSUER,

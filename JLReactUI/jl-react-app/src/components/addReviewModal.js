@@ -1,24 +1,32 @@
 import React, { Component } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form, FormControl } from 'react-bootstrap';
 import ReviewsApi from './api-route-components/reviewsApi';
+import { MyFormControl } from './helpers/myFormControl';
 
 export class AddReviewModal extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            values: { name: "", text: "", filmId: +this.props.resid }
+            values: { name: "", text: "", filmId: +this.props.resid },
+            errors: {}
         }
     }
-  
+
     handleSubmit = async (e) => {
-        e.preventDefault();       
+        e.preventDefault();
         console.log(this.state.values);
-        await new ReviewsApi().addReview(JSON.stringify(this.state.values));
-        this.props.onHide();           
+        const data = await new ReviewsApi().addReview(JSON.stringify(this.state.values));
+        if (!(data.hasOwnProperty("errors"))) {
+            this.props.onHide();
+        }
+        else {
+            console.log(data.errors);
+            this.setState({ errors: data.errors });
+        }        
     }
 
-    
+
     handleInputChange = e => {
 
         if (e.target.name !== "filmId") {
@@ -44,25 +52,29 @@ export class AddReviewModal extends Component {
 
                 <Modal.Body>
                     <div className="container">
-                       
-                            <Form onSubmit={this.handleSubmit}>
-                                <Form.Group>
-                                    <Form.Control
+
+                        <Form onSubmit={this.handleSubmit}>
+                            <Form.Group>
+                                <MyFormControl
+                                    errorslist={this.state.errors["Name"]}
+                                    formcontrol={<FormControl
                                         type="text"
                                         name="name"
                                         id="name"
-                                        title="name"
-                                        placeholder="Name"
+                                        title="Name"
+                                        placeholder="name"
                                         value={this.state.values.name}
                                         onChange={this.handleInputChange}
                                         required
-                                    >
-                                    </Form.Control>
-                                </Form.Group>
+                                    />}
+                                />
+                            </Form.Group>
 
-                                <Form.Group>
-                                    <Form.Control
-                                        as="textarea" 
+                            <Form.Group>
+                                <MyFormControl
+                                    errorslist={this.state.errors["Text"]}
+                                    formcontrol={<FormControl
+                                        as="textarea"
                                         aria-label="With textarea"
                                         type="text"
                                         name="text"
@@ -72,15 +84,15 @@ export class AddReviewModal extends Component {
                                         value={this.state.values.text}
                                         onChange={this.handleInputChange}
                                         required
-                                    >
-                                    </Form.Control>
-                                </Form.Group>                           
-                                <Form.Group>
-                                    <Button variant="primary" type="sumbit">
-                                        Add
+                                    />}
+                                />
+                            </Form.Group>
+                            <Form.Group>
+                                <Button variant="primary" type="sumbit">
+                                    Add
                                     </Button>
-                                </Form.Group>
-                            </Form>                       
+                            </Form.Group>
+                        </Form>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
