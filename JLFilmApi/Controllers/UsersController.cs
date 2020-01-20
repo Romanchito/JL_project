@@ -34,8 +34,21 @@ namespace JLFilmApi.Controllers
         [HttpPost("newUser")]
         public async Task<IActionResult> AddNewUser(AddViewUsers user)
         {
-            int userId = await userRepository.AddUser(mapper.Map<Users>(user));
-            return Ok(userId);
+            if (!await IsUserExist(user.Login))
+            {
+                int userId = await userRepository.AddUser(mapper.Map<Users>(user));
+                return Ok(userId);
+            }
+
+            var jsonResponse =
+                new
+                {
+                    errors = new
+                    {
+                        general = new[] { "user user with this email is existing" }
+                    }
+                };
+            return BadRequest(jsonResponse);           
         }        
 
         [HttpPut("updatingUser/{id}")]
@@ -50,6 +63,12 @@ namespace JLFilmApi.Controllers
         {           
             int userId = await userRepository.UpdateAccountPassword(passwordView.Password, id);
             return Ok(userId);
+        }
+
+        private async Task<bool> IsUserExist(string login)
+        {
+            AddViewUsers user = mapper.Map<AddViewUsers>(await userRepository.GetUserByLogin(login));            
+            return (user != null) ;
         }
     }
 }

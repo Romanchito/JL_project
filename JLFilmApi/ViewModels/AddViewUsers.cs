@@ -12,11 +12,11 @@ namespace JLFilmApi.ViewModels
         public string Password { get; set; }
         [Required]
         [RegularExpression(@"[A-Za-z]*", ErrorMessage = "Некорректное имя")]
-        [StringLength(40, MinimumLength = 3, ErrorMessage = "Недопустимая длина имени")]
+        [StringLength(40, MinimumLength = 3, ErrorMessage = "Недопустимая длина имени(3-40)")]
         public string Name { get; set; }
         [Required]
         [RegularExpression(@"[A-Za-z]*", ErrorMessage = "Некорректное имя")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Недопустимая длина фамилии")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Недопустимая длина фамилии(3-50)")]
         public string Surname { get; set; }        
     }
 }

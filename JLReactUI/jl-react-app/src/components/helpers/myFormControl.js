@@ -6,6 +6,14 @@ export const MyFormControl = ({ formcontrol, errorslist }) => {
         return formcontrol
     }
 
+    if (!formcontrol) {
+        return (
+            <div>               
+                {errorslist.map((error, index) => <li id="errorBlock" key={index}>{error}</li>)}
+            </div>
+        )
+    }
+
     return (
         <div>
             {formcontrol}

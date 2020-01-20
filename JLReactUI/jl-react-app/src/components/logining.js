@@ -18,13 +18,13 @@ export class Login extends Component {
         e.preventDefault();
 
         const data = await new JwtApi().getJwtToken(JSON.stringify(this.state.values));
-       
-        
+
+        console.log(data);
         if (!(data.hasOwnProperty("errors"))) {
             localStorage.setItem('your-jwt', data.jwtHandler);
             this.props.history.push('/user');
         }
-        
+
         else {
 
             console.log(data.errors);
@@ -73,6 +73,14 @@ export class Login extends Component {
                             />}
                         />
                     </FormGroup>
+
+                    <FormGroup>
+                        <MyFormControl
+                            errorslist={this.state.errors["general"]}
+                            formcontrol={null}
+                        />
+                    </FormGroup>
+
                     <div className="login-button">
                         <Button type="submit">
                             Sign in

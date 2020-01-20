@@ -27,10 +27,23 @@ namespace JLFilmApi.Controllers
         }
 
         [HttpPost("jwtToken")]
-        public async Task<ActionResult<string>> Token(AuthModel authModel)
+        public async Task<ActionResult> Token(AuthModel authModel)
         {
             
-            var identity = await GetIdentityAsync(authModel.Username, authModel.Password);         
+            var identity = await GetIdentityAsync(authModel.Username, authModel.Password);       
+            
+            if(identity == null) 
+            {
+                var jsonResponse =
+                new
+                {
+                    errors = new
+                    {
+                        general = new[] { "user isn't existing" }
+                    }
+                };
+                return BadRequest(jsonResponse);
+            }
 
             var jwtToken = new JwtSecurityToken(
                 issuer: AuthOptions.ISSUER,
@@ -41,7 +54,7 @@ namespace JLFilmApi.Controllers
                 );
            
             var response = new { jwtHandler = new JwtSecurityTokenHandler().WriteToken(jwtToken) };          
-        
+            
             return Ok(response);
 
         }

@@ -18,11 +18,12 @@ export class Registration extends Component {
     }
 
     signIn = async (log_username, log_password) => {
+        console.log(log_username + " " + log_password);
         this.setState({
             log_user: { username: log_username, password: log_password }
         });
-        const data = await new JwtApi().getJwtToken(JSON.stringify(this.state.log_user));
-        localStorage.setItem('your-jwt', data);
+        const data = await new JwtApi().getJwtToken(JSON.stringify(this.state.log_user));        
+        localStorage.setItem('your-jwt', data.jwtHandler);
         this.props.history.push('/user');
     }
 
@@ -30,8 +31,8 @@ export class Registration extends Component {
         e.preventDefault();
         const data = await new UserApi().addNewUser(JSON.stringify(this.state.values));
 
-        if (!(data.hasOwnProperty("errors"))) {
-            this.props.history.push('/user');
+        if (!(data.hasOwnProperty("errors"))) {            
+            await this.signIn(this.state.values.login, this.state.values.password);
         }
         else {
             console.log(data.errors);
@@ -117,6 +118,12 @@ export class Registration extends Component {
                                     onChange={this.handleInputChange}
                                     required
                                 />}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <MyFormControl
+                            errorslist={this.state.errors["general"]}
+                            formcontrol={null}
                         />
                     </FormGroup>
                     <div className="register_button">
