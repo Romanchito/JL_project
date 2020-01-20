@@ -30,7 +30,7 @@ export class Registration extends Component {
     submitForm = async e => {
         e.preventDefault();
         const data = await new UserApi().addNewUser(JSON.stringify(this.state.values));
-
+        console.log(data);
         if (!(data.hasOwnProperty("errors"))) {            
             await this.signIn(this.state.values.login, this.state.values.password);
         }

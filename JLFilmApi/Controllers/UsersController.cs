@@ -39,16 +39,18 @@ namespace JLFilmApi.Controllers
                 int userId = await userRepository.AddUser(mapper.Map<Users>(user));
                 return Ok(userId);
             }
-
+            
             var jsonResponse =
                 new
                 {
                     errors = new
                     {
-                        general = new[] { "user user with this email is existing" }
+                        general = new[] { "Пользователь с данным адресом уже существует" }
                     }
                 };
-            return BadRequest(jsonResponse);           
+            return BadRequest(jsonResponse);
+
+           
         }        
 
         [HttpPut("updatingUser/{id}")]

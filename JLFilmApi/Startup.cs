@@ -95,7 +95,7 @@ namespace JLFilmApi
                            ValidAudience = AuthOptions.AUDIENCE,
                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AuthOptions.KEY))
                        };
-                   });
+                   });           
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

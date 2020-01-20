@@ -39,7 +39,7 @@ namespace JLFilmApi.Controllers
                 {
                     errors = new
                     {
-                        general = new[] { "user isn't existing" }
+                        general = new[] { "Пользователь не найден" }
                     }
                 };
                 return BadRequest(jsonResponse);
