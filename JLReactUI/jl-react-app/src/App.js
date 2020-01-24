@@ -39,13 +39,13 @@ function App() {
           <Route path="/register" component={Registration} />
           <Route path="/review/:id" component={MainReviewInform}/>
           <Route path="/error/:code" component={ErrorPage}/>
+          <Route path="/film/:id" component={Film} />
           <AuthComponent>
             <Route path="/uploadImage" component={UpdateUserImage}/>
             <Route path="/refresh_password/:id" component={RefreshPassword} />
             <Route path="/update_user_inform/:id" component={UpdateUser} />
             <Route path="/user" component={UserAccount} />
-            <Route path="/about" component={About} />
-            <Route path="/film/:id" component={Film} />           
+            <Route path="/about" component={About} />                      
           </AuthComponent>
           
 

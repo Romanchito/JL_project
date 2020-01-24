@@ -3,6 +3,7 @@ import { Button, ButtonToolbar } from 'react-bootstrap';
 import { AddReviewModal } from './addReviewModal';
 import { Link } from 'react-router-dom';
 import ReviewsApi from './api-route-components/reviewsApi';
+import Paginator from './helpers/customPaginator';
 
 export class Review extends Component {
 
@@ -15,22 +16,25 @@ export class Review extends Component {
         this.refreshList();
     }
 
-    refreshList = () => {       
+    refreshList = () => {
         new ReviewsApi().getAllReviewsOfFilm(this.props.id)
             .then(data => {
                 this.setState({ reviews: data });
             });
     }
 
+    addModalClose = () => {
+        this.setState({ addModalShow: false });
+        this.refreshList();
+    };
+
     render = () => {
         const reviews = this.state.reviews;
-        const valueId = this.props.id;
-        let addModalClose = () => {
-            this.setState({ addModalShow: false });
-            this.refreshList();
-        };
+        const valueId = this.props.id;      
         return (
+            
             <div className="reviews_data_block">
+                <Paginator currentPage={1} onPageChanged={this.refreshList} totalItemsCount={20} pageSize={3}/>
                 <ButtonToolbar>
                     <div className="add_review_block">
                         <Button variant="primary" onClick={() => this.setState({ addModalShow: true })}>
@@ -39,7 +43,7 @@ export class Review extends Component {
                     </div>
                     <AddReviewModal
                         show={this.state.addModalShow}
-                        onHide={addModalClose}
+                        onHide={this.addModalClose}
                         resid={valueId}
                     />
                 </ButtonToolbar>
@@ -54,11 +58,9 @@ export class Review extends Component {
                                 <div className="text_review_block"><p>{review.text}</p></div>
                                 <div className="review_like_block"><p>{review.likesCount}</p></div>
                             </div>
-
                         </div>
                     </div>
-                )}
-
+                )}               
             </div>
         )
     }
