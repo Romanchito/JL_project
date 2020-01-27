@@ -1,7 +1,6 @@
 ﻿using JLFilmApi.Context;
 using JLFilmApi.DomainModels;
 using JLFilmApi.Repo.Contracts;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,10 +17,14 @@ namespace JLFilmApi.Repo
             this.jLDatabaseContext = jLDatabaseContext;
         }
 
-        public async Task<List<Reviews>> GetAllReviewsOfFilm(int filmId)
+        public async Task<List<Reviews>> GetAllReviewsOfFilm(int filmId, int skipIndex, int takeIndex)
         {
-            return await jLDatabaseContext.Reviews.Where(x => x.FilmId == filmId).ToListAsync();
-
+            //skipIndex decreases by 1 because in the database the index starts at 0
+            skipIndex--;            
+            return await jLDatabaseContext.Reviews.Where(x => x.FilmId == filmId)
+                .Skip(skipIndex * takeIndex)
+                .Take(takeIndex)
+                .ToListAsync();
         }
        
         public async Task<int> AddReview(Reviews review, int userId)
@@ -43,6 +46,11 @@ namespace JLFilmApi.Repo
         public async Task<List<Reviews>> GetAllReviews()
         {
             return await jLDatabaseContext.Reviews.ToListAsync();            
+        }
+
+        public async Task<int> GetCountReviewsOfFilm(int id)
+        {
+            return await jLDatabaseContext.Reviews.Where(x => x.FilmId == id).CountAsync();
         }
 
         public async Task<Reviews> GetReviewById(int reviewId)

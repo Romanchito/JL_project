@@ -17,17 +17,12 @@ export class AddCommentModal extends Component {
         e.preventDefault();
         this.setState(
             {
-                values: {
-                    ...this.state.values,
-                    reviewId: +this.props.id
-                }
+                values: { ...this.state.values, reviewId: +this.props.id }
             }, () => {
                 new CommentApi().addComment(JSON.stringify(this.state.values)).then(() => this.props.resetfunc())
             }
         )
-        
     }
-
 
     handleInputChange = e => {
         this.setState({
@@ -60,8 +55,6 @@ export class AddCommentModal extends Component {
                     </Button>
                 </Form.Group>
             </Form>
-
-
         )
     }
 }

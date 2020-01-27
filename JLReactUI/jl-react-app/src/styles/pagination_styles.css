@@ -1,0 +1,14 @@
+.page-item a{   
+    color: #abc730;    
+    background-color:#110729;
+    border-color: #abc730;
+    border: solid 2px;    
+}
+
+.page-item.active .page-link{   
+    color: #110729; 
+    background-color:#abc730;
+    border-color: #abc730;
+    border:solid 2px #abc730;
+}
+

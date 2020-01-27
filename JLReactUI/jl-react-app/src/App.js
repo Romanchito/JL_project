@@ -3,7 +3,8 @@ import './App.css';
 import './styles/home_film_block.css';
 import './styles/film_inform_styles.css';
 import './styles/login_style.css';
-import './styles/status_code_styles.css'
+import './styles/status_code_styles.css';
+import './styles/pagination_styles.css';
 import './config.json';
 
 
@@ -23,10 +24,6 @@ import UserAccount from './components/userAccountPage';
 import { UpdateUserImage } from './components/updateUserImage';
 import { MainReviewInform } from './components/fullReviewInform';
 import { ErrorPage } from './components/helpers/serverErrorPage';
-
-
-
-
 
 function App() {
   return (

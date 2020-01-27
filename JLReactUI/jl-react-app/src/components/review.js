@@ -9,17 +9,27 @@ export class Review extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { reviews: [], addModalShow: false };
+        this.state = {
+            reviews: [],
+            countOfReviews: 0,
+            addModalShow: false,
+            paginationNumber: 1,
+            paginationCountValues: 1,
+        };
     }
 
     componentDidMount() {
         this.refreshList();
     }
 
-    refreshList = () => {
-        new ReviewsApi().getAllReviewsOfFilm(this.props.id)
+    refreshList = (puginationIndexClick = 1) => {
+        new ReviewsApi().getAllReviewsOfFilm(
+            this.props.id,
+            puginationIndexClick,
+            this.state.paginationCountValues
+        )
             .then(data => {
-                this.setState({ reviews: data });
+                this.setState({ reviews: data.reviews, countOfReviews: data.countOfReviews, paginationNumber: puginationIndexClick });
             });
     }
 
@@ -30,11 +40,14 @@ export class Review extends Component {
 
     render = () => {
         const reviews = this.state.reviews;
-        const valueId = this.props.id;      
+        const valueId = this.props.id;
         return (
-            
             <div className="reviews_data_block">
-                <Paginator currentPage={1} onPageChanged={this.refreshList} totalItemsCount={20} pageSize={3}/>
+                <Paginator currentPage={this.state.paginationNumber}
+                    onPageChanged={this.refreshList}
+                    totalItemsCount={3}
+                    pageSize={1}
+                />
                 <ButtonToolbar>
                     <div className="add_review_block">
                         <Button variant="primary" onClick={() => this.setState({ addModalShow: true })}>
@@ -60,7 +73,7 @@ export class Review extends Component {
                             </div>
                         </div>
                     </div>
-                )}               
+                )}
             </div>
         )
     }

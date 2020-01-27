@@ -44,14 +44,10 @@ class NavigationMenu extends Component {
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={() => this.logout() }>logout</NavDropdown.Item>
                             </NavDropdown>
-
-
                         ) : (
                                 <Nav.Link href="/log">login</Nav.Link>
                             )}
-
                     </Nav>
-
                 </Navbar.Collapse>
             </Navbar>
         )

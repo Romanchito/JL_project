@@ -24,12 +24,14 @@ namespace JLFilmApi.Controllers
             this.reviewsRepository = reviewsRepository;
         }
 
-        [HttpGet("reviewsOfFilm/{id}")]
-        public async Task<List<InfoViewReviews>> GetReview(int id)
+        [HttpGet("reviewsOfFilm/{id}/{skipIndex}/{takeIndex}")]
+        public async Task<AllReviewsOfFilm> GetReview(int id, int skipIndex, int takeIndex)
         {
-            List<InfoViewReviews> listReviews = mapper.Map<List<InfoViewReviews>>
-                (await reviewsRepository.GetAllReviewsOfFilm(id));
-            return listReviews;
+            AllReviewsOfFilm reviewsOfFilm = new AllReviewsOfFilm();
+            reviewsOfFilm.Reviews = mapper.Map<List<InfoViewReviews>>
+                (await reviewsRepository.GetAllReviewsOfFilm(id, skipIndex, takeIndex));
+            reviewsOfFilm.CountOfReviews = await reviewsRepository.GetCountReviewsOfFilm(id);
+            return reviewsOfFilm;
         }
 
         [HttpGet("{id}")]

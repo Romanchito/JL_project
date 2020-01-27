@@ -5,7 +5,6 @@ export default class ImageApi extends BaseApi {
 
     IMAGE_URI = 'Image'
 
-
     getAccountImage() {
         let uri = this.IMAGE_URI + "/accountImage";
         return super.client_call(uri, null, "GET");

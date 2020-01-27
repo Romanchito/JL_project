@@ -31,8 +31,7 @@ export class Comment extends Component {
                         <h2>{comment.text}</h2>                        
                         <div className="text_comments_block"><p>{comment.text}</p></div>
                         <div className="date_comment_block"><p>Date: {comment.date}</p></div>
-                    </div>
-                
+                    </div>                
             </div>
             )
         )

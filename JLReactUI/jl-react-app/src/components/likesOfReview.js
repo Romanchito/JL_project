@@ -23,9 +23,7 @@ export class Likes extends Component {
             () => {
                 new LikeApi().addLike(JSON.stringify(this.state.values)).then(() => this.props.resetfunc());
             }            
-        )
-            
-                               
+        )                            
     }
 
     render() {

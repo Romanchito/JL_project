@@ -134,7 +134,6 @@ export class Registration extends Component {
                             Cancle
                         </Button>
                     </div>
-
                 </Form>
             </div>
         );

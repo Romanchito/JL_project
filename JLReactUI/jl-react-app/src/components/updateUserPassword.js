@@ -93,8 +93,6 @@ export class RefreshPassword extends Component {
                         </div>
                     </FormGroup>
                 </Form>
-
-
             </div>
         );
     }
