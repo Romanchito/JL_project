@@ -45,7 +45,7 @@ export class Review extends Component {
             <div className="reviews_data_block">
                 <Paginator currentPage={this.state.paginationNumber}
                     onPageChanged={this.refreshList}
-                    totalItemsCount={3}
+                    totalItemsCount={this.state.countOfReviews}
                     pageSize={1}
                 />
                 <ButtonToolbar>

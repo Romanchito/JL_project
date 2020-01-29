@@ -14,7 +14,7 @@ export class Home extends Component {
     }
 
     refreshList() {
-        new FilmApi().getAllFilms()            
+        new FilmApi().getAllFilms()
             .then(d => {
                 this.setState({ films: d })
             }
