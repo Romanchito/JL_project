@@ -7,6 +7,7 @@
     [ReleaseDate]    DATE           NOT NULL,
     [WorldwideGross] DECIMAL (18)   NOT NULL,
     [FilmImage]      NVARCHAR (200) NULL,
+    [Type] NVARCHAR(50) NULL, 
     CONSTRAINT [PK_Films] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 

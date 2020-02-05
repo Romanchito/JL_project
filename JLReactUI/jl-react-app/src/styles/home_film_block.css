@@ -1,16 +1,45 @@
-.main_films_block{    
-    padding: 4%;    
+.main-films-block{    
+    padding: 2%;    
 }
 
-.film_block{
+.film-block{
     background-color: brown;
     display: inline-block; 
     width:20%;   
     margin:5%;
     overflow: hidden;  
     }
-.film_block img{
+.film-block img{
     height: 500px;
     width: 100%;  
     position: relative;  
     }
+.main-search-block{
+    margin: auto;
+    color: aliceblue;    
+}
+
+.main-search-block h6{
+    display: inline;
+    margin-left: 1.5%;
+}
+
+hr{
+    width: 50%;
+    background-color: aliceblue;
+}
+
+
+
+.submitB{ 
+    border:none; 
+    padding:0; 
+    margin:0; 
+    font-size:15px; 
+    color:aliceblue; 
+    background-color:transparent; 
+    margin-left: 2%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+

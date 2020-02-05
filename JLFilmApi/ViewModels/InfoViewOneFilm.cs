@@ -13,5 +13,6 @@ namespace JLFilmApi.ViewModels
         public decimal WorldwideGross { get; set; }
         public string FilmImage { get; set; }
         public string FilmImageUrl { get; set; }
+        public string Type { get; set; }
     }
 }

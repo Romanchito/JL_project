@@ -18,7 +18,7 @@ namespace JLFilmApi.DomainModels
         public DateTime ReleaseDate { get; set; }
         public decimal WorldwideGross { get; set; }
         public string FilmImage { get; set; }
-
+        public string Type { get; set; }
         public virtual ICollection<Reviews> Reviews { get; set; }
     }
 }
