@@ -5,21 +5,21 @@ import CommentApi from './api-route-components/commentApi';
 
 export class AddCommentModal extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            values: { text: "", reviewId: 0 }
+            values: { text: "", reviewId: 0 },
+            commentApi: new CommentApi()
         }
     }
 
-    handleSubmit = e => {
-        console.log(this.state.values)
+    handleSubmit = e => {      
         e.preventDefault();
         this.setState(
             {
                 values: { ...this.state.values, reviewId: +this.props.id }
             }, () => {
-                new CommentApi().addComment(JSON.stringify(this.state.values)).then(() => this.props.resetfunc())
+                this.state.commentApi.addComment(JSON.stringify(this.state.values)).then(() => this.props.resetfunc())
             }
         )
     }
@@ -31,7 +31,6 @@ export class AddCommentModal extends Component {
     }
 
     render() {
-
         return (
             <Form onSubmit={this.handleSubmit}>
                 <Form.Group>

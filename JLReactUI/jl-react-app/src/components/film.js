@@ -7,27 +7,25 @@ export class Film extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { film: {} };
+        this.state = { film: {}, filmApi: new FilmApi() };
 
     }
 
     componentDidMount() {
-        this.refreshList();
+        this.getFilmInform();
     }
 
-    refreshList() {
+    getFilmInform() {
         const id = this.props.match.params.id;
-        new FilmApi().getFilmById(id)
+        this.state.filmApi.getFilmById(id)
             .then(data => {
                 this.setState({ film: data });
             });
     }
 
     render() {
-
-        const film = this.state.film;
-
-        return (            
+        const { film } = this.state;
+        return (
             <div className="main_film_block">
                 <div className="film_information_block">
                     <div className="both-block"></div>

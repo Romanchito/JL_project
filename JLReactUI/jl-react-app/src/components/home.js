@@ -4,18 +4,14 @@ import FilmApi from './api-route-components/FilmApi'
 
 export class Home extends Component {
 
+
     constructor(props) {
         super(props);
-        this.state = { films: [], countries: [], types: [], viewfilms: [] }
+        this.state = { films: [], countries: [], types: [], filmApi: new FilmApi() }
     }
 
     componentDidMount() {
-        this.refreshList();
-    }
-
-    handleChange = () => {
-        let val = document.getElementById('name-search-field').value;
-        this.refreshList(val);
+        this.getFilmsAttributes();
     }
 
     showBlock(id) {
@@ -25,26 +21,7 @@ export class Home extends Component {
                 document.getElementById(array[index]).style.display = 'none';
             }
         }
-        if (id !== 'name-box') {
-            this.setState({viewfilms:this.state.films});
-            this.workWithCategoriesBlock(id);
-        }
-        else {
-            this.workWithNameBlock(id);
-        }
-    }
 
-    workWithNameBlock = (id) => {
-        if (document.getElementById(id).style.display === 'none') {
-            document.getElementById(id).style.display = 'block';
-        }
-        else {
-            document.getElementById(id).style.display = 'none';
-            this.refreshList();
-        }
-    }
-
-    workWithCategoriesBlock(id) {
         if (document.getElementById(id).style.display === 'none') {
             document.getElementById(id).style.display = 'block';
         }
@@ -53,55 +30,58 @@ export class Home extends Component {
         }
     }
 
-    addData = () => {
-        let countriesResult = [];
-        let typesResult = [];
-        for (let film of this.state.films) {
-            if (!countriesResult.includes(film.country)) {
-                countriesResult.push(film.country);
-            }
-            if (!typesResult.includes(film.type)) {
-                typesResult.push(film.type);
-            }
-        }
-        this.setState({ types: typesResult });
-        this.setState({ countries: countriesResult });
+    getFilmsAttributes = () => {
+       this.state.filmApi.getFilmsAttributes().then(d => {
+            this.setState({ countries: d.filmCountries, types: d.filmTypes });
+        })
     }
 
-    refreshList = (name) => {
-        new FilmApi().getAllFilms(name)
+    getFilmsByName = (name) => {
+        this.state.filmApi.getAllFilmsByName(name)
             .then(d => {
-                this.setState({ films: d, viewfilms: d }, () => this.addData());
+                this.setState({ films: d });
             }
             );
     }
-
-    filterCountry(country) {        
-        let resultArray = [];
-        for (let index = 0; index < this.state.films.length; index++) {
-            if (this.state.films[index].country === country) {
-                resultArray.push(this.state.films[index]);
-            }
-        }
-        this.setState({ viewfilms: resultArray });
+    
+    handleChange = () => {
+        let val = document.getElementById('name-search-field').value;
+        this.getFilmsByName(val);
     }
+
+    getFilmsByTypes = (type) => {        
+        this.state.filmApi.getAllFilmsByType(type).then(
+            d => {
+                this.setState({ films: d });
+            }
+        )        
+    }  
+
+    getFilmsByCountries = (country) => {        
+        this.state.filmApi.getAllFilmsByCountry(country).then(
+            d => {
+                this.setState({ films: d });
+            }
+        )        
+    }  
+
     render() {
         return (
 
             <div className="main-films-block">
                 <div className="main-search-block">
-                    <input type="submit" onClick={() => this.showBlock('country-box')} className="submitB" />
-                    <input type="submit" onClick={() => this.showBlock('type-box')} className="submitB" />
-                    <input type="submit" onClick={() => this.showBlock('name-box')} className="submitB" />
+                    <input type="submit" onClick={this.showBlock.bind(this,'country-box')} className="submitB" value="Country" />
+                    <input type="submit" onClick={this.showBlock.bind(this,'type-box')} className="submitB" value="Type" />
+                    <input type="submit" onClick={this.showBlock.bind(this,'name-box')} className="submitB" value="Name" />
                     <hr />
                     <div id="country-box" style={{ display: 'none' }}>
                         {
-                            this.state.countries ? this.state.countries.map((ctr) => <h6  onClick={() => this.filterCountry(ctr)}>{ctr}</h6>) : ""
+                            this.state.countries ? this.state.countries.map((ctr) => <h6 key={ctr} onClick={this.getFilmsByCountries.bind(this, ctr)}>{ctr}</h6>) : ""
                         }
                     </div>
                     <div id="type-box" style={{ display: 'none' }}>
                         {
-                            this.state.countries ? this.state.types.map((t) => <h6>{t}</h6>) : ""
+                            this.state.countries ? this.state.types.map((type) => <h6 key={type} onClick={this.getFilmsByTypes.bind(this, type)}>{type}</h6>) : ""
                         }
                     </div>
                     <div id="name-box" style={{ display: 'none' }}>
@@ -111,7 +91,7 @@ export class Home extends Component {
                     </div>
 
                 </div>
-                {this.state.viewfilms.map((film) =>
+                {this.state.films.map((film) =>
 
                     <div key={film.id} className="film-block">
                         <Link key={film.id} to={{ pathname: `/film/${film.id}` }}>

@@ -10,7 +10,9 @@ export class MainReviewInform extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            review: 0, comments: []
+            review: 0, comments: [],
+            reviewsApi: new ReviewsApi(),
+            commentApi: new CommentApi()
         }
     }
 
@@ -21,8 +23,7 @@ export class MainReviewInform extends Component {
     getDataOfReview(id) {
 
 
-        new ReviewsApi().getReviewById(id).then(data => {
-            console.log(data);
+        this.state.reviewsApi.getReviewById(id).then(data => {
             this.setState({ review: data });
         });
 
@@ -31,18 +32,16 @@ export class MainReviewInform extends Component {
 
     getDataOfComments() {
         const id = this.props.match.params.id;
-        new CommentApi().getAllCommentsOfReview(id)
+        this.state.commentApi.getAllCommentsOfReview(id)
             .then(data => {
                 this.setState({ comments: data });
             });
     }
 
     resetfunc = () => {
-        console.log("REFRESH")
         this.getDataOfReview(this.props.match.params.id);
     }
     render = () => {
-
         return (
             <div className="main-data-review-block">
                 <div className="main-review-block">

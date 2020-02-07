@@ -27,8 +27,8 @@ namespace JLFilmApi.Controllers
             this.filmRepository = filmRepository;
         }
 
-        [HttpGet("Name/{name}")]
-        public async Task<List<InfoViewFilms>> GetFilmsByName(string name)
+        [HttpGet("Name/{name?}")]
+        public async Task<List<InfoViewFilms>> GetFilmsByName(string name = "")
         {
             var films = mapper.Map<List<InfoViewFilms>>(await filmRepository.GetFilms(name, FilmFilters.Name));
             await GetImagesForFilms(films);

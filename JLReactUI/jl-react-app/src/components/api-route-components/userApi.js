@@ -5,22 +5,22 @@ export default class UserApi extends BaseApi {
     USER_URI = 'Users';
 
     getUserByLogin(user_login) {
-        let uri = this.USER_URI + "/" + user_login;
+        let uri = `${this.USER_URI}/${user_login}`;
         return super.client_call(uri, null, "GET");
     }
 
     addNewUser(user) {
-        let uri = this.USER_URI + "/newUser"
+        let uri = `${this.USER_URI}/newUser`
         return super.client_call(uri, user, "POST");
     }
 
     updateUser(user, id) {
-        let uri = this.USER_URI + "/updatingUser/" + id;
+        let uri = `${this.USER_URI}/updatingUser/${id}`;
         return super.client_call(uri, user, "PUT");
     }
 
-    updateUserPassword(password,id){
-        let uri = this.USER_URI + "/updatingPassword/" + id;
+    updateUserPassword(password, id) {
+        let uri = `${this.USER_URI}/updatingPassword/${id}`;
         return super.client_call(uri, password, "PUT");
     }
 }

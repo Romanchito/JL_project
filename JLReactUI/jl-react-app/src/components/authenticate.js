@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, Redirect } from "react-router-dom";
 import { getJwt } from './helpers/jwtHelper';
+import UserApi from './api-route-components/userApi';
 
 class AuthComponent extends Component {
     constructor(props) {
@@ -43,11 +44,9 @@ class AuthComponent extends Component {
             </div>
             );
         }
-
         if (user === null) {
             return <Redirect to="/log" />
         }
-
         return this.props.children;
     }
 

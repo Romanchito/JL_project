@@ -49,7 +49,7 @@ namespace JLFilmApi.Repo
             switch (filterCategory)
             {
                 case FilmFilters.Name:
-                    return await db.Films.Where(x => x.Name == value).ToListAsync();
+                    return await db.Films.Where(x => x.Name.Contains(value)).ToListAsync();
                 case FilmFilters.Country:
                     return await db.Films.Where(x => x.Country == value).ToListAsync();
                 case FilmFilters.Type:
