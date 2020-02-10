@@ -10,24 +10,21 @@ export class Login extends Component {
         super();
         this.state = {
             values: { username: "", password: "" },
-            errors: {}
+            errors: {},
+            jwtApi: new JwtApi()
         };
     }
 
     submitForm = async e => {
         e.preventDefault();
 
-        const data = await new JwtApi().getJwtToken(JSON.stringify(this.state.values));
-
-        console.log(data);
+        const data = await this.state.jwtApi.getJwtToken(JSON.stringify(this.state.values));
         if (!(data.hasOwnProperty("errors"))) {
-            localStorage.setItem('your-jwt', data.jwtHandler);
+            this.state.jwtApi.setLocalStorageToken(data.jwtHandler);
             this.props.history.push('/user');
         }
 
         else {
-
-            console.log(data.errors);
             this.setState({ errors: data.errors });
         }
     }

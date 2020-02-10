@@ -7,7 +7,8 @@ export class UpdateUserImage extends Component {
         super(props);
         this.state = {
             file: "",
-            isFalseType: false
+            isFalseType: false,
+            imageApi: new ImageApi()
         };
     }
 
@@ -24,12 +25,12 @@ export class UpdateUserImage extends Component {
 
         if (fileField.files[0] !== undefined) {
             if (typeCheck.test(fileField.files[0].name)) {
-                new ImageApi().uploadUserAccountImage(formData);
+                this.state.imageApi.uploadUserAccountImage(formData);
             }
             else { this.setState({ isFalseType: true }); }
         }
         else {
-            new ImageApi().uploadUserAccountImage(formData);
+            this.state.imageApi.uploadUserAccountImage(formData);
         }
 
         this.props.history.push('/user');

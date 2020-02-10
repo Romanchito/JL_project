@@ -6,7 +6,8 @@ export class UserImage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            path: ""
+            path: "",
+            imgApi: new ImageApi()
         }
     }
 
@@ -15,7 +16,7 @@ export class UserImage extends Component {
     }
 
     showImage() {
-        new ImageApi().getUserImage(this.props.id).then(data => {
+        this.state.imgApi.getUserImage(this.props.id).then(data => {
             this.setState({ path: data });
         });
     }

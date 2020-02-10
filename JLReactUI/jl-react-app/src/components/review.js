@@ -15,6 +15,7 @@ export class Review extends Component {
             addModalShow: false,
             paginationNumber: 1,
             paginationCountValues: 1,
+            reviewApi: new ReviewsApi()
         };
     }
 
@@ -23,7 +24,7 @@ export class Review extends Component {
     }
 
     refreshList = (puginationIndexClick = 1) => {
-        new ReviewsApi().getAllReviewsOfFilm(
+        this.state.reviewApi.getAllReviewsOfFilm(
             this.props.id,
             puginationIndexClick,
             this.state.paginationCountValues

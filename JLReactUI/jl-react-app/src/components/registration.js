@@ -13,29 +13,28 @@ export class Registration extends Component {
             values: { login: "", password: "", name: "", surname: "" },
             log_user: { username: "", password: "" },
             isError: false,
-            errors: {}
+            errors: {},
+            jwtApi: new JwtApi(),
+            userApi: new UserApi()
         };
     }
 
     signIn = async (log_username, log_password) => {
-        console.log(log_username + " " + log_password);
         this.setState({
             log_user: { username: log_username, password: log_password }
         });
-        const data = await new JwtApi().getJwtToken(JSON.stringify(this.state.log_user));        
-        localStorage.setItem('your-jwt', data.jwtHandler);
+        const data = this.state.jwtApi.getJwtToken(JSON.stringify(this.state.log_user));
+        this.state.jwtApi.setLocalStorageToken(data.jwtHandler);
         this.props.history.push('/user');
     }
 
     submitForm = async e => {
         e.preventDefault();
-        const data = await new UserApi().addNewUser(JSON.stringify(this.state.values));
-        console.log(data);
-        if (!(data.hasOwnProperty("errors"))) {            
+        const data = await this.state.userApi.addNewUser(JSON.stringify(this.state.values));
+        if (!(data.hasOwnProperty("errors"))) {
             await this.signIn(this.state.values.login, this.state.values.password);
         }
         else {
-            console.log(data.errors);
             this.setState({ errors: data.errors });
         }
     }

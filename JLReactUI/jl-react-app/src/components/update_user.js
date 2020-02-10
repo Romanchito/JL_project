@@ -9,22 +9,21 @@ export class UpdateUser extends Component {
         super(props);
         this.state = {
             values: { name: "", surname: "" },
-            errors: {}
+            errors: {},
+            userApi: new UserApi()
         };
     }
 
     submitForm = async e => {
         e.preventDefault();
         const id = this.props.match.params.id;
-        const data = await new UserApi().updateUser(JSON.stringify(this.state.values), id);
+        const data = await this.state.userApi.updateUser(JSON.stringify(this.state.values), id);
 
         if (!(data.hasOwnProperty("errors"))) {
             this.props.history.push('/user');
         }
         else {
-            console.log(data.errors);
             this.setState({ errors: data.errors });
-
         }
     }
 

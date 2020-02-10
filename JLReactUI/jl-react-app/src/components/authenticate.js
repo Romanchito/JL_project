@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { withRouter, Redirect } from "react-router-dom";
 import { getJwt } from './helpers/jwtHelper';
-import UserApi from './api-route-components/userApi';
+import JwtApi from './api-route-components/jwtApi';
 
 class AuthComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: undefined
+            user: undefined,
+            jwtApi: new JwtApi()
         };
     }
 
@@ -16,7 +17,7 @@ class AuthComponent extends Component {
     }
 
     getUser() {
-        if (!localStorage.getItem('your-jwt')) {
+        if (!this.state.jwtApi.getJwtToken()) {
             this.setState({
                 user: null
             });
@@ -31,8 +32,6 @@ class AuthComponent extends Component {
             .then(data => {
                 this.setState({ user: data });
             });
-
-
     }
 
     render() {

@@ -9,6 +9,7 @@ export class RefreshPassword extends Component {
         super();
         this.state = {
             values: { password: "", confirmPassword: "" },
+            userApi: new UserApi(),
             errors: {}
         };
     }
@@ -16,18 +17,14 @@ export class RefreshPassword extends Component {
     submitForm = async e => {
         e.preventDefault();
         const id = this.props.match.params.id;
-        console.log(this.state.values.password)
-        console.log(this.state.values.confirmPassword)
-        const data = await new UserApi().updateUserPassword(JSON.stringify(this.state.values), id);
+        const data = await this.state.userApi.updateUserPassword(JSON.stringify(this.state.values), id);
         if (!(data.hasOwnProperty("errors"))) {
             this.props.history.push('/user');
         }
         else {
-            console.log(data.errors);
             this.setState({ errors: data.errors });
-
         }
-        }
+    }
 
     handleInputChange = e =>
         this.setState({

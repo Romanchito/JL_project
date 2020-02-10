@@ -10,7 +10,10 @@ export default class UserAccount extends Component {
 
     constructor(prop) {
         super(prop);
-        this.state = { user: {}, path: {}, reviews: [], updateModalShow: false };
+        this.state = {
+            user: {}, path: {}, reviews: [], updateModalShow: false,
+            userApi: new UserApi(), imgApi: new ImageApi(), reviewApi: new ReviewsApi()
+        };
     }
 
     componentDidMount() {
@@ -20,24 +23,25 @@ export default class UserAccount extends Component {
     getDataOfUser() {
         let jwt_decode = require('jwt-decode');
         let login = jwt_decode(localStorage.getItem("your-jwt"));
-                
-        new UserApi().getUserByLogin(login.email).then(result => this.setState({ user: result }));
 
-        new ImageApi().getAccountImage().then(data => {
+        this.state.userApi.getUserByLogin(login.email).then(result => this.setState({ user: result }));
+
+        this.state.imgApi.getAccountImage().then(data => {
             this.setState({ path: data });
         });
 
-        new ReviewsApi().getAllReviewsOfUser().then(data => {
+        this.state.reviewApi.getAllReviewsOfUser().then(data => {
             this.setState({ reviews: data });
-        });;
+        });
     }
 
     updateModalClose = () => this.setState({ updateModalShow: false });
+    updateModalShow = () => this.setState({ updateModalShow: true });
 
     render() {
         const user = this.state.user;
         const path = this.state.path;
-        const reviews = this.state.reviews;        
+        const reviews = this.state.reviews;
         return (
             <div className="main-user-block">
                 <div className="user-main-inform-block">
@@ -69,7 +73,7 @@ export default class UserAccount extends Component {
                     <div id="updateButton">
                         <ButtonToolbar>
                             <div className="update_user_block">
-                                <Button variant="primary" onClick={() => this.setState({ updateModalShow: true })}>
+                                <Button variant="primary" onClick={this.updateModalShow}>
                                     Update
                         </Button>
                             </div>
