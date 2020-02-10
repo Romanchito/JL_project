@@ -31,7 +31,7 @@ export class Home extends Component {
     }
 
     getFilmsAttributes = () => {
-       this.state.filmApi.getFilmsAttributes().then(d => {
+        this.state.filmApi.getFilmsAttributes().then(d => {
             this.setState({ countries: d.filmCountries, types: d.filmTypes });
         })
     }
@@ -43,36 +43,35 @@ export class Home extends Component {
             }
             );
     }
-    
+
     handleChange = () => {
         let val = document.getElementById('name-search-field').value;
         this.getFilmsByName(val);
     }
 
-    getFilmsByTypes = (type) => {        
+    getFilmsByTypes = (type) => {
         this.state.filmApi.getAllFilmsByType(type).then(
             d => {
                 this.setState({ films: d });
             }
-        )        
-    }  
+        )
+    }
 
-    getFilmsByCountries = (country) => {        
+    getFilmsByCountries = (country) => {
         this.state.filmApi.getAllFilmsByCountry(country).then(
             d => {
                 this.setState({ films: d });
             }
-        )        
-    }  
+        )
+    }
 
     render() {
         return (
-
             <div className="main-films-block">
                 <div className="main-search-block">
-                    <input type="submit" onClick={this.showBlock.bind(this,'country-box')} className="submitB" value="Country" />
-                    <input type="submit" onClick={this.showBlock.bind(this,'type-box')} className="submitB" value="Type" />
-                    <input type="submit" onClick={this.showBlock.bind(this,'name-box')} className="submitB" value="Name" />
+                    <input type="submit" onClick={this.showBlock.bind(this, 'country-box')} className="submitB" value="Country" />
+                    <input type="submit" onClick={this.showBlock.bind(this, 'type-box')} className="submitB" value="Type" />
+                    <input type="submit" onClick={this.showBlock.bind(this, 'name-box')} className="submitB" value="Name" />
                     <hr />
                     <div id="country-box" style={{ display: 'none' }}>
                         {
@@ -86,7 +85,7 @@ export class Home extends Component {
                     </div>
                     <div id="name-box" style={{ display: 'none' }}>
                         <div className="form__group field">
-                            <input type="input" id="name-search-field" onChange={() => { this.handleChange() }} placeholder="Name" />
+                            <input type="input" id="name-search-field" onChange={this.handleChange} placeholder="Name" />
                         </div>
                     </div>
 
