@@ -49,6 +49,16 @@ export class Home extends Component {
         this.getFilmsByName(val);
     }
 
+    compareToSearchValue = (val) => {
+        let searchVal = document.getElementById('name-search-field').value.split('');
+        for (let index = 0; index < searchVal.length; index++) {
+            if (searchVal[index].toLowerCase() === val.toLowerCase()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     getFilmsByTypes = (type) => {
         this.state.filmApi.getAllFilmsByType(type).then(
             d => {
@@ -84,7 +94,7 @@ export class Home extends Component {
                         }
                     </div>
                     <div id="name-box" style={{ display: 'none' }}>
-                        <div className="form__group field">
+                        <div>
                             <input type="input" id="name-search-field" onChange={this.handleChange} placeholder="Name" />
                         </div>
                     </div>
@@ -96,6 +106,19 @@ export class Home extends Component {
                         <Link key={film.id} to={{ pathname: `/film/${film.id}` }}>
                             <img alt={film.name + " image"} src={film.filmImageUrl} />
                         </Link>
+                        <table className="film-name-table">
+                            <tbody>
+                                <tr>
+                                    {
+                                        film.name.split('').map((s, index = 0) =>
+                                            this.compareToSearchValue(s) ?
+                                                <td key={index++} className="film-name-td-found">{s}</td> :
+                                                <td key={index++}>{s}</td>
+                                        )
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                 )}

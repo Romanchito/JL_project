@@ -3,11 +3,14 @@
 }
 
 .film-block{
-    background-color: brown;
+   font-family: 'Times New Roman', Times, serif;
     display: inline-block; 
     width:20%;   
     margin:5%;
     overflow: hidden;  
+    color: greenyellow; 
+    background-color: rgb(29, 30, 34);
+    border-radius: 5px;      
     }
 .film-block img{
     height: 500px;
@@ -17,6 +20,15 @@
 .main-search-block{
     margin: auto;
     color: aliceblue;    
+}
+
+.film-name-table{   
+    margin: auto;
+}
+
+.film-name-td-found{
+    color: black;
+    background-color: rgb(206, 206, 4);
 }
 
 .main-search-block h6{
